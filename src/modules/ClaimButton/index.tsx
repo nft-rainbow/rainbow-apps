@@ -1,6 +1,6 @@
 import React from "react";
-import cx from 'clsx'
-import { useAccount } from "@services/account"
+import cx from 'clsx';
+import { useAccount } from "@services/account";
 
 const ClaimButton: React.FC = () => {
   const account = useAccount()

@@ -1,5 +1,5 @@
 import React from "react";
-import DOMPurify from 'dompurify';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 export interface PoapFragProps {
   cover: any,
@@ -14,11 +14,11 @@ export interface PoapFragProps {
 const PoapFrag: React.FC<PoapFragProps> = ({ cover, address, name, description, date, link, available, endData }) => {
   return (
     <div className="px-[48px] pt-[42px] flex flex-col justify-start">
-      <img alt="cover" src={cover} className="w-[654px] h-[654px]pointer-events-none" draggable={false} />
+      <LazyLoadImage alt="cover" src={cover} className="w-[654px] h-[654px]pointer-events-none" draggable={false} />
       <p className="mt-[40px] font-medium text-[28px] leading-[36px]">合约地址</p>
       <p className="mt-[12px]">{address}</p>
       <p className="mt-[40px] text-[40px] leading-[48px] font-semibold">{name}</p>
-      <p className="mt-[24px] text-[28px]" dangerouslySetInnerHTML={{ '__html': DOMPurify.sanitize(description) }}></p>
+      <p className="mt-[24px] text-[28px]" dangerouslySetInnerHTML={{ '__html': description }}></p>
       <p className="mt-[24px]">开始时间：<span>{date}</span></p>
       {endData && <p className="mt-[24px]">结束时间<span>{endData}</span></p>}
       <div className="mt-[32px] flex flex-col items-center">

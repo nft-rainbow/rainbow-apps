@@ -1,8 +1,6 @@
 import { atom, useRecoilValue } from 'recoil';
 import { setRecoil, getRecoil } from 'recoil-nexus';
 import { Provider } from '@idealight-labs/anyweb-js-sdk';
-// import { sendTransaction as send } from '@cfxjs/use-wallet-react/conflux/Fluent';
-// import { persistAtom } from '@utils/recoilUtils';
 
 interface Account {
   address: Array<string | null | undefined>;

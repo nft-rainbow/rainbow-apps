@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import Navigation from '@modules/Navigation'
 import PoapFrag from '@modules/PoapFrag'
 import Rainbow from '@assets/rainbowIcon.png'
@@ -19,7 +20,7 @@ const App: React.FC = () => {
       <Navigation />
       <PoapFrag {...FackPoapData} />
       <footer className='mt-[42px] flex flex-row justify-center items-center'>
-        <img src={Rainbow} alt="Rainbow" className='w-[228px] h-[54px] select-none pointer-events-none' draggable={false} /><span className='ml-[7px]'>提供技术支持</span>
+        <LazyLoadImage src={Rainbow} alt="Rainbow" className='w-[228px] h-[54px] select-none pointer-events-none' draggable={false} /><span className='ml-[7px]'>提供技术支持</span>
       </footer>
     </>
   )
