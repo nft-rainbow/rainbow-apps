@@ -61,8 +61,7 @@ export const connect = async () => {
     })
     .then((result) => {
       const account = result as Account;
-      const { address } = account;
-      debugger
+      const { address } = account;      
       setRecoil(accountState, address[0]);
     })
     .catch((err) => {

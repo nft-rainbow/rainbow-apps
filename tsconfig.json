@@ -20,7 +20,7 @@
       "@assets/*": ["./src/assets/*"],
       "@utils/*": ["./src/utils/*"],
       "@modules/*": ["./src/modules/*"],
-      // "@pages/*": ["./src/pages/*"],
+      "@pages/*": ["./src/pages/*"],
       // "@store/*": ["./src/store/*"],
       // "@hooks/*": ["./src/hooks/*"],
       "@components/*": ["./src/components/*"],
