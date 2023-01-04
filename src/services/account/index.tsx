@@ -12,7 +12,7 @@ export const provider = new Provider({
 });
 
 export const accountState = atom<string | null | undefined>({
-  key: 'anywebAccountState',
+  key: 'accountState',
   default: null,
   effects: [
     ({ setSelf }) => {
@@ -62,6 +62,7 @@ export const connect = async () => {
     .then((result) => {
       const account = result as Account;
       const { address } = account;
+      debugger
       setRecoil(accountState, address[0]);
     })
     .catch((err) => {
