@@ -1,5 +1,4 @@
 import React from "react";
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 export interface PoapFragProps {
   cover: any,
@@ -14,7 +13,7 @@ export interface PoapFragProps {
 const PoapFrag: React.FC<PoapFragProps> = ({ cover, address, name, description, date, link, available, endData }) => {
   return (
     <div className="px-[48px] pt-[42px] flex flex-col justify-start">
-      <LazyLoadImage alt="cover" src={cover} className="w-[654px] h-[654px]pointer-events-none" draggable={false} />
+      <img alt="cover" src={cover} className="w-[654px] h-[654px]pointer-events-none" draggable={false} />
       <p className="mt-[40px] font-medium text-[28px] leading-[36px]">合约地址</p>
       <p className="mt-[12px]">{address}</p>
       <p className="mt-[40px] text-[40px] leading-[48px] font-semibold">{name}</p>
