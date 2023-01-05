@@ -2,8 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-html{
-  height: 1920px;
-  background: linear-gradient(180deg, #F0F1FF 0%, rgba(255, 255, 255, 0) 100%);
-  opacity: 0.86;
+html,body{
+  height: 100%;
+}
+
+#root{
+  height: 100%;
+  background-image: url(./assets/bg.png);
+}
+
+.bg-circle-purple{
+  position: absolute;
+  width: 727px;
+  height: 727px;
+  left: 529px;
+  top: 947px;
+  background: rgba(125, 31, 249, 0.5);
+  opacity: 0.6;
+  filter: blur(100px);
+}
+
+.bg-circle-blue{
+  position: absolute;
+  width: 1106.73px;
+  height: 995.29px;
+  left: -1024px;
+  top: 1399.79px;
+  background: #00A8FE;
+  opacity: 0.6;
+  filter: blur(150px);
+  transform: rotate(-44.22deg);
 }
