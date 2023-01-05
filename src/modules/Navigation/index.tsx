@@ -26,7 +26,7 @@ const Account: React.FC<{ account: string }> = ({ account }) => {
 const Navigation: React.FC = () => {
   const account = useAccount()
   return (
-    <div className="px-[32px] py-[11px] flex flex-row justify-between">
+    <div className="px-[32px] py-[11px] flex flex-row justify-between z-20">
       <img src={Logo} alt="POA Logo" className="w-[64px] h-[64px]" width={64} height={64} />
       <AuthConnectButton Connected={<Account account={account ?? ''} />} Unconnected={<ConnectButton />} />
     </div>

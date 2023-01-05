@@ -9,7 +9,7 @@ const ClaimButton: React.FC<PoapFragProps> = (props) => {
   return (
     <Link to="success"
       state={{ ...props }}
-      className='mt-[24px] flex justify-center items-center h-[104px] w-[654px] bg-[#6953EF] text-[32px] font-medium leading-[40px] text-[#ffffff]'>领取</Link>
+      className='mt-[60px] flex justify-center items-center h-[104px] w-[654px] bg-[#6953EF] text-[32px] font-medium leading-[40px] text-[#ffffff]'>领取</Link>
   )
 }
 

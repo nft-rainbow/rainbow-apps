@@ -8,7 +8,6 @@ html,body{
 
 #root{
   height: 100%;
-  background-image: url(./assets/bg.png);
 }
 
 .bg-circle-purple{
