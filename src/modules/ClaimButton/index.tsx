@@ -15,7 +15,7 @@ const ClaimButton: React.FC<PoapFragProps> = (props) => {
 
 const ConnectClaimButton: React.FC = () => {
   return (
-    <button onClick={connect} className='mt-[24px] flex justify-center items-center h-[104px] w-[654px] bg-[#6953EF] text-[32px] font-medium leading-[40px] text-[#ffffff]'>连接钱包</button>
+    <button onClick={connect} className='mt-[60px] flex justify-center items-center h-[104px] w-[654px] bg-[#6953EF] text-[32px] font-medium leading-[40px] text-[#ffffff]'>连接钱包</button>
   )
 }
 

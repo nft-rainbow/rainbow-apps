@@ -4,7 +4,7 @@ import AuthClaimButton from "@modules/ClaimButton";
 
 export interface PoapFragProps {
   cover: any,
-  claimed: number,
+  claimed: string,
   address: string,
   name: string,
   description: string,
@@ -32,8 +32,8 @@ const PoapFrag: React.FC<PoapFragProps> = (props) => {
       </div>
       <p className="mt-[42px] text-[40px] leading-[48px] font-semibold text-[#05001F]">{name}</p>
       <p className="mt-[24px] text-[28px] text-[#696679] leading-[36px]" dangerouslySetInnerHTML={{ '__html': description }}></p>
-      <p className="mt-[24px] text-[#696679]">开始时间：<span>{date}</span></p>
-      {endData && <p className="mt-[24px] text-[#696679]">结束时间<span>{endData}</span></p>}
+      <p className="mt-[24px] text-[#696679]">开始时间:  <span>{date}</span></p>
+      {endData && <p className="text-[#696679]">结束时间:  <span>{endData}</span></p>}
       {
         available > 0 && (
           <p className="mt-[32px] text-[28px] font-medium leading-[32px] text-[#37334C] align-middle">可领取 <span className="text-[#6953EF]">{available}</span> 次</p>
