@@ -12,8 +12,8 @@ const Success: React.FC = () => {
         <img alt="cover" src={cover} className="absolute w-[654px] h-[654px] border-[8px] border-[#ffffff] pointer-events-none" draggable={false} />
         <img alt='mark' src={Mark} className="absolute right-[8px] bottom-[9px] w-[88px] h-[88px]" />
       </div>
-      <div className="mt-[42px] flex flex-row w-fit text-[26px] leading-[34px]">
-        <div className="py-[3px] px-[12px] rounded-tl-[20px] rounded-bl-[4px] bg-[#6953EF] text-[#ffffff] text-center align-middle">通行证ID</div><div className="py-[3px] px-[12px] min-w-[102px] border border-[#6953EF] rounded-tr-[4px] rounded-br-[20px] text-center align-middle text-[#6953EF]">{claimed}</div>
+      <div className="mt-[42px] flex flex-row w-fit h-[40px] text-[26px] leading-[34px]">
+        <div className="px-[12px] flex flex-row justify-center items-center rounded-tl-[20px] rounded-bl-[4px] bg-[#6953EF] text-[#ffffff] text-center align-middle">通行证ID</div><div className="px-[12px] flex flex-row justify-center items-center min-w-[102px] border border-[#6953EF] rounded-tr-[4px] rounded-br-[20px] text-center align-middle text-[#6953EF]">{claimed}</div>
       </div>
       <p className="mt-[24px] font-medium text-[28px] leading-[36px] font-semibold text-[#37334C]">哈希</p>
       <div className="mt-[12px] flex flex-row items-center text-[#696679]">

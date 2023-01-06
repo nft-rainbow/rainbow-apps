@@ -1,6 +1,7 @@
 import { atom, useRecoilValue } from 'recoil';
 import { setRecoil, getRecoil } from 'recoil-nexus';
 import { Provider } from '@idealight-labs/anyweb-js-sdk';
+import { persistAtom } from '@utils/recoilUtils';
 
 interface Account {
   address: Array<string | null | undefined>;
@@ -15,6 +16,7 @@ export const accountState = atom<string | null | undefined>({
   key: 'accountState',
   default: null,
   effects: [
+    persistAtom,
     ({ setSelf }) => {
       provider.on('ready', () => {
         provider
@@ -61,7 +63,7 @@ export const connect = async () => {
     })
     .then((result) => {
       const account = result as Account;
-      const { address } = account;      
+      const { address } = account;
       setRecoil(accountState, address[0]);
     })
     .catch((err) => {

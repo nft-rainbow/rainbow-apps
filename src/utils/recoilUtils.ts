@@ -1,4 +1,4 @@
-import { type AtomEffect, type MutableSnapshot } from 'recoil';
+import { type AtomEffect} from 'recoil';
 import LocalStorage from 'localstorage-enhance';
 
 export const persistAtom: AtomEffect<any> = ({ setSelf, onSet, trigger, node: { key } }) => {
