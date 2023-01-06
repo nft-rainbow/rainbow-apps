@@ -1,4 +1,3 @@
-import { PropsWithChildren } from "react"
 import Unconnected from '@assets/unconnected.svg'
 import { useAccount, connect } from "@services/account"
 
@@ -25,12 +24,15 @@ const ConnectButton = {
   "circle": CircleConnectButton,
   "rectangle": RectangleConnectButton,
 }
-interface AuthConnectButtonProps extends PropsWithChildren {
-  type: 'circle' | 'rectangle'
+interface AuthConnectButtonProps  {
+  type: 'circle' | 'rectangle';
+  children: JSX.Element | ((account: string) => JSX.Element);
 }
+
 const AuthConnectButton: React.FC<AuthConnectButtonProps> = ({ type, children }) => {
   const account = useAccount()
   if (account) {
+    if (typeof children === 'function') return children(account);
     return <>{children}</>
   } else {
     return <>{ConnectButton[type]({ connect })}</>

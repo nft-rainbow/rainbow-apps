@@ -51,7 +51,9 @@ const PoapFrag: React.FC<PoapFragProps> = (props) => {
         )
       }
       <div className="flex flex-col items-center">
-        <AuthConnectButton type="rectangle" children={<ClaimButton {...props} />} />
+        <AuthConnectButton type="rectangle">
+          <ClaimButton {...props} />
+        </AuthConnectButton>
         <button className="mt-[24px] flex justify-center items-center h-[104px] w-[654px] border border-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#6953EF]">分享</button>
         <a href={link} target="_blank" className="mt-[42px] text-[28px] leading-[36px] text-[#6953EF] border-b-2 border-[#6953EF]">去 Anyweb 查看&gt;</a>
       </div>

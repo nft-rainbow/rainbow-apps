@@ -2,7 +2,6 @@ import React from "react";
 import Connected from '@assets/connected.svg'
 import Logo from "@assets/logo.png";
 import AuthConnectButton from "@modules/AuthConnectButton";
-import { useAccount } from "@services/account"
 
 const Account: React.FC<{ account: string }> = ({ account }) => {
   return (
@@ -14,11 +13,14 @@ const Account: React.FC<{ account: string }> = ({ account }) => {
 }
 
 const Navigation: React.FC = () => {
-  const account = useAccount()
   return (
     <div className="px-[32px] flex flex-row justify-between items-center h-[88px] z-20">
       <img src={Logo} alt="POA Logo" className="w-[64px] h-[64px]" width={64} height={64} />
-      <AuthConnectButton children={<Account account={account ?? ''} />} type="circle" />
+      <AuthConnectButton type="circle">
+        {(account) =>
+          <Account account={account} />
+        }
+      </AuthConnectButton>
     </div>
   )
 }
