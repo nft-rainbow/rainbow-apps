@@ -23,9 +23,9 @@ const PoapFrag: React.FC<PoapFragProps> = (props) => {
         <div className="m-[24px] py-[8px] px-[16px] w-fit rounded-tl-[24px] rounded-tr-[4px] rounded-br-[24px] rounded-bl-[4px] text-[24px] leading-[32px] text-[#FFFFFF] bg-[#05001F] opacity-70">{limitation ? limitation : '不限量'}</div>
       </div>
       <div className="mt-[42px] flex flex-row w-fit h-[40px] text-[26px] leading-[34px]">
-        <div className="px-[12px] flex flex-row justify-center items-center rounded-tl-[20px] rounded-bl-[4px] bg-[#6953EF] text-[#ffffff]">已领取</div><div className="px-[12px] flex flex-row justify-center items-center min-w-[102px] border border-[#6953EF] rounded-tr-[4px] rounded-br-[20px] text-center align-middle text-[#6953EF]">{claimed}</div>
+        <div className="px-[12px] flex flex-row justify-center items-center h-[40px] rounded-tl-[20px] rounded-bl-[4px] bg-[#6953EF] text-[#ffffff]">已领取</div><div className="px-[12px] flex flex-row justify-center items-center min-w-[102px] h-[40px] border border-[#6953EF] rounded-tr-[4px] rounded-br-[20px] text-center align-middle text-[#6953EF]">{claimed}</div>
       </div>
-      <p className="mt-[24px] font-medium text-[28px] leading-[36px] font-semibold text-[#37334C]">合约地址</p>
+      <p className="mt-[24px] font-medium text-[28px] leading-[36px] font-medium text-[#37334C]">合约地址</p>
       <div className="mt-[12px] flex flex-row items-center text-[#696679]">
         <p className='text-[24px] leading-[32px]'>{address}</p>
         <img src={ClipBoard} alt='clipboard logo' className="ml-[8px] w-[32px] h-[32px] cursor-pointer" onClick={() => navigator.clipboard.writeText(`${address}`)} />
