@@ -9,13 +9,13 @@ const ClaimButton: React.FC<PoapFragProps> = (props) => {
   return (
     <Link to="success"
       state={{ ...props }}
-      className='mt-[60px] flex justify-center items-center h-[104px] w-[654px] bg-[#6953EF] text-[32px] font-medium leading-[40px] text-[#ffffff]'>领取</Link>
+      className='mt-[60px] flex justify-center items-center h-[104px] w-[654px] bg-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#ffffff]'>领取</Link>
   )
 }
 
 const ConnectClaimButton: React.FC = () => {
   return (
-    <button onClick={connect} className='mt-[60px] flex justify-center items-center h-[104px] w-[654px] bg-[#6953EF] text-[32px] font-medium leading-[40px] text-[#ffffff]'>连接钱包</button>
+    <button onClick={connect} className='mt-[60px] flex justify-center items-center h-[104px] w-[654px] bg-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#ffffff]'>连接钱包</button>
   )
 }
 

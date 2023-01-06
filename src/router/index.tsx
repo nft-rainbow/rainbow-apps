@@ -30,7 +30,7 @@ const RouterWrapper: React.FC = () => {
         <Outlet />
       </main>
       <footer className='mt-[60px] mb-[36px] flex flex-row justify-center items-center z-20'>
-        <img src={Rainbow} alt="Rainbow" className='w-[228px] h-[54px] select-none pointer-events-none' draggable={false} /><span className='ml-[7px]'>提供技术支持</span>
+        <img src={Rainbow} alt="Rainbow" className='w-[228px] h-[54px] select-none pointer-events-none' draggable={false} /><span className='ml-[4px] text-[24px] leading-[33px]'>提供技术支持</span>
       </footer>
     </div>
   )
