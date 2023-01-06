@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import ClipBoard from "@assets/clipboard.svg";
-import AuthClaimButton from "@modules/ClaimButton";
+import AuthConnectButton from "@modules/AuthConnectButton";
 
 export interface PoapFragProps {
   cover: any,
@@ -14,6 +15,16 @@ export interface PoapFragProps {
   link: string,
   available: number
 }
+
+const ClaimButton: React.FC<PoapFragProps> = (props) => {
+  // const account = useAccount()
+  return (
+    <Link to="success"
+      state={{ ...props }}
+      className='mt-[60px] flex justify-center items-center h-[104px] w-[654px] bg-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#ffffff]'>领取</Link>
+  )
+}
+
 const PoapFrag: React.FC<PoapFragProps> = (props) => {
   const { cover, limitation, claimed, address, name, description, date, link, available, endData } = props;
   return (
@@ -40,7 +51,7 @@ const PoapFrag: React.FC<PoapFragProps> = (props) => {
         )
       }
       <div className="flex flex-col items-center">
-        <AuthClaimButton {...props} />
+        <AuthConnectButton type="rectangle" children={<ClaimButton {...props} />} />
         <button className="mt-[24px] flex justify-center items-center h-[104px] w-[654px] border border-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#6953EF]">分享</button>
         <a href={link} target="_blank" className="mt-[42px] text-[28px] leading-[36px] text-[#6953EF] border-b-2 border-[#6953EF]">去 Anyweb 查看&gt;</a>
       </div>
