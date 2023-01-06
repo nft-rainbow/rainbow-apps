@@ -24,7 +24,7 @@ const AppRouter: React.FC = () => {
 const RouterWrapper: React.FC = () => {
   return (
     <div className='relative flex flex-col min-h-full overflow-hidden'>
-      <img src={Bg} className="absolute w-full h-full "/>
+      <img src={Bg} className="absolute w-full h-full  select-none pointer-events-none" draggable={false} />
       <Navigation />
       <main className='flex-1 z-10'>
         <Outlet />
