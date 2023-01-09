@@ -1,11 +1,13 @@
 import React from 'react'
 import { useLocation } from "react-router-dom";
+import { useRecoilValue } from 'recoil'
 import ClipBoard from "@assets/clipboard.svg";
 import Mark from "@assets/mark.svg";
+import { poapConfigState } from '@hooks/usePoapConfig'
 
 const Success: React.FC = () => {
-  const location = useLocation();
-  const { cover, claimed, address, name, description } = location.state;
+  const poapState = useRecoilValue(poapConfigState)
+  const { cover, claimed, address, name, description } = poapState;
   return (
     <div className="px-[48px] pt-[42px] flex flex-col justify-start">
       <div className="relative w-[654px] h-[654px]">

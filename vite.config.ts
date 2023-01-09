@@ -28,4 +28,13 @@ export default defineConfig({
 			plugins: [visualizer()],
 		},
 	},
+	server:{
+		proxy:{
+			'^/api/.*': {
+				target: 'console.nftrainbow.cn/apps/',
+				changeOrigin: true,
+				rewrite: (path) => path.replace(/^\/api/, ''),
+			},
+		}
+	}
 });
