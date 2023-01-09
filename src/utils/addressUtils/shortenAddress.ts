@@ -18,6 +18,6 @@ export const shortenCfxAddress = (address: string) => {
 	if (arr.length !== 2) {
 		throw new Error("Only shorten the conflux address not containing type");
 	}
-	const secondStr = getEllipsStr(arr[1], 3, 8);
+	const secondStr = getEllipsStr(arr[1], 2, 2);
 	return `${arr[0]}:${secondStr}`;
 };

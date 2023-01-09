@@ -27,11 +27,12 @@ interface AuthConnectButtonProps {
 
 const AuthConnectButton: React.FC<AuthConnectButtonProps> = ({ type, children }) => {
   const account = useAccount()
+  const ConnectBtn = ConnectButton[type]
   if (account) {
-    if (typeof children === 'function') return children(account);
-    return <>{children}</>
+    if (typeof children === 'function') return (<>{children(account)}</>);
+    return (<>{children}</>)
   } else {
-    return <>{ConnectButton[type]}</>
+    return <ConnectBtn />
   }
 }
 
