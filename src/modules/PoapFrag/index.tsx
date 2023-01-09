@@ -17,7 +17,6 @@ export interface PoapFragProps {
 }
 
 const ClaimButton: React.FC<PoapFragProps> = (props) => {
-  // const account = useAccount()
   return (
     <Link to="success"
       state={{ ...props }}
