@@ -61,7 +61,6 @@ export const useGetPoapConfig = () => {
 			Promise.all([res1, res2]).then((res: any) => {
 				//TODO:
 				if (!res || res.code || res.code == 0) return;
-				debugger;
 				setPoapConfigState({
 					cover: res[0].activity_picture_url,
 					limitation: res[0].max_mint_count,
