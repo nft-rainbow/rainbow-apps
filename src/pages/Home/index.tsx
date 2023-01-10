@@ -1,23 +1,9 @@
 import React from 'react'
 import { Link } from "react-router-dom";
-import { useRecoilValue } from 'recoil'
 import ClipBoard from "@assets/clipboard.svg";
-import { poapConfigState } from '@hooks/usePoapConfig'
+import { usePoapConfig } from '@hooks/usePoapConfig';
 import AuthConnectButton from '@modules/AuthConnectButton'
-// import PoapFrag from '@modules/PoapFrag'
-// import Cover from '@assets/cover.png'
-
-// const FackPoapData = {
-//   cover: Cover,
-//   claimed: '100,123',
-//   address: "cfx:acc0kdpwsfj6uc2bx6hxfu972jkej96wxu4fvsaa4s",
-//   name: "大展鸿🐰 - 新年元素",
-//   description: "这里是 Desc：每天免费领取 1 个，邀请好友还..集齐 5 款不同的新年元素，可合成典藏款 POAP ",
-//   date: "2021.01.16",
-//   endData:"2023.01.22",
-//   link: 'https://app.anyweb.cc/#/pages/index/home',
-//   available: 3
-// }
+import { ShareButton } from '@modules/ShareButton'
 
 const ClaimButton: React.FC = () => {
   return (
@@ -27,7 +13,7 @@ const ClaimButton: React.FC = () => {
 }
 
 const Home: React.FC = () => {
-  const poapState = useRecoilValue(poapConfigState)
+  const poapState = usePoapConfig();
   const { cover, claimed, address, limitation, name, description, date, endData, link, available } = poapState
   return (
     <div className="px-[48px] pt-[42px] flex flex-col justify-start">
@@ -56,7 +42,8 @@ const Home: React.FC = () => {
         <AuthConnectButton type="rectangle">
           <ClaimButton />
         </AuthConnectButton>
-        <button className="mt-[24px] flex justify-center items-center h-[104px] w-[654px] border border-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#6953EF]">分享</button>
+        {/* <button className="mt-[24px] flex justify-center items-center h-[104px] w-[654px] border border-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#6953EF]">分享</button> */}
+        <ShareButton type='home' />
         <a href={link} target="_blank" className="mt-[42px] text-[28px] leading-[36px] text-[#6953EF] border-b-2 border-[#6953EF]">去 Anyweb 查看&gt;</a>
       </div>
     </div>

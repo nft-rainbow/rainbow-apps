@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useLayoutEffect, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 import { atom, useRecoilValue, useSetRecoilState } from "recoil";
 import { fetchApi } from "@utils/fetch/fetchApi";
@@ -80,12 +80,11 @@ export const useGetPoapConfig = () => {
 			console.log(err);
 		}
 	}, []);
-	useEffect(() => {
+	useLayoutEffect(() => {
 		//TODO: setConfig(activityId)
 		setConfig(4);
 	}, [account, activityId]);
 };
 
-export const usePoapConfig = () => {
-	useRecoilValue(poapConfigState);
-};
+export const usePoapConfig = () =>
+	useRecoilValue(poapConfigState)
