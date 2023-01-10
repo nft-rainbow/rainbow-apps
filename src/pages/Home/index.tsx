@@ -1,26 +1,47 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ClipBoard from '@assets/clipboard.svg';
 import useActivityId from '@hooks/useActivityId';
-import useInClaiming from '@hooks/useInClaiming';;
-import { usePoapConfig } from '@services/poap';
+import useInTranscation from '@hooks/useInTranscation';
+import { useAccount } from '@services/account';
+import { useRefreshPoapConfig, usePoapConfig } from '@services/poap';
+import { fetchApi } from '@utils/fetch/fetchApi';
 import AuthConnectButton from '@modules/AuthConnectButton';
 import { ShareButton } from '@modules/ShareButton';
 
-const ClaimingBtn: React.FC = () => {
-  return (
-    <button className="mt-[60px] flex justify-center items-center h-[104px] w-[654px] bg-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#ffffff]">
-      领取中...
-    </button>
-  )
-}
-
-
 const ClaimButton: React.FC = () => {
-  const { inTranscation, execTranscation } = useInClaiming();
-  if (inTranscation) return <ClaimingBtn />
+  const account = useAccount()!;
+  const activityId = useActivityId()!;
+  const navigate = useNavigate();
+  const refreshPoapConfig = useRefreshPoapConfig(activityId);
+
+  const _handleClaim = useCallback(async () => {
+    try {
+      const res = await fetchApi<{ code: number; message: string }>({
+        path: 'poap/h5',
+        method: 'POST',
+        params: {
+          activity_id: parseInt(activityId),
+          user_address: account,
+        },
+      });
+      if (res?.code === 50000) {
+        return;
+      }
+      refreshPoapConfig();
+      navigate(`/success?activity_id=${activityId}`);
+    } catch (err) {
+      console.log('claim error: ', err);
+    }
+  }, []);
+
+  const { inTranscation, execTranscation: handleClaim } = useInTranscation(_handleClaim);
   return (
-    <button onClick={execTranscation} className="mt-[60px] flex justify-center items-center h-[104px] w-[654px] bg-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#ffffff]">
-      领取
+    <button
+      onClick={handleClaim}
+      className="mt-[60px] flex justify-center items-center h-[104px] w-[654px] bg-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#ffffff]"
+    >
+      {inTranscation ? '领取中...' : '领取'}
     </button>
   );
 };

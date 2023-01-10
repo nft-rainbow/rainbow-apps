@@ -70,7 +70,7 @@ export const connect = async () => {
       const account = result as Account;
       const { address } = account;
       setRecoil(accountState, address[0]);
-      if (sharer !== null && activity_id !== null) {
+      if (sharer !== null && activity_id !== null && sharer !== address[0]) {
         // TODO:share_request
         Promise.resolve().then(() => {
           searchParams.delete('sharer');
