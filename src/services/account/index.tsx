@@ -72,8 +72,7 @@ export const connect = async () => {
       const { address } = account;
       setRecoil(accountState, address[0]);
       if (sharer !== null && activity_id !== null && sharer !== address[0]) {
-        // TODO:share_request
-        const handleShare = fetchApi({
+        fetchApi({
           path: 'poap/sharer',
           method: 'POST',
           params: {
@@ -81,8 +80,7 @@ export const connect = async () => {
             reciever: address[0],
             sharer: sharer
           }
-        })
-        Promise.resolve(handleShare).then(() => {
+        }).then((shareRes) => {
           searchParams.delete('sharer');
           history.replaceState(null, '', decodeURIComponent(searchParams.toString()));
         });
