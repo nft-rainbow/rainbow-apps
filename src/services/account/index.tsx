@@ -3,6 +3,7 @@ import { setRecoil, getRecoil } from 'recoil-nexus';
 import { Provider } from '@idealight-labs/anyweb-js-sdk';
 import { persistAtom } from '@utils/recoilUtils';
 import { isProduction } from '@utils/consts';
+import { fetchApi } from '@utils/fetch/fetchApi';
 
 interface Account {
   address: Array<string | null | undefined>;
@@ -34,7 +35,7 @@ export const accountState = atom<string | null | undefined>({
                   method: 'cfx_accounts',
                   params: [
                     {
-                      availableNetwork: [isProduction?1029: 1],
+                      availableNetwork: [isProduction ? 1029 : 1],
                       scopes: ['baseInfo', 'identity'],
                     },
                   ],
@@ -61,7 +62,7 @@ export const connect = async () => {
       method: 'cfx_accounts',
       params: [
         {
-          availableNetwork: [isProduction?1029: 1],
+          availableNetwork: [isProduction ? 1029 : 1],
           scopes: ['baseInfo', 'identity'],
         },
       ],
@@ -72,7 +73,16 @@ export const connect = async () => {
       setRecoil(accountState, address[0]);
       if (sharer !== null && activity_id !== null && sharer !== address[0]) {
         // TODO:share_request
-        Promise.resolve().then(() => {
+        const handleShare = fetchApi({
+          path: 'poap/sharer',
+          method: 'POST',
+          params: {
+            activity_id: activity_id,
+            reciever: address[0],
+            sharer: sharer
+          }
+        })
+        Promise.resolve(handleShare).then(() => {
           searchParams.delete('sharer');
           history.replaceState(null, '', decodeURIComponent(searchParams.toString()));
         });
@@ -88,7 +98,7 @@ export const disconnect = async () => {
     .request({
       method: 'anyweb_revoke',
     })
-    .then(() => {});
+    .then(() => { });
 };
 
 export const sendTransaction = (params: any) =>
