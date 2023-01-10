@@ -3,7 +3,7 @@ import { setRecoil, getRecoil } from 'recoil-nexus';
 import { Provider } from '@idealight-labs/anyweb-js-sdk';
 import { persistAtom } from '@utils/recoilUtils';
 import { isProduction } from '@utils/consts';
-import { fetchApi } from '@utils/fetch/fetchApi';
+import { doShare } from '@services/poap';
 
 interface Account {
   address: Array<string | null | undefined>;
@@ -44,6 +44,9 @@ export const accountState = atom<string | null | undefined>({
                   const account = result as Account;
                   const { address } = account;
                   setSelf(address?.[0]);
+                  if (address?.[0]) {
+                    doShare(address[0]);
+                  }
                 });
             }
           });
@@ -53,10 +56,6 @@ export const accountState = atom<string | null | undefined>({
 });
 
 export const connect = async () => {
-  const searchParams = new URLSearchParams(location.href);
-  const sharer = searchParams.get('sharer');
-  const activity_id = searchParams.get('activity_id');
-
   provider
     .request({
       method: 'cfx_accounts',
@@ -70,20 +69,9 @@ export const connect = async () => {
     .then((result) => {
       const account = result as Account;
       const { address } = account;
-      setRecoil(accountState, address[0]);
-      if (sharer !== null && activity_id !== null && sharer !== address[0]) {
-        fetchApi({
-          path: 'poap/sharer',
-          method: 'POST',
-          params: {
-            activity_id: activity_id,
-            reciever: address[0],
-            sharer: sharer
-          }
-        }).then((shareRes) => {
-          searchParams.delete('sharer');
-          history.replaceState(null, '', decodeURIComponent(searchParams.toString()));
-        });
+      setRecoil(accountState, address?.[0]);
+      if (address?.[0]) {
+        doShare(address[0]);
       }
     })
     .catch((err) => {
@@ -96,7 +84,7 @@ export const disconnect = async () => {
     .request({
       method: 'anyweb_revoke',
     })
-    .then(() => { });
+    .then(() => {});
 };
 
 export const sendTransaction = (params: any) =>
