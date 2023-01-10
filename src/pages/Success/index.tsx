@@ -8,6 +8,7 @@ import { ShareButton } from '@modules/ShareButton';
 const Success: React.FC = () => {
   const activityId = useActivityId()!;
   const poapConf = usePoapConfig(activityId);
+  
 
   return (
     <div className="px-[48px] pt-[42px] flex flex-col justify-start">

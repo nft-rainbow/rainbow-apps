@@ -2,6 +2,7 @@ import { atom, useRecoilValue } from 'recoil';
 import { setRecoil, getRecoil } from 'recoil-nexus';
 import { Provider } from '@idealight-labs/anyweb-js-sdk';
 import { persistAtom } from '@utils/recoilUtils';
+import { isProduction } from '@utils/consts';
 
 interface Account {
   address: Array<string | null | undefined>;
@@ -33,7 +34,7 @@ export const accountState = atom<string | null | undefined>({
                   method: 'cfx_accounts',
                   params: [
                     {
-                      availableNetwork: [1, 1029],
+                      availableNetwork: [isProduction?1029: 1],
                       scopes: ['baseInfo', 'identity'],
                     },
                   ],
@@ -60,7 +61,7 @@ export const connect = async () => {
       method: 'cfx_accounts',
       params: [
         {
-          availableNetwork: [1, 1029],
+          availableNetwork: [isProduction?1029: 1],
           scopes: ['baseInfo', 'identity'],
         },
       ],
