@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Outlet, Navigate } from 'react-
 import Rainbow from '@assets/rainbowIcon.png'
 import Bg from '@assets/bg.png'
 import Navigation from '@modules/Navigation';
-import {usePoapConfig} from "@hooks/usePoapConfig"
+import { useGetPoapConfig } from "@hooks/usePoapConfig"
 import Home from '@pages/Home';
 import Success from '@pages/Success';
 
@@ -23,6 +23,7 @@ const AppRouter: React.FC = () => {
 };
 
 const RouterWrapper: React.FC = () => {
+  useGetPoapConfig();
   return (
     <div className='relative flex flex-col min-h-full overflow-hidden'>
       <img src={Bg} className="absolute w-full h-full  select-none pointer-events-none" draggable={false} />

@@ -30,7 +30,7 @@ export function fetchApi() {
       method: method,
     };
     if (method == 'GET') delete requestParams.body;
-    fetcher = fetch(`/v0/${path}`, requestParams).then((response) => response.json());
+    fetcher = fetch(`/api/${path}`, requestParams).then((response) => response.json());
   }
 
   if (isPromise(fetcher)) {
