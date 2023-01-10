@@ -15,6 +15,7 @@ dist-ssr
 pnpm-lock.yaml
 yarn.lock
 package-lock.json
+stats.html
 
 # Editor directories and files
 .vscode/*

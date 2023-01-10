@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import cx from 'clsx';
 import ClipBoard from '@assets/clipboard.svg';
+import useClipboard from 'react-use-clipboard';
 import useActivityId from '@hooks/useActivityId';
 import useInTranscation from '@hooks/useInTranscation';
 import { useAccount } from '@services/account';
@@ -8,8 +10,9 @@ import { useRefreshPoapConfig, usePoapConfig } from '@services/poap';
 import { fetchApi } from '@utils/fetch/fetchApi';
 import AuthConnectButton from '@modules/AuthConnectButton';
 import { ShareButton } from '@modules/ShareButton';
+import Tooltip from '@modules/Tooltip';
 
-const ClaimButton: React.FC = () => {
+const ClaimButton: React.FC<{ poapConf: ReturnType<typeof usePoapConfig> }> = ({ poapConf }) => {
   const account = useAccount()!;
   const activityId = useActivityId()!;
   const navigate = useNavigate();
@@ -39,7 +42,10 @@ const ClaimButton: React.FC = () => {
   return (
     <button
       onClick={handleClaim}
-      className="mt-[60px] flex justify-center items-center h-[104px] w-[654px] bg-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#ffffff]"
+      className={cx(
+        'mt-[60px] flex justify-center items-center h-[104px] w-[654px] bg-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#ffffff]',
+        !(poapConf && poapConf?.count > 0) && 'opacity-30 pointer-events-none'
+      )}
     >
       {inTranscation ? '领取中...' : '领取'}
     </button>
@@ -49,6 +55,7 @@ const ClaimButton: React.FC = () => {
 const Home: React.FC = () => {
   const activityId = useActivityId()!;
   const poapConf = usePoapConfig(activityId);
+  const [isCopied, copy] = useClipboard(poapConf?.contract_address ?? '', { successDuration: 1000 });
 
   return (
     <div className="px-[48px] pt-[42px] flex flex-col justify-start">
@@ -72,12 +79,14 @@ const Home: React.FC = () => {
       <p className="mt-[24px] text-[28px] leading-[36px] font-medium text-[#37334C]">合约地址</p>
       <div className="mt-[12px] flex flex-row items-center text-[#696679]">
         <p className="text-[24px] leading-[32px]">{poapConf?.contract_address}</p>
-        <img
-          src={ClipBoard}
-          alt="clipboard logo"
-          className="ml-[8px] w-[32px] h-[32px] cursor-pointer"
-          onClick={() => navigator.clipboard.writeText(`${poapConf?.contract_address}`)}
-        />
+        <Tooltip content="复制成功" visible={isCopied}>
+          <img
+            src={ClipBoard}
+            alt="clipboard logo"
+            className="ml-[8px] w-[32px] h-[32px] cursor-pointer"
+            onClick={copy}
+          />
+        </Tooltip>
       </div>
       <p className="mt-[42px] text-[40px] leading-[48px] font-semibold text-[#05001F]">{poapConf?.name}</p>
       <p className="mt-[24px] text-[28px] text-[#696679] leading-[36px]" dangerouslySetInnerHTML={{ __html: poapConf?.description ?? '' }}></p>
@@ -89,14 +98,12 @@ const Home: React.FC = () => {
           结束时间: <span>{poapConf?.end_time}</span>
         </p>
       )}
-      {!!poapConf?.count && poapConf.count > 0 && (
-        <p className="mt-[32px] text-[28px] leading-[32px] text-[#37334C] align-middle">
-          可领取 <span className="text-[#6953EF] font-medium">{poapConf?.count}</span> 次
-        </p>
-      )}
+      <p className="mt-[32px] text-[28px] leading-[32px] text-[#37334C] align-middle">
+        可领取 <span className="text-[#6953EF] font-medium">{!!poapConf && poapConf.count > 0 ? poapConf.count : 0}</span> 次
+      </p>
       <div className="flex flex-col items-center">
         <AuthConnectButton type="rectangle">
-          <ClaimButton />
+          <ClaimButton poapConf={poapConf} />
         </AuthConnectButton>
         <ShareButton type="home" />
         <a href={'https://app.anyweb.cc/#/pages/index/home'} target="_blank" className="mt-[42px] text-[28px] leading-[36px] text-[#6953EF] border-b-2 border-[#6953EF]">
