@@ -51,6 +51,10 @@ export const accountState = atom<string | null | undefined>({
 });
 
 export const connect = async () => {
+  const searchParams = new URLSearchParams(location.href);
+  const sharer = searchParams.get('sharer');
+  const activity_id = searchParams.get('activity_id');
+
   provider
     .request({
       method: 'cfx_accounts',
@@ -65,6 +69,13 @@ export const connect = async () => {
       const account = result as Account;
       const { address } = account;
       setRecoil(accountState, address[0]);
+      if (sharer !== null && activity_id !== null) {
+        // TODO:share_request
+        Promise.resolve().then(() => {
+          searchParams.delete('sharer');
+          history.replaceState(null, '', decodeURIComponent(searchParams.toString()));
+        });
+      }
     })
     .catch((err) => {
       console.error(err);
@@ -76,7 +87,7 @@ export const disconnect = async () => {
     .request({
       method: 'anyweb_revoke',
     })
-    .then(() => { });
+    .then(() => {});
 };
 
 export const sendTransaction = (params: any) =>

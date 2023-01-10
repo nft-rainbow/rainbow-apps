@@ -2,15 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-html,body{
+html,
+body {
   height: 100%;
 }
 
-#root{
+#root {
   height: 100%;
 }
 
-.bg-circle-purple{
+.bg-circle-purple {
   position: absolute;
   width: 727px;
   height: 727px;
@@ -21,13 +22,13 @@ html,body{
   filter: blur(100px);
 }
 
-.bg-circle-blue{
+.bg-circle-blue {
   position: absolute;
   width: 1106.73px;
   height: 995.29px;
   left: -1024px;
   top: 1399.79px;
-  background: #00A8FE;
+  background: #00a8fe;
   opacity: 0.6;
   filter: blur(150px);
   transform: rotate(-44.22deg);
