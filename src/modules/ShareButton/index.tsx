@@ -28,7 +28,6 @@ export const ShareButton: React.FC<{ type: "home" | "success" }> = ({ type }) =>
     } catch (err) {
       console.log(err)
     }
-    debugger
   }
   useEffect(() => {
     postNewYear();
