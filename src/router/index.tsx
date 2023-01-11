@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react';
+import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
 import { BrowserRouter as Router, Routes, Route, Outlet, Navigate } from 'react-router-dom';
 import Rainbow from '@assets/rainbowIcon.png';
 import Bg from '@assets/bg.png';
@@ -31,9 +32,11 @@ const RouterWrapper: React.FC = () => {
       <Navigation />
       <main className="flex-1 z-10">
         {typeof activityId === 'string' && (
-          <Suspense fallback={null}>
-            <Outlet />
-          </Suspense>
+          <ErrorBoundary fallbackRender={(fallbackProps) => <ErrorBoundaryFallback {...fallbackProps} />}>
+            <Suspense fallback={null}>
+              <Outlet />
+            </Suspense>
+          </ErrorBoundary>
         )}
         {typeof activityId !== 'string' && <div className="mt-[100px] text-[24px] text-center text-red-400">Error url: No acticity_id.</div>}
       </main>
@@ -45,3 +48,7 @@ const RouterWrapper: React.FC = () => {
   );
 };
 export default AppRouter;
+
+const ErrorBoundaryFallback: React.FC<FallbackProps> = ({ resetErrorBoundary }) => {
+  return <div className="mt-[100px] text-[24px] text-center text-red-400">获取信息失败</div>
+}
