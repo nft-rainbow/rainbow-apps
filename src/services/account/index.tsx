@@ -76,7 +76,7 @@ export const connect = async () => {
       }
     })
     .catch((err) => {
-      showToast({ content: `连接账户失败: ${err}`, type: 'failed',bgColor:'bg-[#05001FB2] opacity-70' });
+      showToast({ content: `连接账户失败: ${err}`, type: 'failed', bgType: 'grey' });
       console.error(err);
     });
 };

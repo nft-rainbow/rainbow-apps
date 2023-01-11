@@ -8,7 +8,7 @@ import Tooltip from '@components/Tooltip';
 export const ShareButton: React.FC<{ type: 'home' | 'success' }> = ({ type }) => {
   const account = useAccount()!;
   const activityId = useActivityId()!;
-  const [isCopied, copy] = useClipboard(`${location.origin}?&activity_id=${activityId}&sharer=${account}`, { successDuration: 1000 });
+  const [isCopied, copy] = useClipboard(`${location.origin}/?activity_id=${activityId}&sharer=${account}`, { successDuration: 1000 });
 
   return (
     <Tooltip content="复制分享链接成功" visible={isCopied}>

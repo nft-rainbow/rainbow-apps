@@ -7,7 +7,7 @@ import { uniqueId } from 'lodash-es';
 interface Toast {
   content: string | React.ReactNode;
   type: 'success' | 'warning' | 'failed';
-  bgColor?: string;
+  bgType?: 'orange'|'grey';
   id: string;
 }
 
@@ -38,8 +38,8 @@ export const ToastRender: React.FC = () => {
   const toasts = useRecoilValue(toastsState);
   return (
     <div className="fixed left-0 top-[190px] right-0 pointer-events-none flex flex-col justify-center items-center gap-[12px]">
-      {toasts.map(({ content, type, bgColor, id }) => (
-        <div key={id} className={cx('px-[42px] h-[72px] flex justify-center items-center text-[28px] leading-[36px] text-[#FFFFFF] rounded-[42px]', bgColor)}>{content}</div>
+      {toasts.map(({ content, type, bgType, id }) => (
+        <div key={id} className={cx('px-[42px] h-[72px] flex justify-center items-center text-[28px] leading-[36px] text-[#FFFFFF] rounded-[42px]', {'bg-[#F15C5C]':bgType==='orange','bg-[#05001FB2] opacity-70':bgType==='grey'})}>{content}</div>
       ))}
     </div>
   );
