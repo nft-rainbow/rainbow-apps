@@ -1,5 +1,5 @@
 import { fetchApi } from '@utils/fetch/fetchApi';
-import { showToast } from '@components/showPopup';
+import { showToast } from '@components/showToast';
 
 export const doShare = (reciever: string) => {
   const searchParams = new URLSearchParams(location.href);
@@ -17,15 +17,15 @@ export const doShare = (reciever: string) => {
     })
       .then((shareRes) => {
         if (typeof shareRes === 'object' && shareRes?.code === 50000) {
-          showToast('分享失败', { type: 'warning' });
+          showToast({ content: `领取失败: ${shareRes.message}`, type: 'failed' });
           return;
         }
-        showToast('分享成功', { type: 'success' });
+        showToast({ content: '领取成功', type: 'success' });
         searchParams.delete('sharer');
         history.replaceState(null, '', decodeURIComponent(searchParams.toString()));
       })
       .catch((err) => {
-        showToast('分享失败', { type: 'warning' });
+        showToast({ content: `领取失败: ${err}`, type: 'failed' });
         console.log('share err', err);
       });
   }

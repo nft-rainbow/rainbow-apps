@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Outlet, Navigate } from 'react-
 import Rainbow from '@assets/rainbowIcon.png';
 import Bg from '@assets/bg.png';
 import Navigation from '@modules/Navigation';
+import { ToastRender } from '@components/showToast';
 import useActivityId from '@hooks/useActivityId';
 import Home from '@pages/Home';
 import Success from '@pages/Success';
@@ -38,12 +39,13 @@ const RouterWrapper: React.FC = () => {
             </Suspense>
           </ErrorBoundary>
         )}
-        {typeof activityId !== 'string' && <div className="mt-[100px] text-[24px] text-center text-red-400">Error url: No acticity_id.</div>}
+        {typeof activityId !== 'string' && <div className="mt-[100px] text-[24px] text-center text-red-400">Error url: No activity_id.</div>}
       </main>
       <footer className="mt-[60px] mb-[36px] flex flex-row justify-center items-center z-20">
         <img src={Rainbow} alt="Rainbow" className="w-[228px] h-[54px] select-none pointer-events-none" draggable={false} />
         <span className="ml-[4px] text-[24px] leading-[33px]">提供技术支持</span>
       </footer>
+      <ToastRender />
     </div>
   );
 };

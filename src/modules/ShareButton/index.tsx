@@ -3,7 +3,7 @@ import cx from 'clsx';
 import useClipboard from 'react-use-clipboard';
 import useActivityId from '@hooks/useActivityId';
 import { useAccount } from '@services/account';
-import Tooltip from '@modules/Tooltip';
+import Tooltip from '@components/Tooltip';
 
 export const ShareButton: React.FC<{ type: 'home' | 'success' }> = ({ type }) => {
   const account = useAccount()!;

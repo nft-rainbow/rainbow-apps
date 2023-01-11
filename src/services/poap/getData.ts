@@ -1,7 +1,6 @@
 import { selectorFamily, useRecoilValue, useRecoilRefresher_UNSTABLE } from 'recoil';
 import { fetchApi } from '@utils/fetch/fetchApi';
 import { accountState } from '@services/account';
-import { showToast } from '@components/showPopup';
 
 export interface ActivityConf {
   id: number;
@@ -41,25 +40,20 @@ const poapConfigQuery = selectorFamily<(ActivityConf & { count: number }) | null
     async ({ get }) => {
       const account = get(accountState);
       if (!account) return null;
-      try {
-        const [activityConf, activityCount] = await Promise.all([
-          fetchApi<ActivityConf>({
-            path: `poap/activity/${activity_id}`,
-            method: 'GET',
-          }),
-          fetchApi<{ count: number }>({
-            path: `poap/count/${account}/${activity_id}`,
-            method: 'GET',
-          }),
-        ]);
-        return {
-          ...activityConf,
-          count: activityCount.count,
-        };
-      } catch (err) {
-        showToast('获取活动信息失败', { type: 'warning' });
-        return null;
-      }
+      const [activityConf, activityCount] = await Promise.all([
+        fetchApi<ActivityConf>({
+          path: `poap/activity/${activity_id}`,
+          method: 'GET',
+        }),
+        fetchApi<{ count: number }>({
+          path: `poap/count/${account}/${activity_id}`,
+          method: 'GET',
+        }),
+      ]);
+      return {
+        ...activityConf,
+        count: activityCount.count,
+      };
     },
 });
 
