@@ -4,7 +4,6 @@ import { Provider } from '@idealight-labs/anyweb-js-sdk';
 import { persistAtom } from '@utils/recoilUtils';
 import { isProduction } from '@utils/consts';
 import { doShare } from '@services/poap';
-import { showToast } from '@components/showPopup';
 
 interface Account {
   address: Array<string | null | undefined>;
@@ -76,7 +75,6 @@ export const connect = async () => {
       }
     })
     .catch((err) => {
-      showToast('连接失败', { type: 'warning' })
       console.error(err);
     });
 };

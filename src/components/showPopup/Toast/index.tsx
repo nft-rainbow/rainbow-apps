@@ -13,7 +13,7 @@ Toast.initPromise.then(() => {
   Toast.setAnimatedSize(true);
 });
 
-type Type = 'success' | 'warning';
+type Type = 'success' | 'warning' | 'share' | 'claim';
 
 const ToastComponent: React.FC<{ content: string | React.ReactNode | Function; duration: number; hide: () => void; type: Type; showClose?: boolean }> = memo(
   ({ content, duration, type = 'info', showClose = true, hide }) => {
@@ -24,8 +24,8 @@ const ToastComponent: React.FC<{ content: string | React.ReactNode | Function; d
     });
 
     return (
-      <div className="relative bg-purple-dark-hover rounded-[4px] overflow-hidden group lt-mobile:w-[calc(100vw-24px)] lt-tiny:w-[calc(100vw-12px)] text-[28px] leading-[36px]">
-        <div className={cx('px-[80px] flex items-center h-[84px]', 'toast-wrapper',{ 'text-[#FF9900]': type === 'warning', 'text-[#6EDD35]': type === 'success' })}>
+      <div className={cx("relative bg-purple-dark-hover rounded-[42px] overflow-hidden group lt-mobile:w-[calc(100vw-24px)] lt-tiny:w-[calc(100vw-12px)] text-[28px] leading-[36px]", { 'top-[386px]': type === 'claim', 'top-[278px]': type === 'share' })}>
+        <div className={cx('px-[80px] flex items-center h-[84px] text-[#FFFFFF]', { 'toast-wrapper': type === 'claim', 'bg-[#F15455]': type === 'share' })}>
           {showClose && (
             <span
               className={cx('i-ep:close-bold absolute right-6px top-6px text-14px cursor-pointer lt-mobile:opacity-100')}
