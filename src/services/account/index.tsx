@@ -4,6 +4,7 @@ import { Provider } from '@idealight-labs/anyweb-js-sdk';
 import { persistAtom } from '@utils/recoilUtils';
 import { isProduction } from '@utils/consts';
 import { doShare } from '@services/poap';
+import { showToast } from '@components/showToast';
 
 interface Account {
   address: Array<string | null | undefined>;
@@ -75,6 +76,7 @@ export const connect = async () => {
       }
     })
     .catch((err) => {
+      showToast({ content: `连接账户失败: ${err}`, type: 'failed' });
       console.error(err);
     });
 };

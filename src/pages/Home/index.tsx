@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import cx from 'clsx';
 import ClipBoard from '@assets/clipboard.svg';
 import useClipboard from 'react-use-clipboard';
-import { showToast } from '@components/showPopup';
+import { showToast } from '@components/showToast';
 import useActivityId from '@hooks/useActivityId';
 import useInTranscation from '@hooks/useInTranscation';
 import { useAccount } from '@services/account';
@@ -11,7 +11,7 @@ import { useRefreshPoapConfig, usePoapConfig } from '@services/poap';
 import { fetchApi } from '@utils/fetch/fetchApi';
 import AuthConnectButton from '@modules/AuthConnectButton';
 import { ShareButton } from '@modules/ShareButton';
-import Tooltip from '@modules/Tooltip';
+import Tooltip from '@components/Tooltip';
 
 const ClaimButton: React.FC<{ poapConf: ReturnType<typeof usePoapConfig> }> = ({ poapConf }) => {
   const account = useAccount()!;
@@ -30,14 +30,14 @@ const ClaimButton: React.FC<{ poapConf: ReturnType<typeof usePoapConfig> }> = ({
         },
       });
       if (res?.code === 50000) {
-        showToast(`领取失败,${res.message}`, { type: 'claim' })
+        showToast({ content: `领取失败: ${res.message}`, type: 'failed' });
         return;
       }
-      showToast('领取成功', { type: 'success' })
+      showToast({ content: '领取成功', type: 'success' });
       refreshPoapConfig();
       navigate(`/success?activity_id=${activityId}`);
     } catch (err) {
-      showToast(`领取失败,${err}`, { type: 'claim' })
+      showToast({ content: `领取失败: ${err}`, type: 'failed' });
       console.log('claim error: ', err);
     }
   }, []);
@@ -84,12 +84,7 @@ const Home: React.FC = () => {
       <div className="mt-[12px] flex flex-row items-center text-[#696679]">
         <p className="text-[24px] leading-[32px]">{poapConf?.contract_address}</p>
         <Tooltip content="复制成功" visible={isCopied}>
-          <img
-            src={ClipBoard}
-            alt="clipboard logo"
-            className="ml-[8px] w-[32px] h-[32px] cursor-pointer"
-            onClick={copy}
-          />
+          <img src={ClipBoard} alt="clipboard logo" className="ml-[8px] w-[32px] h-[32px] cursor-pointer" onClick={copy} />
         </Tooltip>
       </div>
       <p className="mt-[42px] text-[40px] leading-[48px] font-semibold text-[#05001F]">{poapConf?.name}</p>
