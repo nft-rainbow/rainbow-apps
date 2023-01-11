@@ -52,5 +52,9 @@ const RouterWrapper: React.FC = () => {
 export default AppRouter;
 
 const ErrorBoundaryFallback: React.FC<FallbackProps> = ({ resetErrorBoundary }) => {
-  return <div className="mt-[100px] text-[24px] text-center text-red-400">获取信息失败</div>
-}
+  return (
+    <div className="mt-[100px] text-[24px] text-center text-red-400 cursor-pointer" onClick={resetErrorBoundary}>
+      获取信息失败, <span className="underline">点击重试</span>
+    </div>
+  );
+};
