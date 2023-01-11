@@ -19,18 +19,18 @@ export const doShare = (reciever: string) => {
       .then((shareRes) => {
         if (typeof shareRes === 'object' && shareRes?.code === 50000) {
           if (shareRes.message === 'The sharer has shared the link to receiver') {
-            showToast({ content: `今日已分享过该地址: ${shareRes.message}`, type: 'failed', bgType: 'orange' });
+            showToast({ content: `今日已分享过该地址: ${shareRes.message}`, type: 'failed' });
             history.replaceState(null, '', url.origin + `?activity_id=${activity_id}`);
           } else {
-            showToast({ content: `分享失败: ${shareRes.message}`, type: 'failed', bgType: 'orange' });
+            showToast({ content: `分享失败: ${shareRes.message}`, type: 'failed' });
           }
           return;
         }
-        showToast({ content: '分享成功', type: 'success', bgType: 'orange' });
+        showToast({ content: '分享成功', type: 'success' });
         history.replaceState(null, '', url.origin + `?activity_id=${activity_id}`);
       })
       .catch((err) => {
-        showToast({ content: `分享失败: ${err}`, type: 'failed', bgType: 'orange' });
+        showToast({ content: `分享失败: ${err}`, type: 'failed' });
         console.log('share err', err);
       });
   }

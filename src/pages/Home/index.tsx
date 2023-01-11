@@ -30,14 +30,14 @@ const ClaimButton: React.FC<{ poapConf: ReturnType<typeof usePoapConfig> }> = ({
         },
       });
       if (res?.code === 50000) {
-        showToast({ content: `领取失败: ${res.message}`, type: 'failed', bgType: 'grey' });
+        showToast({ content: `领取失败: ${res.message}`, type: 'failed' });
         return;
       }
-      showToast({ content: '领取成功', type: 'success', bgType: 'grey' });
+      showToast({ content: '领取成功', type: 'success' });
       refreshPoapConfig();
       navigate(`/success?activity_id=${activityId}`);
     } catch (err) {
-      showToast({ content: `领取失败: ${err}`, type: 'failed', bgType: 'grey' });
+      showToast({ content: `领取失败: ${err}`, type: 'failed' });
       console.log('claim error: ', err);
     }
   }, []);
