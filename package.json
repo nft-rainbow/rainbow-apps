@@ -11,6 +11,7 @@
 	"dependencies": {
 		"@cfxjs/use-wallet-react": "0.0.1-33",
 		"@idealight-labs/anyweb-js-sdk": "^1.3.6",
+		"@react-spring/web": "^9.6.1",
 		"@tippyjs/react": "^4.2.6",
 		"@types/node": "18.11.18",
 		"@types/react": "18.0.26",
