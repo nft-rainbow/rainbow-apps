@@ -29,7 +29,7 @@ export const showToast = (param: Omit<Toast, 'id'>) => {
         return newAfter;
       });
       //TODO:
-    }, 2000000000);
+    }, 2000);
     return newArr;
   });
 };
