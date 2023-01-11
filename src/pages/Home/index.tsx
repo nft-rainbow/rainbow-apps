@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import cx from 'clsx';
 import ClipBoard from '@assets/clipboard.svg';
@@ -34,7 +34,15 @@ const Home: React.FC = () => {
   const activityId = useActivityId()!;
   const poapConf = usePoapConfig(activityId);
   const [isCopied, copy] = useClipboard(poapConf?.contract_address ?? '', { successDuration: 1000 });
-  
+
+  const transferDate = useCallback((timestamp: number) => {
+    const date = new Date(timestamp);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return `${year}.${month}.${day}`
+  }, [])
+
   return (
     <div className="px-[48px] pt-[42px] flex flex-col justify-start">
       <div className="relative w-[654px] h-[654px]">
@@ -45,7 +53,7 @@ const Home: React.FC = () => {
           draggable={false}
         />
         <div className="m-[24px] px-[16px] flex flex-row justify-center items-center w-fit h-[48px] rounded-tl-[24px] rounded-tr-[4px] rounded-br-[24px] rounded-bl-[4px] text-[24px] leading-[32px] text-[#FFFFFF] bg-[#05001F] opacity-70">
-          {poapConf?.max_mint_count ?? '不限量'}
+          {(!poapConf?.max_mint_count || poapConf.max_mint_count === -1) ? '不限量' : poapConf?.max_mint_count}
         </div>
       </div>
       <div className="mt-[42px] flex flex-row w-fit h-[40px] text-[26px] leading-[34px]">
@@ -64,11 +72,11 @@ const Home: React.FC = () => {
       <p className="mt-[42px] text-[40px] leading-[48px] font-semibold text-[#05001F]">{poapConf?.name}</p>
       <p className="mt-[24px] text-[28px] text-[#696679] leading-[36px]" dangerouslySetInnerHTML={{ __html: poapConf?.description ?? '' }}></p>
       <p className="mt-[24px] text-[24px] leading-[32px] text-[#696679]">
-        开始时间: <span>{poapConf?.start_time}</span>
+        开始时间: <span>{(!poapConf?.start_time || poapConf?.start_time == -1) ? '不限' : transferDate(poapConf.start_time)}</span>
       </p>
       {poapConf?.end_time && (
         <p className="text-[24px] leading-[32px] text-[#696679]">
-          结束时间: <span>{poapConf?.end_time}</span>
+          结束时间: <span>{(!poapConf?.end_time || poapConf?.end_time == -1) ? '不限' : transferDate(poapConf.end_time)}</span>
         </p>
       )}
       <p className="mt-[32px] text-[28px] leading-[32px] text-[#37334C] align-middle">
