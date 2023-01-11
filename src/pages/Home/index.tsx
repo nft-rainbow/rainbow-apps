@@ -48,7 +48,8 @@ const ClaimButton: React.FC<{ poapConf: ReturnType<typeof usePoapConfig> }> = ({
       onClick={handleClaim}
       className={cx(
         'mt-[60px] flex justify-center items-center h-[104px] w-[654px] bg-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#ffffff]',
-        !(poapConf && poapConf?.count > 0) && 'opacity-30 pointer-events-none'
+        !(poapConf && poapConf?.count > 0) && 'opacity-30 pointer-events-none',
+        inTranscation && 'pointer-events-none'
       )}
     >
       {inTranscation ? '领取中...' : '领取'}
