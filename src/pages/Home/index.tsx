@@ -3,49 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import cx from 'clsx';
 import ClipBoard from '@assets/clipboard.svg';
 import useClipboard from 'react-use-clipboard';
-import { showToast } from '@components/showToast';
 import useActivityId from '@hooks/useActivityId';
 import useInTranscation from '@hooks/useInTranscation';
-import { useAccount } from '@services/account';
-import { useRefreshPoapConfig, usePoapConfig } from '@services/poap';
-import { fetchApi } from '@utils/fetch/fetchApi';
+import { useRefreshPoapConfig, usePoapConfig, handleClaim as _handleClaim } from '@services/poap';
 import AuthConnectButton from '@modules/AuthConnectButton';
 import { ShareButton } from '@modules/ShareButton';
 import Tooltip from '@components/Tooltip';
 
 const ClaimButton: React.FC<{ poapConf: ReturnType<typeof usePoapConfig> }> = ({ poapConf }) => {
-  const account = useAccount()!;
   const activityId = useActivityId()!;
   const navigate = useNavigate();
   const refreshPoapConfig = useRefreshPoapConfig(activityId);
 
-  const _handleClaim = useCallback(async () => {
-    try {
-      const res = await fetchApi<{ code: number; message: string }>({
-        path: 'poap/h5',
-        method: 'POST',
-        params: {
-          activity_id: parseInt(activityId),
-          user_address: account,
-        },
-      });
-      if (res?.code === 50000) {
-        showToast({ content: `领取失败: ${res.message}`, type: 'failed' });
-        return;
-      }
-      showToast({ content: '领取成功', type: 'success' });
-      refreshPoapConfig();
-      navigate(`/success?activity_id=${activityId}`);
-    } catch (err) {
-      showToast({ content: `领取失败: ${err}`, type: 'failed' });
-      console.log('claim error: ', err);
-    }
-  }, []);
-
   const { inTranscation, execTranscation: handleClaim } = useInTranscation(_handleClaim);
   return (
     <button
-      onClick={handleClaim}
+      onClick={() => handleClaim({ activityId, navigate, refreshPoapConfig })}
       className={cx(
         'mt-[60px] flex justify-center items-center h-[104px] w-[654px] bg-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#ffffff]',
         !(poapConf && poapConf?.count > 0) && 'opacity-30 pointer-events-none',
@@ -61,6 +34,7 @@ const Home: React.FC = () => {
   const activityId = useActivityId()!;
   const poapConf = usePoapConfig(activityId);
   const [isCopied, copy] = useClipboard(poapConf?.contract_address ?? '', { successDuration: 1000 });
+  
   return (
     <div className="px-[48px] pt-[42px] flex flex-col justify-start">
       <div className="relative w-[654px] h-[654px]">

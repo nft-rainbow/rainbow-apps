@@ -101,3 +101,4 @@ export const sendTransaction = (params: any) =>
   });
 
 export const useAccount = () => useRecoilValue(accountState);
+export const getAccount = () => getRecoil(accountState);
