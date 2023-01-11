@@ -1,5 +1,5 @@
 import { fetchApi } from '@utils/fetch/fetchApi';
-import { showToast, hideToast } from '@components/showPopup';
+import { showToast } from '@components/showPopup';
 
 export const doShare = (reciever: string) => {
   const searchParams = new URLSearchParams(location.href);
@@ -17,14 +17,15 @@ export const doShare = (reciever: string) => {
     })
       .then((shareRes) => {
         if (typeof shareRes === 'object' && shareRes?.code === 50000) {
-          //showToast(shareRes.message);
+          showToast('分享失败', { type: 'warning' });
           return;
         }
+        showToast('分享成功', { type: 'success' });
         searchParams.delete('sharer');
         history.replaceState(null, '', decodeURIComponent(searchParams.toString()));
       })
       .catch((err) => {
-        //showToast(shareRes.message);
+        showToast('分享失败', { type: 'warning' });
         console.log('share err', err);
       });
   }

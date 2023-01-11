@@ -8,7 +8,7 @@ import './index.css';
 
 export const Toast = new PopupClass(true);
 Toast.initPromise.then(() => {
-  Toast.setListClassName('!w-full px-[6px] md:top-[112px] top-[16px] left-[50%] -translate-x-[50%] pointer-events-none');
+  Toast.setListClassName('!w-full px-[6px] top-[16px] left-[50%] -translate-x-[50%] pointer-events-none');
   Toast.setItemWrapperClassName('toast-item-wrapper mb-[12px] pointer-events-auto');
   Toast.setAnimatedSize(true);
 });
@@ -24,8 +24,8 @@ const ToastComponent: React.FC<{ content: string | React.ReactNode | Function; d
     });
 
     return (
-      <div className="relative bg-purple-dark-hover rounded-10px overflow-hidden group lt-mobile:w-[calc(100vw-24px)] lt-tiny:w-[calc(100vw-12px)]">
-        <div className={cx('flex items-center px-24px py-16px', { 'text-[#FF9900]': type === 'warning', 'text-green-normal': type === 'success' })}>
+      <div className="relative bg-purple-dark-hover rounded-[4px] overflow-hidden group lt-mobile:w-[calc(100vw-24px)] lt-tiny:w-[calc(100vw-12px)] text-[28px] leading-[36px]">
+        <div className={cx('px-[80px] flex items-center h-[84px]', 'toast-wrapper',{ 'text-[#FF9900]': type === 'warning', 'text-[#6EDD35]': type === 'success' })}>
           {showClose && (
             <span
               className={cx('i-ep:close-bold absolute right-6px top-6px text-14px cursor-pointer lt-mobile:opacity-100')}
@@ -36,7 +36,6 @@ const ToastComponent: React.FC<{ content: string | React.ReactNode | Function; d
           {(typeof content === 'string') && <p className="leading-24px text-14px mobile:max-w-282px">{content}</p>}
           {typeof content !== 'string' && <div className='leading-24px text-14px mobile:max-w-282px'>{renderReactNode(content)}</div>}
         </div>
-
         {duration ? <a.div className="absolute bottom-0 w-full h-4px bg-gradient-to-l from-#15C184 to-green-normal opacity-80" style={props} /> : null}
       </div>
     );

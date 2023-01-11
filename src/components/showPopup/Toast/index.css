@@ -1,3 +1,7 @@
 .toast-item-wrapper {
   box-shadow: 0px 4px 8px rgba(22, 20, 35, 0.25);
 }
+
+.toast-wrapper{
+  background-color: rgba(5, 0, 31, 0.6)
+}

@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import cx from 'clsx';
 import ClipBoard from '@assets/clipboard.svg';
 import useClipboard from 'react-use-clipboard';
-import { showToast, hideToast } from '@components/showPopup';
+import { showToast } from '@components/showPopup';
 import useActivityId from '@hooks/useActivityId';
 import useInTranscation from '@hooks/useInTranscation';
 import { useAccount } from '@services/account';
@@ -30,11 +30,14 @@ const ClaimButton: React.FC<{ poapConf: ReturnType<typeof usePoapConfig> }> = ({
         },
       });
       if (res?.code === 50000) {
+        showToast('领取失败', { type: 'warning' })
         return;
       }
+      showToast('领取成功', { type: 'success' })
       refreshPoapConfig();
       navigate(`/success?activity_id=${activityId}`);
     } catch (err) {
+      showToast('领取失败', { type: 'warning' })
       console.log('claim error: ', err);
     }
   }, []);
@@ -57,9 +60,6 @@ const Home: React.FC = () => {
   const activityId = useActivityId()!;
   const poapConf = usePoapConfig(activityId);
   const [isCopied, copy] = useClipboard(poapConf?.contract_address ?? '', { successDuration: 1000 });
-  useEffect(() => {
-    showToast('test test test', { duration:100000,type: "warning", key: "test" })
-  }, [])
 
   return (
     <div className="px-[48px] pt-[42px] flex flex-col justify-start">
