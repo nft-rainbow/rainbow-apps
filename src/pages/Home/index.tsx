@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import cx from 'clsx';
 import ClipBoard from '@assets/clipboard.svg';
@@ -30,14 +30,14 @@ const ClaimButton: React.FC<{ poapConf: ReturnType<typeof usePoapConfig> }> = ({
         },
       });
       if (res?.code === 50000) {
-        showToast({ content: `领取失败: ${res.message}`, type: 'failed' });
+        showToast({ content: `领取失败: ${res.message}`, type: 'failed', bgColor: 'bg-[#05001FB2] opacity-70' });
         return;
       }
-      showToast({ content: '领取成功', type: 'success' });
+      showToast({ content: '领取成功', type: 'success', bgColor: 'bg-[#05001FB2] opacity-70' });
       refreshPoapConfig();
       navigate(`/success?activity_id=${activityId}`);
     } catch (err) {
-      showToast({ content: `领取失败: ${err}`, type: 'failed' });
+      showToast({ content: `领取失败: ${err}`, type: 'failed', bgColor: 'bg-[#05001FB2] opacity-70' });
       console.log('claim error: ', err);
     }
   }, []);
@@ -60,7 +60,6 @@ const Home: React.FC = () => {
   const activityId = useActivityId()!;
   const poapConf = usePoapConfig(activityId);
   const [isCopied, copy] = useClipboard(poapConf?.contract_address ?? '', { successDuration: 1000 });
-
   return (
     <div className="px-[48px] pt-[42px] flex flex-col justify-start">
       <div className="relative w-[654px] h-[654px]">
