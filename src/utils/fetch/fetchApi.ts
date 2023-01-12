@@ -55,3 +55,28 @@ export function fetchApi() {
     });
   }
 }
+
+export function intervalFetchApi<T extends any>(fetcher: () => Promise<any>, conf: { intervalTime: number; callback: (res: T) => void; equalKey?: string }): VoidFunction;
+export function intervalFetchApi<T extends any>(fetchParams: FetchParams, conf: { intervalTime: number; callback: (res: T) => void; equalKey?: string }): VoidFunction;
+export function intervalFetchApi() {
+  const conf: { intervalTime: number; callback: (res: any) => void; equalKey?: string } = arguments[1];
+  if (typeof conf?.callback !== 'function' || typeof conf?.intervalTime !== 'number') return () => {};
+
+  fetchApi(arguments[0], conf?.equalKey)
+    .then(conf.callback)
+    .catch(() => {});
+
+  const interval = setInterval(
+    () =>
+      fetchApi(arguments[0], conf?.equalKey)
+        .then(conf.callback)
+        .catch(() => {}),
+    conf.intervalTime
+  ) as unknown as number;
+
+  return () => {
+    if (interval !== null) {
+      clearInterval(interval);
+    }
+  };
+}
