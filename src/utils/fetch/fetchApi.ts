@@ -32,7 +32,7 @@ export function fetchApi() {
     };
     if (method == 'GET') delete requestParams.body;
     if (method == 'POST')
-      fetcher = fetch(`/api/${path}`, {
+      fetcher = fetch(isLocalhost ? `/api/${path}` : `https://console.nftrainbow.cn/apps/${path}`, {
         ...requestParams,
         headers: { 'content-Type': 'application/json' },
       }).then((response) => response.json());

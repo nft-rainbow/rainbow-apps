@@ -33,16 +33,20 @@ export interface ActivityConf {
   }>;
 }
 
-const poapConfigQuery = selectorFamily<(ActivityConf & { count: number }) | null, string>({
+const poapConfigQuery = selectorFamily<((ActivityConf & { count: number }) & { mintedCount: number }) | null, string>({
   key: 'poapConfig',
   get:
     (activity_id: string) =>
     async ({ get }) => {
       const account = get(accountState);
       if (!account) return null;
-      const [activityConf, activityCount] = await Promise.all([
+      const [activityConf, mintedCount, activityCount] = await Promise.all([
         fetchApi<ActivityConf>({
           path: `poap/activity/${activity_id}`,
+          method: 'GET',
+        }),
+        fetchApi<{ count: number }>({
+          path: `poap/activity/result/${activity_id}`,
           method: 'GET',
         }),
         fetchApi<{ count: number }>({
@@ -52,6 +56,7 @@ const poapConfigQuery = selectorFamily<(ActivityConf & { count: number }) | null
       ]);
       return {
         ...activityConf,
+        mintedCount: mintedCount.count,
         count: activityCount.count,
       };
     },
