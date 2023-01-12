@@ -7,7 +7,7 @@ import Navigation from '@modules/Navigation';
 import { ToastRender } from '@components/showToast';
 import useActivityId from '@hooks/useActivityId';
 import Home from '@pages/Home';
-import Success from '@pages/Success';
+// import Success from '@pages/Success';
 
 const AppRouter: React.FC = () => {
   return (
@@ -15,7 +15,7 @@ const AppRouter: React.FC = () => {
       <Routes>
         <Route path="/" element={<RouterWrapper />}>
           <Route index element={<Home />} />
-          <Route path="success" element={<Success />} />
+          {/* <Route path="success" element={<Success />} /> */}
           <Route path="*" element={<Navigate to="/home" />} />
         </Route>
       </Routes>
