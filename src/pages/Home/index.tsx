@@ -36,7 +36,7 @@ const Home: React.FC = () => {
   const [isCopied, copy] = useClipboard(poapConf?.contract_address ?? '', { successDuration: 1000 });
 
   const transferDate = useCallback((timestamp: number) => {
-    const date = new Date(timestamp);
+    const date = new Date(timestamp * 1000);
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();

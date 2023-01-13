@@ -33,13 +33,13 @@ const Success: React.FC = () => {
     setHash(res.tx_id)
   }
 
-  // useEffect(() => {
-    // intervalFetchApi({
-    //   path: `poap/activity/${activityId}/${transactionConf?.token_id}/`,
-    //   method: 'GET'
-    // },{ callback: handleHash, interval: 1000} )
-    // }, conf: { callback: handleHash, interval: 1000 })
-  // }, [activityId, transactionConf?.id])
+  useEffect(() => {
+    intervalFetchApi({
+      path: `poap/activity/${activityId}/${transactionConf?.token_id}/`,
+      method: 'GET'
+    },{ callback: handleHash, intervalTime: 1000} )
+  }, [activityId, transactionConf?.id])
+  
   return (
     <div className="px-[48px] pt-[42px] flex flex-col justify-start">
       <div className="relative w-[654px] h-[654px]">
