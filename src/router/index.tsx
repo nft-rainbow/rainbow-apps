@@ -6,6 +6,7 @@ import Bg from '@assets/bg.png';
 import Navigation from '@modules/Navigation';
 import { ToastRender } from '@components/showToast';
 import useActivityId from '@hooks/useActivityId';
+import { usePoapConfWatchAccount } from '@services/poap';
 import Home from '@pages/Home';
 // import Success from '@pages/Success';
 
@@ -25,7 +26,8 @@ const AppRouter: React.FC = () => {
 
 const RouterWrapper: React.FC = () => {
   const activityId = useActivityId();
-
+  usePoapConfWatchAccount();
+  
   return (
     <div className="relative flex flex-col min-h-full overflow-hidden">
       <img src={Bg} className="absolute w-full h-full select-none pointer-events-none z-[-1]" draggable={false} />
