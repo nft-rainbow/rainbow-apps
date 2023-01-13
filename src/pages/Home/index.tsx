@@ -65,7 +65,7 @@ const Home: React.FC = () => {
         </p>
       )}
       <p className="mt-[32px] text-[28px] leading-[32px] text-[#37334C] align-middle">
-        可领取 <span className="text-[#6953EF] font-medium mx-[2px]">{loading ? '...' : !!poapConf && poapConf.count > 0 ? poapConf.count : 0}</span> 次
+        可领取 <span className="text-[#6953EF] font-medium mx-[2px]">{loading ? '...' : !!poapConf && poapConf.count && poapConf.count > 0 ? poapConf.count : 0}</span> 次
       </p>
 
       <div className="flex flex-col items-center">
