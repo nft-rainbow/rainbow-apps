@@ -87,7 +87,7 @@ const PoapImg: React.FC = () => {
         className="absolute w-[654px] h-[654px] border-[8px] border-[#ffffff] pointer-events-none"
         draggable={false}
       />
-      <div className="m-[24px] px-[16px] min-w-[90px] flex flex-row justify-center items-center w-fit h-[48px] rounded-tl-[24px] rounded-tr-[4px] rounded-br-[24px] rounded-bl-[4px] text-[24px] leading-[32px] text-[#FFFFFF] bg-[#05001F] opacity-70">
+      <div className="m-[24px] px-[16px] min-w-[140px] inline-flex flex-row justify-center items-center h-[48px] rounded-tl-[24px] rounded-tr-[4px] rounded-br-[24px] rounded-bl-[4px] text-[24px] leading-[32px] text-[#FFFFFF] bg-[#05001F] opacity-70">
         {!poapConf?.max_mint_count || poapConf.max_mint_count === -1 ? '不限量' : poapConf?.max_mint_count}
       </div>
     </>
@@ -100,7 +100,7 @@ const PoapImgSuspenseFallback: React.FC = () => {
       <div className="absolute w-[654px] h-[654px] border-[8px] border-[#ffffff] pointer-events-none">
         <Spin className="text-[60px] mx-auto mt-[280px]" />
       </div>
-      <div className="m-[24px] px-[16px] min-w-[90px] flex flex-row justify-center items-center w-fit h-[48px] rounded-tl-[24px] rounded-tr-[4px] rounded-br-[24px] rounded-bl-[4px] text-[24px] leading-[32px] text-[#FFFFFF] bg-[#05001F] opacity-70">
+      <div className="m-[24px] px-[16px] min-w-[140px] inline-flex flex-row justify-center items-center h-[48px] rounded-tl-[24px] rounded-tr-[4px] rounded-br-[24px] rounded-bl-[4px] text-[24px] leading-[32px] text-[#FFFFFF] bg-[#05001F] opacity-70">
         ...
       </div>
     </>

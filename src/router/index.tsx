@@ -26,10 +26,9 @@ const AppRouter: React.FC = () => {
 const RouterWrapper: React.FC = () => {
   const activityId = useActivityId();
 
-  // TODO: Suspense
   return (
     <div className="relative flex flex-col min-h-full overflow-hidden">
-      <img src={Bg} className="absolute w-full h-full select-none pointer-events-none" draggable={false} />
+      <img src={Bg} className="absolute w-full h-full select-none pointer-events-none z-[-1]" draggable={false} />
       <Navigation />
       <ErrorBoundary fallbackRender={(fallbackProps) => <ErrorBoundaryFallback {...fallbackProps} />}>
         <Suspense fallback={null}>
@@ -52,7 +51,7 @@ export default AppRouter;
 const ErrorBoundaryFallback: React.FC<FallbackProps> = ({ resetErrorBoundary }) => {
   return (
     <div className="mt-[100px] text-[24px] text-center text-red-400 cursor-pointer" onClick={resetErrorBoundary}>
-      获取信息失败, 请刷新页面重试
+      获取信息失败, 刷新页面或<span className='underline'>点击重试</span>。
     </div>
   );
 };
