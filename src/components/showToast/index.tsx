@@ -26,7 +26,7 @@ export const showToast = (param: Omit<Toast, 'id'>) => {
         newAfter = newAfter.filter((toast) => toast.id !== id);
         return newAfter;
       });
-    }, 3000);
+    }, 1000);
     return newArr;
   });
 };
