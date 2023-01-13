@@ -6,6 +6,7 @@ import useClipboard from 'react-use-clipboard';
 import useActivityId from '@hooks/useActivityId';
 import useInTranscation from '@hooks/useInTranscation';
 import { useRefreshPoapConfig, usePoapConfig, handleClaim as _handleClaim } from '@services/poap';
+import { transferDate } from '@utils/transferDate';
 import AuthConnectButton from '@modules/AuthConnectButton';
 import { ShareButton } from '@modules/ShareButton';
 import Tooltip from '@components/Tooltip';
@@ -34,14 +35,6 @@ const Home: React.FC = () => {
   const activityId = useActivityId()!;
   const poapConf = usePoapConfig(activityId);
   const [isCopied, copy] = useClipboard(poapConf?.contract_address ?? '', { successDuration: 1000 });
-
-  const transferDate = useCallback((timestamp: number) => {
-    const date = new Date(timestamp * 1000);
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    return `${year}.${month}.${day}`
-  }, [])
 
   return (
     <div className="px-[48px] pt-[42px] flex flex-col justify-start">
