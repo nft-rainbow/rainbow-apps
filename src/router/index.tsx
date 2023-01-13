@@ -27,7 +27,7 @@ const RouterWrapper: React.FC = () => {
   const activityId = useActivityId();
   const { error } = usePoapConfig(activityId!);
   usePoapConfWatchAccount();
-
+  console.log(error);
   return (
     <div className="relative flex flex-col min-h-full overflow-hidden">
       <img src={Bg} className="absolute w-full h-full select-none pointer-events-none z-[-1]" draggable={false} />
@@ -35,10 +35,12 @@ const RouterWrapper: React.FC = () => {
       {!error ? (
         <main className="flex-1 z-10">
           {typeof activityId === 'string' && <Outlet />}
-          {typeof activityId !== 'string' && <div className="mt-[100px] text-[24px] text-center text-red-400">Error url: No activity_id.</div>}
+          {typeof activityId !== 'string' && <div className="mt-[100px] text-[24px] text-center text-red-400">错误的 url: 没有 activity_id。</div>}
         </main>
       ) : (
-        <div className="mt-[100px] text-[24px] text-center text-red-400">获取信息失败, 刷新页面重试。</div>
+        <div className="mt-[100px] text-[24px] text-center text-red-400">
+          {String(error).indexOf('No activity') ? `该 activity_id - ${activityId} 没有活动。` : '获取信息失败, 刷新页面重试。'}
+        </div>
       )}
 
       <footer className="mt-[60px] mb-[36px] flex flex-row justify-center items-center z-20">

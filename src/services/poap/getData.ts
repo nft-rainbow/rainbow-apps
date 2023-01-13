@@ -66,6 +66,7 @@ export const fetchPoapConf = async (activity_id: string) => {
 
   const [activityConf, mintedCount, activityCount] = await Promise.all(promises);
 
+  if ((activityConf as any)?.code === 50000) throw new Error(`No activity - ${activity_id}`);
   return {
     ...activityConf,
     mintedCount: mintedCount.count,
