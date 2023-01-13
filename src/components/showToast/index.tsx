@@ -20,15 +20,13 @@ export const showToast = (param: Omit<Toast, 'id'>) => {
     const newArr = cur ? [...cur] : [];
     const id = uniqueId();
     newArr.push({ ...param, id });
-
     setTimeout(() => {
       setRecoil(toastsState, (curAfter) => {
         let newAfter = curAfter ? [...curAfter] : [];
         newAfter = newAfter.filter((toast) => toast.id !== id);
         return newAfter;
       });
-      //TODO:
-    }, 2000);
+    }, 3000);
     return newArr;
   });
 };
@@ -36,13 +34,13 @@ export const showToast = (param: Omit<Toast, 'id'>) => {
 export const ToastRender: React.FC = () => {
   const toasts = useRecoilValue(toastsState);
   return (
-    <div className="fixed left-0 top-[190px] right-0 pointer-events-none flex flex-col justify-center items-center gap-[12px]">
+    <div className="fixed left-0 top-[190px] right-0 pointer-events-none flex flex-col justify-center items-center gap-[12px] z-40">
       {toasts.map(({ content, type, id }) => (
         <div
           key={id}
-          className={cx('px-[42px] h-[72px] flex justify-center items-center text-[28px] leading-[36px] text-[#FFFFFF] rounded-[42px]', {
-            'bg-[#F15C5C]': type === 'failed' || type === 'warning',
-            'bg-[#05001FB2] opacity-70': type === 'success',
+          className={cx('px-[42px] h-[72px] flex justify-center items-center text-[28px] leading-[36px] text-[#FFFFFF] rounded-[42px] z-40', {
+            'bg-[#05001FB2]': type === 'failed' || type === 'warning',
+            'bg-[#F15C5C] opacity-70': type === 'success',
           })}
         >
           {content}
