@@ -31,21 +31,19 @@ const RouterWrapper: React.FC = () => {
     <div className="relative flex flex-col min-h-full overflow-hidden">
       <img src={Bg} className="absolute w-full h-full select-none pointer-events-none" draggable={false} />
       <Navigation />
-      <main className="flex-1 z-10">
-        {typeof activityId === 'string' && (
-          <ErrorBoundary fallbackRender={(fallbackProps) => <ErrorBoundaryFallback {...fallbackProps} />}>
-            <Suspense fallback={null}>
-              <Outlet />
-            </Suspense>
-          </ErrorBoundary>
-        )}
-        {typeof activityId !== 'string' && <div className="mt-[100px] text-[24px] text-center text-red-400">Error url: No activity_id.</div>}
-      </main>
-      <footer className="mt-[60px] mb-[36px] flex flex-row justify-center items-center z-20">
-        <img src={Rainbow} alt="Rainbow" className="w-[228px] h-[54px] select-none pointer-events-none" draggable={false} />
-        <span className="ml-[4px] text-[24px] leading-[33px]">提供技术支持</span>
-      </footer>
-      <ToastRender />
+      <ErrorBoundary fallbackRender={(fallbackProps) => <ErrorBoundaryFallback {...fallbackProps} />}>
+        <Suspense fallback={null}>
+          <main className="flex-1 z-10">
+            {typeof activityId === 'string' && <Outlet />}
+            {typeof activityId !== 'string' && <div className="mt-[100px] text-[24px] text-center text-red-400">Error url: No activity_id.</div>}
+          </main>
+          <footer className="mt-[60px] mb-[36px] flex flex-row justify-center items-center z-20">
+            <img src={Rainbow} alt="Rainbow" className="w-[228px] h-[54px] select-none pointer-events-none" draggable={false} />
+            <span className="ml-[4px] text-[24px] leading-[33px]">提供技术支持</span>
+          </footer>
+          <ToastRender />
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 };
