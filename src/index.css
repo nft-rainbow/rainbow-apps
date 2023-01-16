@@ -35,6 +35,10 @@ body {
 }
 
 .desc a{
+  width: fit-content;
   color:#6953EF;
   border-bottom: 2px solid #6953EF;
+}
+.desc a::after{
+  content:'>';
 }

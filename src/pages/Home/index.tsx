@@ -55,7 +55,7 @@ const Home: React.FC = () => {
       </div>
 
       <p className="mt-[42px] text-[40px] leading-[48px] font-semibold text-[#05001F]">{loading ? '...' : poapConf?.name}</p>
-      <p className="mt-[24px] text-[28px] text-[#696679] leading-[36px] desc" dangerouslySetInnerHTML={{ __html: loading ? '...' : poapConf?.description ?? '' }}></p>
+      <p className="mt-[24px] flex flex-col text-[28px] text-[#696679] leading-[36px] desc" dangerouslySetInnerHTML={{ __html: loading ? '...' : poapConf?.description ?? '' }}></p>
       <p className="mt-[24px] text-[24px] leading-[32px] text-[#696679]">
         开始时间: <span>{loading ? '...' : !poapConf?.start_time || poapConf?.start_time == -1 ? '不限' : transferDate(poapConf.start_time)}</span>
       </p>
