@@ -50,7 +50,7 @@ export const handleClaim = async ({
       path: 'poap/h5',
       method: 'POST',
       params: {
-        activity_id: parseInt(activityId),
+        activity_id: activityId,
         user_address: account,
       },
     });

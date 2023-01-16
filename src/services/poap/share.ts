@@ -11,7 +11,7 @@ export const doShare = (reciever: string) => {
       path: 'poap/sharer',
       method: 'POST',
       params: {
-        activity_id: parseInt(activity_id),
+        activity_id: activity_id,
         reciever,
         sharer,
       },
