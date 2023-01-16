@@ -1,28 +1,35 @@
-import React, { useCallback, type ComponentProps } from 'react';
+import React from 'react';
 import cx from 'clsx';
 import useActivityId from '@hooks/useActivityId';
 import { useAccount } from '@services/account';
 import { showToast } from '@components/showToast';
+import { usePoapConfig } from '@services/poap';
 
 export const ShareButton: React.FC<{ type: 'home' | 'success' }> = ({ type }) => {
   const account = useAccount()!;
   const activityId = useActivityId()!;
+  const { value: poapConf, loading } = usePoapConfig(activityId);
 
-  const handleCopy = useCallback(() => {
-    navigator.clipboard.writeText(`见者有份，就差你了!福将抓在手，万事不用愁！点击 ${location.origin}/?activity_id=${activityId}&sharer=${account} 链接一起抓福将吧！`);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(`${poapConf?.sharing_content} ${location.origin}/?activity_id=${activityId}&sharer=${account}`);
     showToast({ content: '邀请口令已复制，快去粘贴给好友吧！', type: 'success' });
-  }, [activityId, account]);
+  }
 
   return (
-    <button
-      className={cx({
-        'mt-[24px] flex justify-center items-center h-[104px] w-[654px] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#ffffff] bg-[#6953EF]': type === 'success',
-        'mt-[24px] flex justify-center items-center h-[104px] w-[654px] border border-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#6953EF]':
-          type === 'home',
-      })}
-      onClick={handleCopy}
-    >
-      邀请好友帮忙
-    </button>
+    <>
+      {(loading || poapConf?.sharing_content) && (
+        <button
+          className={cx({
+            'mt-[24px] flex justify-center items-center h-[104px] w-[654px] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#ffffff] bg-[#6953EF]': type === 'success',
+            'mt-[24px] flex justify-center items-center h-[104px] w-[654px] border border-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#6953EF]':
+              type === 'home',
+            'opacity-30 pointer-events-none': loading
+          })}
+          onClick={handleCopy}
+        >
+          邀请好友帮忙
+        </button>
+      )}
+    </>
   );
 };

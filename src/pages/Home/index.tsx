@@ -33,9 +33,9 @@ const Home: React.FC = () => {
             draggable={false}
           />
         )}
-        <div className="m-[24px] px-[16px] min-w-[140px] inline-flex flex-row justify-center items-center h-[48px] rounded-tl-[24px] rounded-tr-[4px] rounded-br-[24px] rounded-bl-[4px] text-[24px] leading-[32px] text-[#FFFFFF] bg-[#05001F] opacity-70">
+        {/* <div className="m-[24px] px-[16px] min-w-[140px] inline-flex flex-row justify-center items-center h-[48px] rounded-tl-[24px] rounded-tr-[4px] rounded-br-[24px] rounded-bl-[4px] text-[24px] leading-[32px] text-[#FFFFFF] bg-[#05001F] opacity-70">
           {loading ? '...' : !poapConf?.max_mint_count || poapConf.max_mint_count === -1 ? '不限量' : poapConf?.max_mint_count}
-        </div>
+        </div> */}
       </div>
       <div className="mt-[42px] flex flex-row w-fit h-[40px] text-[26px] leading-[34px]">
         <div className="px-[12px] flex flex-row justify-center items-center h-[40px] rounded-tl-[20px] rounded-bl-[4px] bg-[#6953EF] text-[#ffffff]">已领取</div>
@@ -55,7 +55,7 @@ const Home: React.FC = () => {
       </div>
 
       <p className="mt-[42px] text-[40px] leading-[48px] font-semibold text-[#05001F]">{loading ? '...' : poapConf?.name}</p>
-      <p className="mt-[24px] text-[28px] text-[#696679] leading-[36px]" dangerouslySetInnerHTML={{ __html: loading ? '...' : poapConf?.description ?? '' }}></p>
+      <p className="mt-[24px] text-[28px] text-[#696679] leading-[36px] desc" dangerouslySetInnerHTML={{ __html: loading ? '...' : poapConf?.description ?? '' }}></p>
       <p className="mt-[24px] text-[24px] leading-[32px] text-[#696679]">
         开始时间: <span>{loading ? '...' : !poapConf?.start_time || poapConf?.start_time == -1 ? '不限' : transferDate(poapConf.start_time)}</span>
       </p>

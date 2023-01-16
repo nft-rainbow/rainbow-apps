@@ -43,9 +43,11 @@ const RouterWrapper: React.FC = () => {
         </div>
       )}
 
-      <footer className="mt-[60px] mb-[36px] flex flex-row justify-center items-center z-20">
-        <img src={Rainbow} alt="Rainbow" className="w-[228px] h-[54px] select-none pointer-events-none" draggable={false} />
-        <span className="ml-[4px] text-[24px] leading-[33px]">提供技术支持</span>
+      <footer className="mt-[60px] mb-[36px] z-20">
+        <a target='_blank' href=' https://www.nftrainbow.cn/' className='flex flex-row justify-center items-center'>
+          <img src={Rainbow} alt="Rainbow" className="w-[228px] h-[54px] select-none pointer-events-none" draggable={false} />
+          <span className="ml-[4px] text-[24px] leading-[33px]">提供技术支持</span>
+        </a>
       </footer>
       <ToastRender />
     </div>
