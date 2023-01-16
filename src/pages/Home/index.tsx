@@ -45,7 +45,7 @@ const Home: React.FC = () => {
       </div>
       <p className="mt-[24px] text-[28px] leading-[36px] font-medium text-[#37334C]">合约地址</p>
       <div className="mt-[12px] flex flex-row items-center text-[#696679]">
-        <p className="text-[24px] leading-[32px]">{loading ? '...' : poapConf?.contract_address}</p>
+        <p className="text-[24px] leading-[32px]">{loading ? '...' : `${poapConf?.contract_address}`}</p>
 
         {!loading && poapConf?.contract_address && (
           <Tooltip content="复制成功" visible={isCopied}>

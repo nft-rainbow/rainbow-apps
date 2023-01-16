@@ -34,7 +34,7 @@ export const showToast = (param: Omit<Toast, 'id'>) => {
 export const ToastRender: React.FC = () => {
   const toasts = useRecoilValue(toastsState);
   return (
-    <div className="fixed left-0 top-[190px] right-0 pointer-events-none flex flex-col justify-center items-center gap-[12px] z-40">
+    <div className="fixed left-0 top-[65%] right-0 pointer-events-none flex flex-col justify-center items-center gap-[12px] z-40">
       {toasts.map(({ content, type, id }) => (
         <div
           key={id}
