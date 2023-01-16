@@ -15,7 +15,7 @@ import Tooltip from '@components/Tooltip';
 const Home: React.FC = () => {
   const activityId = useActivityId()!;
   const { value: poapConf, loading } = usePoapConfig(activityId);
-  const [isCopied, copy] = useClipboard('poapConf?.contract_address' ?? '', { successDuration: 1000 });
+  const [isCopied, copy] = useClipboard(poapConf?.contract_address ?? '', { successDuration: 1000 });
 
   return (
     <div className="px-[48px] pt-[42px] flex flex-col justify-start">

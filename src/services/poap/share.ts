@@ -1,18 +1,18 @@
 import { fetchApi } from '@utils/fetch/fetchApi';
 import { showToast } from '@components/showToast';
 
-export const doShare = (reciever: string) => {
+export const doShare = (receiver: string) => {
   const url = new URL(location.href);
   const searchParams = new URLSearchParams(url.search);
   const activity_id = searchParams.get('activity_id');
   const sharer = searchParams.get('sharer');
-  if (sharer !== null && activity_id !== null && sharer !== reciever) {
+  if (sharer !== null && activity_id !== null && sharer !== receiver) {
     fetchApi<{ code: number; message: string } | 'success'>({
       path: 'poap/sharer',
       method: 'POST',
       params: {
         activity_id: activity_id,
-        reciever,
+        receiver,
         sharer,
       },
     })
