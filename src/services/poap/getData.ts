@@ -65,6 +65,7 @@ export const fetchPoapConf = async (activity_id: string) => {
   }
 
   const [activityConf, mintedCount, activityCount] = await Promise.all(promises);
+  if ((activityConf as any)?.code === 429 || (mintedCount as any)?.code === 429 || (activityCount as any)?.code === 429) throw new Error('超过当日请求次数限制，请明天再来');
 
   if ((activityConf as any)?.code === 50000) throw new Error(`No activity - ${activity_id}`);
   return {
@@ -91,7 +92,7 @@ export const usePoapConfWatchAccount = () => {
   const account = useAccount();
   const activityId = useActivityId()!;
   const { loading } = usePoapConfig(activityId);
-  
+
   useEffect(() => {
     if (!activityId || loading) return;
 

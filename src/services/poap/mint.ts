@@ -37,13 +37,7 @@ const transactionConfig = atom<Transaction | null>({
   default: null,
 });
 
-export const handleClaim = async ({
-  activityId,
-  navigate,
-}: {
-  activityId: string;
-  navigate: ReturnType<typeof useNavigate>;
-}) => {
+export const handleClaim = async ({ activityId, navigate }: { activityId: string; navigate: ReturnType<typeof useNavigate> }) => {
   try {
     const account = getAccount()!;
     const res = await fetchApi<{ code: number; message: string } & Transaction>({
@@ -56,6 +50,10 @@ export const handleClaim = async ({
     });
     if (res?.code === 50000) {
       showToast({ content: `领取失败: ${res.message}`, type: 'failed' });
+      return;
+    }
+    if (res?.code === 429) {
+      showToast({ content: '超过当日请求次数限制，请明天再来', type: 'failed' });
       return;
     }
     setRecoil(transactionConfig, { ...res });

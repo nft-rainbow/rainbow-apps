@@ -26,6 +26,10 @@ export const doShare = (receiver: string) => {
           }
           return;
         }
+        if(typeof shareRes === 'object' && shareRes?.code === 429){
+          showToast({ content: '超过当日请求次数限制，请明天再来', type: 'failed' });
+          return;
+        }
         showToast({ content: '成功为朋友助力一次领取机会', type: 'success' });
         history.replaceState(null, '', url.origin + `?activity_id=${activity_id}`);
       })
