@@ -1,4 +1,5 @@
 import { isEqual } from 'lodash-es';
+import { showToast } from '@components/showToast';
 import { isFunction, isPromise } from '../is';
 const isLocalhost = globalThis.location.hostname === 'localhost' || globalThis.location.hostname === '127.0.0.1';
 
@@ -42,17 +43,25 @@ export function fetchApi() {
   }
 
   if (isPromise(fetcher)) {
-    return fetcher.then((result) => {
-      if (typeof equalKey !== 'string') return result;
-
-      const lastResult = equalMap.get(equalKey);
-      if (isEqual(lastResult, result)) {
-        throw new Error('fetchApi: equal');
-      } else {
-        equalMap.set(equalKey, result);
-        return result;
-      }
-    });
+    return fetcher
+      .then((result) => {
+        if (typeof result === 'object' && (result as any)?.code === 429) throw new Error('overloaded');
+        if (typeof equalKey !== 'string') return result;
+        const lastResult = equalMap.get(equalKey);
+        if (isEqual(lastResult, result)) {
+          throw new Error('fetchApi: equal');
+        } else {
+          equalMap.set(equalKey, result);
+          return result;
+        }
+      })
+      .catch((error) => {
+        if (String(error).includes('overloaded')) {
+          showToast({ content: '超过当日请求次数限制，请明天再来', type: 'failed' });
+        } else {
+          throw error;
+        }
+      });
   }
 }
 
