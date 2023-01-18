@@ -11,9 +11,11 @@ export const ShareButton: React.FC<{ type: 'home' | 'success' }> = ({ type }) =>
   const { value: poapConf, loading } = usePoapConfig(activityId);
 
   const isWeChat = useCallback(() => {
+    let u = navigator.userAgent;
+    let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
     const ua = window.navigator.userAgent.toLowerCase();
     const res = ua.match(/MicroMessenger/i);
-    if (res?.find((item) => item === 'micromessenger')) return true;
+    if (res?.find((item) => item === 'micromessenger') && isAndroid) return true;
     return false
   }, [])
 
@@ -27,7 +29,7 @@ export const ShareButton: React.FC<{ type: 'home' | 'success' }> = ({ type }) =>
       {(loading || poapConf?.sharing_content) && (isWeChat() ? (
         <div className='mt-[24px] flex flex-col justify-center items-center text-[32px]'>
           <p className='mb-[24px] text-[#6953EF]'>复制下列链接给好友</p>
-          <p className='text-[28px] text-[#696679] leading-[36px] text-center'>{poapConf?.sharing_content} {location.origin}/?activity_id=${activityId}&sharer=${account}</p>
+          <p className='text-[28px] text-[#696679] leading-[36px] text-center break-all'>{poapConf?.sharing_content} {location.origin}/?activity_id=${activityId}&sharer=${account}</p>
         </div>
       ) :
         <button
