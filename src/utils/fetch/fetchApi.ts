@@ -57,7 +57,7 @@ export function fetchApi() {
       })
       .catch((error) => {
         if (String(error).includes('overloaded')) {
-          showToast({ content: '超过当日请求次数限制，请明天再来', type: 'failed' });
+          showToast({ content: '超过当日请求次数限制，请明天再来', type: 'failed', key: 'overloaded' });
         } else {
           throw error;
         }

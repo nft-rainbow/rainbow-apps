@@ -15,8 +15,9 @@ const toastsState = atom<Array<Toast>>({
   default: [],
 });
 
-export const showToast = (param: Omit<Toast, 'id'>) => {
+export const showToast = (param: Omit<Toast, 'id'> & { key?: string }) => {
   setRecoil(toastsState, (cur) => {
+    if (param.key && cur.find((item: Toast & { key?: string }) => item.key && item.key === param.key)) return cur;
     const newArr = cur ? [...cur] : [];
     const id = uniqueId();
     newArr.push({ ...param, id });
