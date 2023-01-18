@@ -32,10 +32,10 @@ export const doShare = (receiver: string) => {
       .catch((err) => {
         if (err.code === 5000) {
           showToast({ content: '今日已为朋友助力，快快分享给其他朋友来帮忙吧！', type: 'failed' });
-          return;
+        } else {
+          showToast({ content: `分享失败: ${err}`, type: 'failed' });
+          console.log('share err', err);
         }
-        showToast({ content: `分享失败: ${err}`, type: 'failed' });
-        console.log('share err', err);
       });
   }
 };
