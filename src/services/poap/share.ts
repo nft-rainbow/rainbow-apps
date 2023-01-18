@@ -22,7 +22,7 @@ export const doShare = (receiver: string) => {
           history.replaceState(null, '', url.origin + `?activity_id=${activity_id}`);
           return;
         }
-        if (typeof shareRes === 'object' && shareRes?.code === 42900) {
+        if (typeof shareRes === 'object' && shareRes?.code === 429) {
           showToast({ content: '超过当日请求次数限制，请明天再来', type: 'failed' });
           return;
         }

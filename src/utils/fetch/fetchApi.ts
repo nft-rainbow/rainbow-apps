@@ -45,7 +45,7 @@ export function fetchApi() {
   if (isPromise(fetcher)) {
     return fetcher
       .then((result) => {
-        if (typeof result === 'object' && (result as any)?.code === 42900) throw new Error('overloaded');
+        if (typeof result === 'object' && (result as any)?.code === 429) throw new Error('overloaded');
         if (typeof equalKey !== 'string') return result;
         const lastResult = equalMap.get(equalKey);
         if (isEqual(lastResult, result)) {

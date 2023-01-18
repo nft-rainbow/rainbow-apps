@@ -52,7 +52,7 @@ export const handleClaim = async ({ activityId, navigate }: { activityId: string
       showToast({ content: `领取失败: ${res.message}`, type: 'failed' });
       return;
     }
-    if (res?.code === 42900) {
+    if (res?.code === 429) {
       showToast({ content: '超过当日请求次数限制，请明天再来', type: 'failed' });
       return;
     }
