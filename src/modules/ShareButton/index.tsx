@@ -17,7 +17,7 @@ export const ShareButton: React.FC<{ type: 'home' | 'success' }> = ({ type }) =>
     const res = ua.match(/MicroMessenger/i);
     if (res?.find((item) => item === 'micromessenger') && isAndroid) return true;
     return false
-  }, [account])
+  }, [])
 
   const handleCopy = () => {
     navigator.clipboard.writeText(`${poapConf?.sharing_content} ${location.origin}/?activity_id=${activityId}&sharer=${account}`);
@@ -27,10 +27,10 @@ export const ShareButton: React.FC<{ type: 'home' | 'success' }> = ({ type }) =>
   return (
     <>
       {(loading || poapConf?.sharing_content) && (isWeChat() ? (
-        account && (<div className='mt-[24px] flex flex-col justify-center items-center text-[32px]'>
+        <div className='mt-[24px] flex flex-col justify-center items-center text-[32px]'>
           <p className='mb-[24px] text-[#6953EF]'>复制下列链接给好友</p>
           <p className='text-[28px] text-[#696679] leading-[36px] text-center break-all'>{poapConf?.sharing_content} {location.origin}/?activity_id=${activityId}&sharer=${account}</p>
-        </div>)
+        </div>
       ) :
         <button
           className={cx({
