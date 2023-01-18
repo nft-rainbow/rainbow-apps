@@ -60,7 +60,7 @@ export const handleClaim = async ({
     }
     setRecoil(transactionConfig, { ...res });
     await refreshPoapConf(activityId);
-    showToast({ content: '领取成功', type: 'success' });
+    showToast({ content: '正在发放，预计需要1分钟', type: 'success' });
     // navigate(`/success?activity_id=${activityId}`);
   } catch (err) {
     showToast({ content: `领取失败: ${err}`, type: 'failed' });
