@@ -31,7 +31,7 @@ export default defineConfig({
   server: {
     proxy: {
       '^/api/.*': {
-        target: 'https://console.nftrainbow.cn/apps/',
+        target: 'https://dev.nftrainbow.xyz',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
