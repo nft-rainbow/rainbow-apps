@@ -20,6 +20,7 @@ export interface ActivityConf {
   rainbow_user_id: number;
   contract_type: number;
   contract_address: string;
+  command?: string;
   contract_id: number;
   max_mint_count: number;
   activity_picture_url: string;
@@ -91,7 +92,7 @@ export const usePoapConfWatchAccount = () => {
   const account = useAccount();
   const activityId = useActivityId()!;
   const { loading } = usePoapConfig(activityId);
-  
+
   useEffect(() => {
     if (!activityId || loading) return;
 

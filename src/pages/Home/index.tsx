@@ -1,16 +1,14 @@
 import React, { Suspense } from 'react';
-import { useNavigate } from 'react-router-dom';
-import cx from 'clsx';
 import ClipBoard from '@assets/clipboard.svg';
 import useClipboard from 'react-use-clipboard';
 import useActivityId from '@hooks/useActivityId';
-import useInTranscation from '@hooks/useInTranscation';
-import { usePoapConfig, handleClaim as _handleClaim } from '@services/poap';
+import { usePoapConfig } from '@services/poap';
 import { transferDate } from '@utils/transferDate';
 import AuthConnectButton from '@modules/AuthConnectButton';
 import { ShareButton } from '@modules/ShareButton';
-import Spin from '@components/Spin';
+import { ClaimButton } from './ClaimButton';
 import Tooltip from '@components/Tooltip';
+import Spin from '@components/Spin';
 
 const Home: React.FC = () => {
   const activityId = useActivityId()!;
@@ -33,9 +31,9 @@ const Home: React.FC = () => {
             draggable={false}
           />
         )}
-        {/* <div className="m-[24px] px-[16px] min-w-[140px] inline-flex flex-row justify-center items-center h-[48px] rounded-tl-[24px] rounded-tr-[4px] rounded-br-[24px] rounded-bl-[4px] text-[24px] leading-[32px] text-[#FFFFFF] bg-[#05001F] opacity-70">
+        <div className="m-[24px] px-[16px] min-w-[140px] inline-flex flex-row justify-center items-center h-[48px] rounded-tl-[24px] rounded-tr-[4px] rounded-br-[24px] rounded-bl-[4px] text-[24px] leading-[32px] text-[#FFFFFF] bg-[#05001F] opacity-70">
           {loading ? '...' : !poapConf?.max_mint_count || poapConf.max_mint_count === -1 ? '不限量' : poapConf?.max_mint_count}
-        </div> */}
+        </div>
       </div>
       <div className="mt-[42px] flex flex-row w-fit h-[40px] text-[26px] leading-[34px]">
         <div className="px-[12px] flex flex-row justify-center items-center h-[40px] rounded-tl-[20px] rounded-bl-[4px] bg-[#6953EF] text-[#ffffff]">已领取</div>
@@ -70,7 +68,7 @@ const Home: React.FC = () => {
 
       <div className="flex flex-col items-center">
         <AuthConnectButton type="rectangle">
-          <ClaimButton />
+          <ClaimButton command={poapConf?.command ?? ''} />
         </AuthConnectButton>
         <ShareButton type="home" />
         <a href={'https://app.anyweb.cc/#/pages/index/home'} target="_blank" className="mt-[42px] text-[28px] leading-[36px] text-[#6953EF] border-b-2 border-[#6953EF]">
@@ -78,26 +76,6 @@ const Home: React.FC = () => {
         </a>
       </div>
     </div>
-  );
-};
-
-const ClaimButton: React.FC = () => {
-  const activityId = useActivityId()!;
-  const { value: poapConf, loading } = usePoapConfig(activityId);
-  const navigate = useNavigate();
-
-  const { inTranscation, execTranscation: handleClaim } = useInTranscation(_handleClaim);
-  return (
-    <button
-      onClick={() => handleClaim({ activityId, navigate })}
-      className={cx(
-        'mt-[60px] flex justify-center items-center h-[104px] w-[654px] bg-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#ffffff]',
-        (loading || !(poapConf && poapConf?.count && poapConf.count > 0)) && 'opacity-30 pointer-events-none',
-        inTranscation && 'pointer-events-none'
-      )}
-    >
-      {loading ? '获取数据中...' : inTranscation ? '领取中...' : '领取'}
-    </button>
   );
 };
 

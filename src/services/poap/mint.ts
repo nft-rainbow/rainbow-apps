@@ -37,13 +37,7 @@ const transactionConfig = atom<Transaction | null>({
   default: null,
 });
 
-export const handleClaim = async ({
-  activityId,
-  navigate,
-}: {
-  activityId: string;
-  navigate: ReturnType<typeof useNavigate>;
-}) => {
+export const handleClaim = async ({ activityId, navigate, command }: { activityId: string; navigate: ReturnType<typeof useNavigate>; command?: string }) => {
   try {
     const account = getAccount()!;
     const res = await fetchApi<{ code: number; message: string } & Transaction>({
@@ -52,6 +46,7 @@ export const handleClaim = async ({
       params: {
         activity_id: activityId,
         user_address: account,
+        command: command ?? '',
       },
     });
     if (res?.code === 50000) {

@@ -4,6 +4,7 @@ import Rainbow from '@assets/rainbowIcon.png';
 import Bg from '@assets/bg.png';
 import Navigation from '@modules/Navigation';
 import { ToastRender } from '@components/showToast';
+import { ModalRender } from '@components/showModal';
 import useActivityId from '@hooks/useActivityId';
 import { usePoapConfWatchAccount, usePoapConfig } from '@services/poap';
 import Home from '@pages/Home';
@@ -50,6 +51,7 @@ const RouterWrapper: React.FC = () => {
         </a>
       </footer>
       <ToastRender />
+      <ModalRender />
     </div>
   );
 };
