@@ -1,11 +1,11 @@
 import React, { Suspense } from 'react';
+import { Link } from 'react-router-dom';
 import ClipBoard from '@assets/clipboard.svg';
 import useClipboard from 'react-use-clipboard';
 import useActivityId from '@hooks/useActivityId';
 import { usePoapConfig } from '@services/poap';
 import { transferDate } from '@utils/transferDate';
 import AuthConnectButton from '@modules/AuthConnectButton';
-import { ShareButton } from '@modules/ShareButton';
 import { ClaimButton } from './ClaimButton';
 import Tooltip from '@components/Tooltip';
 import Spin from '@components/Spin';
@@ -70,7 +70,12 @@ const Home: React.FC = () => {
         <AuthConnectButton type="rectangle">
           <ClaimButton command={poapConf?.command ?? ''} />
         </AuthConnectButton>
-        <ShareButton type="home" />
+        <Link
+          to={`share/?activity_id=${activityId}`}
+          className="mt-[24px] flex justify-center items-center h-[104px] w-[654px] border border-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#6953EF]"
+        >
+          分享
+        </Link>
         <a href={'https://app.anyweb.cc/#/pages/index/home'} target="_blank" className="mt-[42px] text-[28px] leading-[36px] text-[#6953EF] border-b-2 border-[#6953EF]">
           去 Anyweb 查看&gt;
         </a>

@@ -8,7 +8,7 @@ import { ModalRender } from '@components/showModal';
 import useActivityId from '@hooks/useActivityId';
 import { usePoapConfWatchAccount, usePoapConfig } from '@services/poap';
 import Home from '@pages/Home';
-// import Success from '@pages/Success';
+import Share from '@pages/Share';
 
 const AppRouter: React.FC = () => {
   return (
@@ -16,7 +16,7 @@ const AppRouter: React.FC = () => {
       <Routes>
         <Route path="/" element={<RouterWrapper />}>
           <Route index element={<Home />} />
-          {/* <Route path="success" element={<Success />} /> */}
+          <Route path="share" element={<Share />} />
           <Route path="*" element={<Navigate to="/home" />} />
         </Route>
       </Routes>
@@ -34,7 +34,7 @@ const RouterWrapper: React.FC = () => {
       <img src={Bg} className="absolute w-full h-full select-none pointer-events-none z-[-1]" draggable={false} />
       <Navigation />
       {!error ? (
-        <main className="flex-1 z-10">
+        <main className="flex-1">
           {typeof activityId === 'string' && <Outlet />}
           {typeof activityId !== 'string' && <div className="mt-[100px] text-[24px] text-center text-red-400">错误的 url: 没有 activity_id。</div>}
         </main>
@@ -45,7 +45,7 @@ const RouterWrapper: React.FC = () => {
       )}
 
       <footer className="mt-[60px] mb-[36px] z-20">
-        <a target='_blank' href=' https://www.nftrainbow.cn/' className='flex flex-row justify-center items-center'>
+        <a target="_blank" href=" https://www.nftrainbow.cn/" className="flex flex-row justify-center items-center">
           <img src={Rainbow} alt="Rainbow" className="w-[228px] h-[54px] select-none pointer-events-none" draggable={false} />
           <span className="ml-[4px] text-[24px] leading-[33px]">提供技术支持</span>
         </a>
