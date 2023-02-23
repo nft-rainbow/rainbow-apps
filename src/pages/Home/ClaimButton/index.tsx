@@ -72,7 +72,7 @@ export const ClaimButton: React.FC<{ command: string }> = ({ command }) => {
     >
       {loading ? '获取数据中...' : inTranscation ? '领取中...' : '领取'}
       {/* TODO: To test command button  */}
-      {'领取'}
+      {/* {'领取'} */}
     </button>
   );
 };
