@@ -32,12 +32,12 @@ export function fetchApi() {
     };
     if (method == 'GET') delete requestParams.body;
     if (method == 'POST')
-      fetcher = fetch(isLocalhost ? `/api/${path}` : `https://dev.nftrainbow.xyz/apps/${path}`, {
+      fetcher = fetch(isLocalhost ? `/api/${path}` : `https://dev.nftrainbow.cn/apps/${path}`, {
         ...requestParams,
         headers: { 'content-Type': 'application/json' },
       }).then((response) => response.json());
     else {
-      fetcher = fetch(isLocalhost ? `/api/${path}` : `https://dev.nftrainbow.xyz/apps/${path}`, requestParams).then((response) => response.json());
+      fetcher = fetch(isLocalhost ? `/api/${path}` : `https://dev.nftrainbow.cn/apps/${path}`, requestParams).then((response) => response.json());
     }
   }
 
