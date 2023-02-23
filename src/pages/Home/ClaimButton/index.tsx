@@ -54,7 +54,7 @@ export const ClaimButton: React.FC<{ command: string }> = ({ command }) => {
   const { inTranscation, execTranscation: handleClaim } = useInTranscation(_handleClaim);
   const handleOnClaim = useCallback(() => {
     if (command) {
-      showModal({ content: <ModalContent /> });
+      showModal({ content: <ModalContent />, className: 'w-[654px] max-w-[654px]' });
       return;
     }
     handleClaim({ activityId, navigate });
@@ -71,8 +71,6 @@ export const ClaimButton: React.FC<{ command: string }> = ({ command }) => {
       )}
     >
       {loading ? '获取数据中...' : inTranscation ? '领取中...' : '领取'}
-      {/* TODO: To test command button  */}
-      {/* {'领取'} */}
     </button>
   );
 };
