@@ -58,18 +58,21 @@ export const ClaimButton: React.FC<{ command: string }> = ({ command }) => {
       return;
     }
     handleClaim({ activityId, navigate });
-  }, []);
+  }, [command, activityId, navigate]);
 
   return (
     <button
       onClick={() => handleOnClaim()}
       className={cx(
         'mt-[60px] flex justify-center items-center h-[104px] w-[654px] bg-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#ffffff]',
+        //TODO:comment 2 lines below to test command button
         (loading || !(poapConf && poapConf?.count && poapConf.count > 0)) && 'opacity-30 pointer-events-none',
         inTranscation && 'pointer-events-none'
       )}
     >
       {loading ? '获取数据中...' : inTranscation ? '领取中...' : '领取'}
+      {/* TODO: To test command button  */}
+      {'领取'}
     </button>
   );
 };
