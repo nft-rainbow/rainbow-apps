@@ -25,16 +25,15 @@ const ModalContent: React.FC = () => {
   }, []);
   return (
     <form onSubmit={withForm((data) => handleSubmit(data))} className="flex flex-col items-center px-[20px]">
-      <div className="mt-[16px] mb-[48px] text-[32px] leading-[40px] font-medium">请输入领取口令</div>
+      <div className="mt-[16px] mb-[48px] text-[32px] leading-[40px] font-medium text-[#05001F]">请输入领取口令</div>
       <input
         {...register('command', { required: true })}
         className={cx(
-          'py-[30px] w-full border-[1.36px] border-[#E6E6E9] rounded-[8px] text-[#37334C] text-[32px] leading-[40px] font-semibold',
+          'py-[30px] w-full border-[1.36px] border-[#E6E6E9] rounded-[8px] text-[#37334C] text-[32px] leading-[40px] text-center font-semibold',
           errors.command?.type === 'required' && 'border-red-500'
         )}
       />
       <button
-        type="submit"
         className={cx(
           'mt-[48px] mb-[32px] flex justify-center items-center h-[104px] w-full bg-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#ffffff]',
           (loading || !(poapConf && poapConf?.count && poapConf.count > 0)) && 'opacity-30 pointer-events-none',

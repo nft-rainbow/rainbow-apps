@@ -42,8 +42,8 @@ export const ModalRender: React.FC = () => {
         )}
       >
         <div className="flex flex-row justify-end items-center w-full text-[22px] text-[#303549] font-semibold z-50">
-          <button className="w-[36px] h-[36px] rounded-full" onClick={hideModal}>
-            <img src={Close} alt="delete svg" />
+          <button onClick={hideModal}>
+            <img src={Close} alt="delete svg" className="w-[16px] h-[16px]" />
           </button>
         </div>
         {renderReactNode(modal.content)}
