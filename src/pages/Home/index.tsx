@@ -5,6 +5,7 @@ import useClipboard from 'react-use-clipboard';
 import useActivityId from '@hooks/useActivityId';
 import { usePoapConfig } from '@services/poap';
 import { transferDate } from '@utils/transferDate';
+import isMobile from '@utils/isMobile';
 import AuthConnectButton from '@modules/AuthConnectButton';
 import { ClaimButton } from './ClaimButton';
 import Tooltip from '@components/Tooltip';
@@ -54,33 +55,47 @@ const Home: React.FC = () => {
           )}
         </div>
       </div>
-      <p className="mt-[42px] text-[40px] leading-[48px] font-semibold text-[#05001F]">{loading ? '...' : poapConf?.name}</p>
-      <p className="mt-[24px] flex flex-col text-[28px] text-[#696679] leading-[36px] desc" dangerouslySetInnerHTML={{ __html: loading ? '...' : poapConf?.description ?? '' }}></p>
-      <p className="mt-[24px] text-[24px] leading-[32px] text-[#696679]">
-        开始时间: <span>{loading ? '...' : !poapConf?.start_time || poapConf?.start_time == -1 ? '不限' : transferDate(poapConf.start_time)}</span>
-      </p>
-      {(loading || poapConf?.end_time) && (
-        <p className="text-[24px] leading-[32px] text-[#696679]">
-          结束时间: <span>{loading ? '...' : !poapConf?.end_time || poapConf?.end_time == -1 ? '不限' : transferDate(poapConf.end_time)}</span>
+      <p className="mt-[42px] md:mt-[24px] text-[40px] md:text-[32px] leading-[48px] md:leading-[60px] font-semibold text-[#05001F]">{loading ? '...' : poapConf?.name}</p>
+      <p
+        className="mt-[24px] md:mt-[8px] flex flex-col text-[28px] md:text-[16px] text-[#696679] leading-[36px] md:leading-[22px] desc"
+        dangerouslySetInnerHTML={{ __html: loading ? '...' : poapConf?.description ?? '' }}
+      ></p>
+      <div className="flex flex-col md:flex-row md:mt-[8px] md:items-center">
+        <p className="mt-[24px] md:mt-[0px] text-[24px] md:text-[14px] leading-[32px] md:leading-[18px] text-[#696679]">
+          开始时间: <span>{loading ? '...' : !poapConf?.start_time || poapConf?.start_time == -1 ? '不限' : transferDate(poapConf.start_time)}</span>
+        </p>
+        {!isMobile && <p className="text-[#696679]">&ensp;——&ensp; </p>}
+        {(loading || poapConf?.end_time) && (
+          <p className="text-[24px] md:text-[14px] leading-[32px] md:leading-[18px] text-[#696679]">
+            结束时间: <span>{loading ? '...' : !poapConf?.end_time || poapConf?.end_time == -1 ? '不限' : transferDate(poapConf.end_time)}</span>
+          </p>
+        )}
+      </div>
+      {!isMobile && (
+        <p className="mt-[32px] text-[28px] leading-[32px] text-[#37334C] align-middle">
+          可领取{' '}
+          <span className="text-[#6953EF] font-medium mx-[2px]">{loading ? '...' : !!poapConf && poapConf.count && poapConf.count === -1 ? '无限' : poapConf?.count ?? 0}</span> 次
         </p>
       )}
-      <p className="mt-[32px] text-[28px] leading-[32px] text-[#37334C] align-middle">
-        可领取{' '}
-        <span className="text-[#6953EF] font-medium mx-[2px]">{loading ? '...' : !!poapConf && poapConf.count && poapConf.count === -1 ? '无限' : poapConf?.count ?? 0}</span> 次
-      </p>
       <div className="flex flex-col items-center">
         <AuthConnectButton type="rectangle">
           <ClaimButton commandNeeded={!!poapConf?.command_needed} />
         </AuthConnectButton>
         <Link
           to={`share/?activity_id=${activityId}`}
-          className="mt-[24px] flex justify-center items-center h-[104px] w-[654px] border border-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#6953EF]"
+          className="mt-[24px] md:mt-[12px] flex justify-center items-center h-[104px] md:h-[54px] w-[654px] md:w-[300px] border border-[#6953EF] rounded-[8px] md:rounded-[4px] text-[32px] md:text-[16px] font-medium leading-[40px] md:leading-[22px] text-[#6953EF]"
         >
           分享
         </Link>
-        <a href={'https://app.anyweb.cc/#/pages/index/home'} target="_blank" className="mt-[42px] text-[28px] leading-[36px] text-[#6953EF] border-b-2 border-[#6953EF]">
-          去 Anyweb 查看&gt;
-        </a>
+        {!isMobile && (
+          <a
+            href={'https://app.anyweb.cc/#/pages/index/home'}
+            target="_blank"
+            className="mt-[42px] md:mt-[12px] text-[28px] leading-[36px] text-[#6953EF] border-b-2 border-[#6953EF]"
+          >
+            去 Anyweb 查看&gt;
+          </a>
+        )}
       </div>
     </div>
   );
