@@ -9,6 +9,7 @@ import AuthConnectButton from '@modules/AuthConnectButton';
 import { ClaimButton } from './ClaimButton';
 import Tooltip from '@components/Tooltip';
 import Spin from '@components/Spin';
+import Label from '@components/Label';
 
 const Home: React.FC = () => {
   const activityId = useActivityId()!;
@@ -16,10 +17,10 @@ const Home: React.FC = () => {
   const [isCopied, copy] = useClipboard(poapConf?.contract_address ?? '', { successDuration: 1000 });
 
   return (
-    <div className="px-[48px] pt-[42px] flex flex-col justify-start">
-      <div className="relative w-[654px] h-[654px]">
+    <div className="px-[48px] pt-[42px] flex flex-col items-start md:items-center">
+      <div className="relative w-[654px] md:w-[300px] h-[654px] md:h-[300px]">
         {loading && (
-          <div className="absolute w-[654px] h-[654px] border-[8px] border-[#ffffff] pointer-events-none">
+          <div className="absolute w-[654px] md:w-[300px] h-[654px] md:h-[300px] border-[8px] border-[#ffffff] pointer-events-none">
             <Spin className="absolute text-[60px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
           </div>
         )}
@@ -27,31 +28,32 @@ const Home: React.FC = () => {
           <img
             alt="activity picture"
             src={poapConf.activity_picture_url}
-            className="absolute w-[654px] h-[654px] border-[8px] border-[#ffffff] pointer-events-none"
+            className="absolute w-[654px] md:w-[300px] h-[654px] md:h-[300px] border-[8px] md:border-[4px] border-[#ffffff] pointer-events-none"
             draggable={false}
           />
         )}
-        <div className="m-[24px] px-[16px] min-w-[140px] inline-flex flex-row justify-center items-center h-[48px] rounded-tl-[24px] rounded-tr-[4px] rounded-br-[24px] rounded-bl-[4px] text-[24px] leading-[32px] text-[#FFFFFF] bg-[#05001F] opacity-70">
-          {loading ? '...' : !poapConf?.amount || poapConf.amount === -1 ? '不限量' : poapConf?.amount}
-        </div>
+        {loading ? '...' : !poapConf?.amount || poapConf.amount === -1 ? <Label /> : <Label amount={poapConf.amount} />}
       </div>
-      <div className="mt-[42px] flex flex-row w-fit h-[40px] text-[26px] leading-[34px]">
-        <div className="px-[12px] flex flex-row justify-center items-center h-[40px] rounded-tl-[20px] rounded-bl-[4px] bg-[#6953EF] text-[#ffffff]">已领取</div>
-        <div className="px-[12px] flex flex-row justify-center items-center min-w-[102px] h-[40px] border border-[#6953EF] rounded-tr-[4px] rounded-br-[20px] text-center align-middle text-[#6953EF]">
+      <div className="mt-[42px] md:mt-[25px] flex flex-row w-fit h-[40px] md:h-[30px] text-[26px] md:text-[16px] leading-[34px] md:leading-[28px]">
+        <div className="px-[12px] md:px-[8px] flex flex-row justify-center items-center h-[40px] md:h-[30px] rounded-tl-[20px] md:rounded-tl-[15px] rounded-bl-[4px] md:rounded-bl-[2px] bg-[#6953EF] text-[#ffffff]">
+          已领取
+        </div>
+        <div className="px-[12px] md:px-[8px] flex flex-row justify-center items-center min-w-[102px] md:min-w-[64px] h-[40px] md:h-[30px] border border-[#6953EF] rounded-tr-[4px] md:rounded-tr-[2px] rounded-br-[20px] md:rounded-br-[15px] text-center align-middle text-[#6953EF]">
           {loading ? '...' : poapConf?.mintedCount}
         </div>
       </div>
-      <p className="mt-[24px] text-[28px] leading-[36px] font-medium text-[#37334C]">合约地址</p>
-      <div className="mt-[12px] flex flex-row items-center text-[#696679]">
-        <p className="text-[24px] leading-[32px]">{loading ? '...' : `${poapConf?.contract_address}`}</p>
+      <div className="md:mt-[13px] flex flex-col md:flex-row">
+        <p className="mt-[24px] md:mt-[0px] text-[28px] md:text-[14px] leading-[36px] md:leading-[18px] font-medium md:font-normal text-[#37334C] md:text-[#696679]">合约地址</p>
+        <div className="mt-[12px] md:mt-[0px] flex flex-row items-center text-[#696679] md:text-[14px] md:leading-[18px]">
+          <p className="text-[24px] md:text-[14px] leading-[32px] md:leading-[18px]">{loading ? '...' : `${poapConf?.contract_address}`}</p>
 
-        {!loading && poapConf?.contract_address && (
-          <Tooltip content="复制成功" visible={isCopied}>
-            <img src={ClipBoard} alt="clipboard logo" className="ml-[8px] w-[32px] h-[32px] cursor-pointer" onClick={copy} />
-          </Tooltip>
-        )}
+          {!loading && poapConf?.contract_address && (
+            <Tooltip content="复制成功" visible={isCopied}>
+              <img src={ClipBoard} alt="clipboard logo" className="ml-[8px] w-[32px] md:w-[16px] h-[32px] md:h-[16px] cursor-pointer" onClick={copy} />
+            </Tooltip>
+          )}
+        </div>
       </div>
-
       <p className="mt-[42px] text-[40px] leading-[48px] font-semibold text-[#05001F]">{loading ? '...' : poapConf?.name}</p>
       <p className="mt-[24px] flex flex-col text-[28px] text-[#696679] leading-[36px] desc" dangerouslySetInnerHTML={{ __html: loading ? '...' : poapConf?.description ?? '' }}></p>
       <p className="mt-[24px] text-[24px] leading-[32px] text-[#696679]">
@@ -68,7 +70,7 @@ const Home: React.FC = () => {
       </p>
       <div className="flex flex-col items-center">
         <AuthConnectButton type="rectangle">
-          <ClaimButton command={!!poapConf?.command_needed} />
+          <ClaimButton commandNeeded={!!poapConf?.command_needed} />
         </AuthConnectButton>
         <Link
           to={`share/?activity_id=${activityId}`}

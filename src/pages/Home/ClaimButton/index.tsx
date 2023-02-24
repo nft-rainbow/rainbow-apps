@@ -39,17 +39,17 @@ const ModalContent: React.FC<ModalContentProps> = ({ activityId }) => {
   );
 };
 
-export const ClaimButton: React.FC<{ command: boolean }> = ({ command }) => {
+export const ClaimButton: React.FC<{ commandNeeded: boolean }> = ({ commandNeeded }) => {
   const activityId = useActivityId()!;
   const { value: poapConf, loading } = usePoapConfig(activityId);
   const { inTranscation, execTranscation: handleClaim } = useInTranscation(_handleClaim);
   const handleOnClaim = useCallback(() => {
-    if (command) {
+    if (commandNeeded) {
       showModal({ content: <ModalContent activityId={activityId} />, className: 'w-[654px] max-w-[654px]' });
       return;
     }
     handleClaim({ activityId });
-  }, [command, activityId]);
+  }, [commandNeeded, activityId]);
 
   return (
     <button

@@ -28,7 +28,6 @@ const RouterWrapper: React.FC = () => {
   const activityId = useActivityId();
   const { error } = usePoapConfig(activityId!);
   usePoapConfWatchAccount();
-  console.log(error);
   return (
     <div className="relative flex flex-col min-h-full overflow-hidden">
       <img src={Bg} className="absolute w-full h-full select-none pointer-events-none z-[-1]" draggable={false} />
@@ -44,10 +43,10 @@ const RouterWrapper: React.FC = () => {
         </div>
       )}
 
-      <footer className="mt-[60px] mb-[36px] z-20">
+      <footer className="mt-[60px] md:mt-[54px] mb-[36px] md:mb-[24px] z-20">
         <a target="_blank" href=" https://www.nftrainbow.cn/" className="flex flex-row justify-center items-center">
-          <img src={Rainbow} alt="Rainbow" className="w-[228px] h-[54px] select-none pointer-events-none" draggable={false} />
-          <span className="ml-[4px] text-[24px] leading-[33px]">提供技术支持</span>
+          <img src={Rainbow} alt="Rainbow" className="w-[228px] md:w-[135px] h-[54px] md:h-[32px] select-none pointer-events-none" draggable={false} />
+          <span className="ml-[4px] text-[24px] md:text-[14px] leading-[33px] md:leading-[20px]">提供技术支持</span>
         </a>
       </footer>
       <ToastRender />
