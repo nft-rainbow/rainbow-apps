@@ -1,4 +1,5 @@
 import isMobile from '@utils/isMobie';
+console.log('isMobile', isMobile);
 module.exports = {
   plugins: {
     tailwindcss: {},
