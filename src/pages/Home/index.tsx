@@ -32,7 +32,7 @@ const Home: React.FC = () => {
           />
         )}
         <div className="m-[24px] px-[16px] min-w-[140px] inline-flex flex-row justify-center items-center h-[48px] rounded-tl-[24px] rounded-tr-[4px] rounded-br-[24px] rounded-bl-[4px] text-[24px] leading-[32px] text-[#FFFFFF] bg-[#05001F] opacity-70">
-          {loading ? '...' : !poapConf?.max_mint_count || poapConf.max_mint_count === -1 ? '不限量' : poapConf?.max_mint_count}
+          {loading ? '...' : !poapConf?.amount || poapConf.amount === -1 ? '不限量' : poapConf?.amount}
         </div>
       </div>
       <div className="mt-[42px] flex flex-row w-fit h-[40px] text-[26px] leading-[34px]">
@@ -63,12 +63,12 @@ const Home: React.FC = () => {
         </p>
       )}
       <p className="mt-[32px] text-[28px] leading-[32px] text-[#37334C] align-middle">
-        可领取 <span className="text-[#6953EF] font-medium mx-[2px]">{loading ? '...' : !!poapConf && poapConf.count && poapConf.count > 0 ? poapConf.count : 0}</span> 次
+        可领取{' '}
+        <span className="text-[#6953EF] font-medium mx-[2px]">{loading ? '...' : !!poapConf && poapConf.count && poapConf.count === -1 ? '无限' : poapConf?.count ?? 0}</span> 次
       </p>
-
       <div className="flex flex-col items-center">
         <AuthConnectButton type="rectangle">
-          <ClaimButton command={poapConf?.command ?? ''} />
+          <ClaimButton command={!!poapConf?.command_needed} />
         </AuthConnectButton>
         <Link
           to={`share/?activity_id=${activityId}`}

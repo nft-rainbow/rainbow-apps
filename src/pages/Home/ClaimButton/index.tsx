@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import cx from 'clsx';
 import { useForm, FieldValues } from 'react-hook-form';
 import useActivityId from '@hooks/useActivityId';
@@ -7,20 +6,20 @@ import { usePoapConfig, handleClaim as _handleClaim } from '@services/poap';
 import { showModal, hideModal } from '@components/showModal';
 import { useCallback } from 'react';
 
-const ModalContent: React.FC = () => {
+interface ModalContentProps {
+  activityId: string;
+}
+const ModalContent: React.FC<ModalContentProps> = ({ activityId }) => {
   const {
     register,
     handleSubmit: withForm,
     formState: { errors },
   } = useForm();
-  const activityId = useActivityId()!;
-  const { value: poapConf, loading } = usePoapConfig(activityId);
-  const navigate = useNavigate();
   const { inTranscation, execTranscation: handleClaim } = useInTranscation(_handleClaim);
 
   const handleSubmit = useCallback(async (data: FieldValues) => {
     const { command } = data;
-    await handleClaim({ activityId, navigate, command });
+    await handleClaim({ activityId, command });
     hideModal();
   }, []);
   return (
@@ -33,31 +32,24 @@ const ModalContent: React.FC = () => {
           errors.command?.type === 'required' && 'border-red-500'
         )}
       />
-      <button
-        className={cx(
-          'mt-[48px] mb-[32px] flex justify-center items-center h-[104px] w-full bg-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#ffffff]',
-          (loading || !(poapConf && poapConf?.count && poapConf.count > 0)) && 'opacity-30 pointer-events-none',
-          inTranscation && 'pointer-events-none'
-        )}
-      >
-        {loading ? '获取数据中...' : inTranscation ? '领取中...' : '确认'}
+      <button className="mt-[48px] mb-[32px] flex justify-center items-center h-[104px] w-full bg-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#ffffff]">
+        {inTranscation ? '领取中...' : '确认'}
       </button>
     </form>
   );
 };
 
-export const ClaimButton: React.FC<{ command: string }> = ({ command }) => {
+export const ClaimButton: React.FC<{ command: boolean }> = ({ command }) => {
   const activityId = useActivityId()!;
   const { value: poapConf, loading } = usePoapConfig(activityId);
-  const navigate = useNavigate();
   const { inTranscation, execTranscation: handleClaim } = useInTranscation(_handleClaim);
   const handleOnClaim = useCallback(() => {
     if (command) {
-      showModal({ content: <ModalContent />, className: 'w-[654px] max-w-[654px]' });
+      showModal({ content: <ModalContent activityId={activityId} />, className: 'w-[654px] max-w-[654px]' });
       return;
     }
-    handleClaim({ activityId, navigate });
-  }, [command, activityId, navigate]);
+    handleClaim({ activityId });
+  }, [command, activityId]);
 
   return (
     <button

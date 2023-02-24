@@ -4,7 +4,6 @@ import { fetchApi } from '@utils/fetch/fetchApi';
 import { showToast } from '@components/showToast';
 import { getAccount } from '@services/account';
 import { refreshPoapConf } from '@services/poap';
-import { type useNavigate } from 'react-router-dom';
 
 export interface Transaction {
   additionalProperties?: object;
@@ -37,7 +36,7 @@ const transactionConfig = atom<Transaction | null>({
   default: null,
 });
 
-export const handleClaim = async ({ activityId, navigate, command }: { activityId: string; navigate: ReturnType<typeof useNavigate>; command?: string }) => {
+export const handleClaim = async ({ activityId, command }: { activityId: string; command?: string }) => {
   try {
     const account = getAccount()!;
     const res = await fetchApi<{ code: number; message: string } & Transaction>({
@@ -56,7 +55,6 @@ export const handleClaim = async ({ activityId, navigate, command }: { activityI
     setRecoil(transactionConfig, { ...res });
     await refreshPoapConf(activityId);
     showToast({ content: '正在发放，预计需要1分钟', type: 'success' });
-    // navigate(`/success?activity_id=${activityId}`);
   } catch (err) {
     showToast({ content: `领取失败: ${err}`, type: 'failed' });
     console.log('claim error: ', err);

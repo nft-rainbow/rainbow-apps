@@ -20,7 +20,7 @@ export interface ActivityConf {
   rainbow_user_id: number;
   contract_type: number;
   contract_address: string;
-  command?: string;
+  command_needed: boolean;
   contract_id: number;
   max_mint_count: number;
   activity_picture_url: string;
@@ -71,7 +71,7 @@ export const fetchPoapConf = async (activity_id: string) => {
   return {
     ...activityConf,
     mintedCount: mintedCount.count,
-    count: activityCount ? activityCount.count : undefined,
+    count: activityCount ? activityCount : undefined,
   } as PoapConf;
 };
 
@@ -99,11 +99,11 @@ export const usePoapConfWatchAccount = () => {
     if (!account) {
       setRecoil(poapConfigState(activityId), (pre) => ({ ...pre, count: undefined } as PoapConf));
     } else {
-      fetchApi<{ count: number }>({
+      fetchApi<number>({
         path: `poap/count/${account}/${activityId}`,
         method: 'GET',
       }).then((countRes) => {
-        setRecoil(poapConfigState(activityId), (pre) => ({ ...pre, count: countRes?.count } as PoapConf));
+        setRecoil(poapConfigState(activityId), (pre) => ({ ...pre, count: countRes } as PoapConf));
       });
     }
   }, [account]);

@@ -33,19 +33,19 @@ export function fetchApi() {
     };
     if (method == 'GET') delete requestParams.body;
     if (method == 'POST')
-      fetcher = fetch(isLocalhost ? `/api/${path}` : `https://dev.nftrainbow.cn/apps/${path}`, {
+      fetcher = fetch(isLocalhost ? `/api/${path}` : `http://dev.nftrainbow.cn/apps/${path}`, {
         ...requestParams,
         headers: { 'content-Type': 'application/json' },
       }).then((response) => response.json());
     else {
-      fetcher = fetch(isLocalhost ? `/api/${path}` : `https://dev.nftrainbow.cn/apps/${path}`, requestParams).then((response) => response.json());
+      fetcher = fetch(isLocalhost ? `/api/${path}` : `http://dev.nftrainbow.cn/apps/${path}`, requestParams).then((response) => response.json());
     }
   }
 
   if (isPromise(fetcher)) {
     return fetcher
       .then((result) => {
-        if (typeof result === 'object' && (result as any)?.code === 429) throw new Error('overloaded');
+        if (typeof result === 'object' && (result as any)?.code === 42900) throw new Error('overloaded');
         if (typeof equalKey !== 'string') return result;
         const lastResult = equalMap.get(equalKey);
         if (isEqual(lastResult, result)) {
