@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import ClipBoard from '@assets/clipboard.svg';
 import useClipboard from 'react-use-clipboard';
@@ -10,6 +10,7 @@ import { ClaimButton } from './ClaimButton';
 import Tooltip from '@components/Tooltip';
 import Spin from '@components/Spin';
 import Label from '@components/Label';
+import ShareButton from './ShareButton';
 
 const Home: React.FC = () => {
   const activityId = useActivityId()!;
@@ -81,12 +82,13 @@ const Home: React.FC = () => {
         <AuthConnectButton type="rectangle">
           <ClaimButton commandNeeded={!!poapConf?.command_needed} />
         </AuthConnectButton>
-        <Link
+        {/* <Link
           to={`share/?activity_id=${activityId}`}
           className="mt-[24px] md:mt-[12px] flex justify-center items-center h-[104px] md:h-[54px] w-[654px] md:w-[300px] border border-[#6953EF] rounded-[8px] md:rounded-[4px] text-[32px] md:text-[16px] font-medium leading-[40px] md:leading-[22px] text-[#6953EF]"
         >
           分享
-        </Link>
+        </Link> */}
+        <ShareButton activityId={activityId} />
         <a
           href={'https://app.anyweb.cc/#/pages/index/home'}
           target="_blank"
