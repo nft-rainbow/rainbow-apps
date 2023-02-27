@@ -40,6 +40,8 @@ const ModalContent: React.FC<ModalContentProps> = ({ activityId }) => {
 };
 
 export const ClaimButton: React.FC<{ commandNeeded: boolean }> = ({ commandNeeded }) => {
+  //TODO:
+  console.log('Do we need command?', commandNeeded);
   const activityId = useActivityId()!;
   const { value: poapConf, loading } = usePoapConfig(activityId);
   const { inTranscation, execTranscation: handleClaim } = useInTranscation(_handleClaim);
@@ -49,11 +51,11 @@ export const ClaimButton: React.FC<{ commandNeeded: boolean }> = ({ commandNeede
       return;
     }
     handleClaim({ activityId });
-  }, []);
+  }, [commandNeeded]);
 
   return (
     <button
-      onClick={() => handleOnClaim()}
+      onClick={handleOnClaim}
       className={cx(
         'mt-[60px] md:mt-[24px] flex justify-center items-center h-[104px] md:h-[54px] w-[654px] md:w-[300px] bg-[#6953EF] rounded-[8px] md:rounded-[4px] text-[32px] md:text-[16px] font-medium leading-[40px] md:leading-[22px] text-[#ffffff]',
         //TODO:comment 2 lines below to test command button

@@ -36,19 +36,23 @@ const Home: React.FC = () => {
         )}
         {loading ? '...' : !poapConf?.amount || poapConf.amount === -1 ? <Label /> : <Label amount={poapConf.amount} />}
       </div>
-      <div className="mt-[42px] md:mt-[24px] flex flex-row w-fit h-[40px] md:h-[30px] text-[26px] md:text-[16px] leading-[34px] md:leading-[28px]">
+      <div className="mt-[42px] md:mt-[24px] flex flex-row items-center w-fit h-[40px] md:h-[30px] text-[26px] md:text-[16px] leading-[34px] md:leading-[28px]">
         <div className="px-[12px] md:px-[8px] flex flex-row justify-center items-center h-[40px] md:h-[30px] rounded-tl-[20px] md:rounded-tl-[15px] rounded-bl-[4px] md:rounded-bl-[2px] bg-[#6953EF] text-[#ffffff]">
           已领取
         </div>
         <div className="px-[12px] md:px-[8px] flex flex-row justify-center items-center min-w-[102px] md:min-w-[64px] h-[40px] md:h-[30px] border border-[#6953EF] rounded-tr-[4px] md:rounded-tr-[2px] rounded-br-[20px] md:rounded-br-[15px] text-center align-middle text-[#6953EF]">
           {loading ? '...' : poapConf?.mintedCount}
         </div>
+        {!isMobile && (
+          <div className="md:ml-[16px] md:h-[22px] text-[#37334C] md:text-[16px] md:leading-[22px]">
+            可领取 <span className="text-[#6953EF]">{loading ? '...' : !!poapConf && poapConf.count && poapConf.count === -1 ? '无限' : poapConf?.count ?? 0}</span> 次
+          </div>
+        )}
       </div>
       <div className="md:mt-[13px] flex flex-col md:flex-row">
         <p className="mt-[24px] md:mt-[0px] text-[28px] md:text-[14px] leading-[36px] md:leading-[18px] font-medium md:font-normal text-[#37334C] md:text-[#696679]">合约地址</p>
         <div className="mt-[12px] md:mt-[0px] flex flex-row items-center text-[#696679] md:text-[14px] md:leading-[18px]">
           <p className="text-[24px] md:text-[14px] leading-[32px] md:leading-[18px]">{loading ? '...' : `${poapConf?.contract_address}`}</p>
-
           {!loading && poapConf?.contract_address && (
             <Tooltip content="复制成功" visible={isCopied}>
               <img src={ClipBoard} alt="clipboard logo" className="ml-[8px] w-[32px] md:w-[16px] h-[32px] md:h-[16px] cursor-pointer" onClick={copy} />
