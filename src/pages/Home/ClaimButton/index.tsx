@@ -40,8 +40,6 @@ const ModalContent: React.FC<ModalContentProps> = ({ activityId }) => {
 };
 
 export const ClaimButton: React.FC<{ commandNeeded: boolean }> = ({ commandNeeded }) => {
-  //TODO:
-  console.log('Do we need command?', commandNeeded);
   const activityId = useActivityId()!;
   const { value: poapConf, loading } = usePoapConfig(activityId);
   const { inTranscation, execTranscation: handleClaim } = useInTranscation(_handleClaim);
