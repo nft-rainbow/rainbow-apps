@@ -16,7 +16,6 @@ const Home: React.FC = () => {
   const activityId = useActivityId()!;
   const { value: poapConf, loading } = usePoapConfig(activityId);
   const [isCopied, copy] = useClipboard(poapConf?.contract_address ?? '', { successDuration: 1000 });
-  console.log('isMobile', isMobile);
 
   return (
     <div className="px-[48px] pt-[42px] flex flex-col items-start md:items-center">
@@ -69,7 +68,7 @@ const Home: React.FC = () => {
         <p className="mt-[24px] md:mt-[0px] text-[24px] md:text-[14px] leading-[32px] md:leading-[18px] text-[#696679]">
           开始时间: <span>{loading ? '...' : !poapConf?.start_time || poapConf?.start_time == -1 ? '不限' : transferDate(poapConf.start_time)}</span>
         </p>
-        {!isMobile && <p className="leading-[18px] text-[#696679]">&ensp;——&ensp; </p>}
+        {!isMobile && <p className="md:leading-[18px] md:text-[#696679]">&ensp;——&ensp; </p>}
         {(loading || poapConf?.end_time) && (
           <p className="text-[24px] md:text-[14px] leading-[32px] md:leading-[18px] text-[#696679]">
             结束时间: <span>{loading ? '...' : !poapConf?.end_time || poapConf?.end_time == -1 ? '不限' : transferDate(poapConf.end_time)}</span>
