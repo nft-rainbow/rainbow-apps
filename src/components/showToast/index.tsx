@@ -39,10 +39,13 @@ export const ToastRender: React.FC = () => {
       {toasts.map(({ content, type, id }) => (
         <div
           key={id}
-          className={cx('px-[42px] h-[72px] flex justify-center items-center text-[28px] leading-[36px] text-[#FFFFFF] rounded-[42px] z-40', {
-            'bg-[#05001FB2]': type === 'failed' || type === 'warning',
-            'bg-[#F15C5C] opacity-70': type === 'success',
-          })}
+          className={cx(
+            'px-[42px] md:px-[42px] h-[72px] md:h-[72px] flex justify-center items-center text-[28px] md:text-[16px] leading-[36px] md:leading-[22px] text-[#FFFFFF] rounded-[42px] z-40',
+            {
+              'bg-[#05001FB2]': type === 'failed' || type === 'warning',
+              'bg-[#F15C5C] opacity-70': type === 'success',
+            }
+          )}
         >
           {content}
         </div>
