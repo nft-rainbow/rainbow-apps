@@ -82,12 +82,6 @@ const Home: React.FC = () => {
         <AuthConnectButton type="rectangle">
           <ClaimButton commandNeeded={!!poapConf?.command_needed} />
         </AuthConnectButton>
-        {/* <Link
-          to={`share/?activity_id=${activityId}`}
-          className="mt-[24px] md:mt-[12px] flex justify-center items-center h-[104px] md:h-[54px] w-[654px] md:w-[300px] border border-[#6953EF] rounded-[8px] md:rounded-[4px] text-[32px] md:text-[16px] font-medium leading-[40px] md:leading-[22px] text-[#6953EF]"
-        >
-          分享
-        </Link> */}
         <ShareButton activityId={activityId} />
         <a
           href={'https://app.anyweb.cc/#/pages/index/home'}
