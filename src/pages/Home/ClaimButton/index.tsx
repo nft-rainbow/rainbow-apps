@@ -23,16 +23,16 @@ const ModalContent: React.FC<ModalContentProps> = ({ activityId }) => {
     hideModal();
   }, []);
   return (
-    <form onSubmit={withForm((data) => handleSubmit(data))} className="flex flex-col items-center px-[20px]">
-      <div className="mt-[16px] mb-[48px] text-[32px] leading-[40px] font-medium text-[#05001F]">请输入领取口令</div>
+    <form onSubmit={withForm((data) => handleSubmit(data))} className="flex flex-col items-center px-[20px] md:px-[24px]">
+      <div className="mt-[16px] md:mt-[16px] mb-[48px] md:mb-[24px] text-[32px] md:text-[20px] leading-[40px] md:leading-[28px] font-medium text-[#05001F]">请输入领取口令</div>
       <input
         {...register('command', { required: true })}
         className={cx(
-          'py-[30px] w-full border-[1.36px] border-[#E6E6E9] rounded-[8px] text-[#37334C] text-[32px] leading-[40px] text-center font-semibold',
+          'py-[30px] md:py-[15px] md:px-[12px] w-full border-[1.36px] md:border-[1px] border-[#E6E6E9] rounded-[8px] md:rounded-[4px] text-[#37334C] text-[32px] md:text-[16px] leading-[40px] md:leading-[22px] text-center font-semibold',
           errors.command?.type === 'required' && 'border-red-500'
         )}
       />
-      <button className="mt-[48px] mb-[32px] flex justify-center items-center h-[104px] w-full bg-[#6953EF] rounded-[8px] text-[32px] font-medium leading-[40px] text-[#ffffff]">
+      <button className="mt-[48px] md:mt-[32px] mb-[32px] md:mb-[32px] flex justify-center items-center h-[104px] md:h-[54px] w-full bg-[#6953EF] rounded-[8px] md:rounded-[4px] text-[32px] md:text-[16px] font-medium leading-[40px] md:leading-[22px] text-[#ffffff]">
         {inTranscation ? '领取中...' : '确认'}
       </button>
     </form>
@@ -45,7 +45,7 @@ export const ClaimButton: React.FC<{ commandNeeded: boolean }> = ({ commandNeede
   const { inTranscation, execTranscation: handleClaim } = useInTranscation(_handleClaim);
   const handleOnClaim = useCallback(() => {
     if (commandNeeded) {
-      showModal({ content: <ModalContent activityId={activityId} />, className: 'w-[654px] max-w-[654px]' });
+      showModal({ content: <ModalContent activityId={activityId} />, className: 'top-[22%] md:top-0 w-[654px] md:w-[480px] max-w-[654px] md:max-w-[480px]' });
       return;
     }
     handleClaim({ activityId });

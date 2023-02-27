@@ -5,7 +5,6 @@ import useClipboard from 'react-use-clipboard';
 import useActivityId from '@hooks/useActivityId';
 import { usePoapConfig } from '@services/poap';
 import { transferDate } from '@utils/transferDate';
-import isMobile from '@utils/isMobile';
 import AuthConnectButton from '@modules/AuthConnectButton';
 import { ClaimButton } from './ClaimButton';
 import Tooltip from '@components/Tooltip';
@@ -18,7 +17,7 @@ const Home: React.FC = () => {
   const [isCopied, copy] = useClipboard(poapConf?.contract_address ?? '', { successDuration: 1000 });
 
   return (
-    <div className="px-[48px] pt-[42px] flex flex-col items-start md:items-center">
+    <div className="px-[48px] pt-[42px] md:pt-[42px] flex flex-col items-start md:items-center">
       <div className="relative w-[654px] md:w-[300px] h-[654px] md:h-[300px]">
         {loading && (
           <div className="absolute w-[654px] md:w-[300px] h-[654px] md:h-[300px] border-[8px] border-[#ffffff] pointer-events-none">
@@ -39,17 +38,16 @@ const Home: React.FC = () => {
         <div className="px-[12px] md:px-[8px] flex flex-row justify-center items-center h-[40px] md:h-[30px] rounded-tl-[20px] md:rounded-tl-[15px] rounded-bl-[4px] md:rounded-bl-[2px] bg-[#6953EF] text-[#ffffff]">
           已领取
         </div>
-        <div className="px-[12px] md:px-[8px] flex flex-row justify-center items-center min-w-[102px] md:min-w-[64px] h-[40px] md:h-[30px] border border-[#6953EF] rounded-tr-[4px] md:rounded-tr-[2px] rounded-br-[20px] md:rounded-br-[15px] text-center align-middle text-[#6953EF]">
+        <div className="px-[12px] md:px-[8px] flex flex-row justify-center items-center min-w-[102px] md:min-w-[45px] h-[40px] md:h-[30px] border border-[#6953EF] rounded-tr-[4px] md:rounded-tr-[2px] rounded-br-[20px] md:rounded-br-[15px] text-center align-middle text-[#6953EF]">
           {loading ? '...' : poapConf?.mintedCount}
         </div>
-        {!isMobile && (
-          <div className="md:ml-[16px] md:h-[22px] text-[#37334C] md:text-[16px] md:leading-[22px]">
-            可领取 <span className="text-[#6953EF]">{loading ? '...' : !!poapConf && poapConf.count && poapConf.count === -1 ? '无限' : poapConf?.count ?? 0}</span> 次
-          </div>
-        )}
+        <div className="hidden md:block md:ml-[16px] md:h-[22px] text-[#37334C] md:text-[16px] md:leading-[22px]">
+          可领取 <span className="text-[#6953EF]">{loading ? '...' : !!poapConf && poapConf.count && poapConf.count === -1 ? '无限' : poapConf?.count ?? 0}</span> 次
+        </div>
       </div>
-      <div className="md:mt-[13px] flex flex-col md:flex-row">
+      <div className="md:mt-[12px] flex flex-col md:flex-row">
         <p className="mt-[24px] md:mt-[0px] text-[28px] md:text-[14px] leading-[36px] md:leading-[18px] font-medium md:font-normal text-[#37334C] md:text-[#696679]">合约地址</p>
+        <span className="hidden md:inline md:text-[14px] md:leading-[18px]">：</span>
         <div className="mt-[12px] md:mt-[0px] flex flex-row items-center text-[#696679] md:text-[14px] md:leading-[18px]">
           <p className="text-[24px] md:text-[14px] leading-[32px] md:leading-[18px]">{loading ? '...' : `${poapConf?.contract_address}`}</p>
           {!loading && poapConf?.contract_address && (
@@ -68,19 +66,17 @@ const Home: React.FC = () => {
         <p className="mt-[24px] md:mt-[0px] text-[24px] md:text-[14px] leading-[32px] md:leading-[18px] text-[#696679]">
           开始时间: <span>{loading ? '...' : !poapConf?.start_time || poapConf?.start_time == -1 ? '不限' : transferDate(poapConf.start_time)}</span>
         </p>
-        {!isMobile && <p className="md:leading-[18px] md:text-[#696679]">&ensp;——&ensp; </p>}
+        <p className="hidden md:inline md:leading-[18px] md:text-[#696679]">&ensp;—&ensp; </p>
         {(loading || poapConf?.end_time) && (
           <p className="text-[24px] md:text-[14px] leading-[32px] md:leading-[18px] text-[#696679]">
             结束时间: <span>{loading ? '...' : !poapConf?.end_time || poapConf?.end_time == -1 ? '不限' : transferDate(poapConf.end_time)}</span>
           </p>
         )}
       </div>
-      {isMobile && (
-        <p className="mt-[32px] text-[28px] leading-[32px] text-[#37334C] align-middle">
-          可领取{' '}
-          <span className="text-[#6953EF] font-medium mx-[2px]">{loading ? '...' : !!poapConf && poapConf.count && poapConf.count === -1 ? '无限' : poapConf?.count ?? 0}</span> 次
-        </p>
-      )}
+      <p className="md:hidden mt-[32px] text-[28px] leading-[32px] text-[#37334C] align-middle">
+        可领取{' '}
+        <span className="text-[#6953EF] font-medium mx-[2px]">{loading ? '...' : !!poapConf && poapConf.count && poapConf.count === -1 ? '无限' : poapConf?.count ?? 0}</span> 次
+      </p>
       <div className="flex flex-col items-center">
         <AuthConnectButton type="rectangle">
           <ClaimButton commandNeeded={!!poapConf?.command_needed} />
