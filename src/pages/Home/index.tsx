@@ -88,7 +88,7 @@ const Home: React.FC = () => {
           target="_blank"
           className="mt-[42px] md:mt-[12px] text-[28px] md:text-[16px] leading-[36px] md:leading-[22px] text-[#6953EF] border-b-2 md:border-b-0 border-[#6953EF]"
         >
-          去 Anyweb 查看&gt;
+          去 AnyWeb 查看&gt;
         </a>
       </div>
     </div>

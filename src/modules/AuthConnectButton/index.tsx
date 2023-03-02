@@ -8,7 +8,7 @@ const CircleConnectButton: React.FC = () => {
       className="flex flex-row items-center px-[24px] md:px-[16px] h-[64px] md:h-[42px]  text-[#6953EF] text-[24px] md:text-[16px] leading-[32px] md:leading-[22px] border-[2px] border-[1px] border-[#6953EF] rounded-[32px] rounded-[21px]"
     >
       <img src={Unconnected} alt="unconnected logo" className="w-[16px] md:w-[10px] h-[16px] md:h-[10px] mr-[16px] md:mr-[8px] select-none" draggable={false} />
-      连接Anyweb
+      连接AnyWeb
     </button>
   );
 };
