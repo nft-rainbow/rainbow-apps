@@ -8,12 +8,20 @@ import { showToast } from '@components/showToast';
 
 interface Account {
   address: Array<string | null | undefined>;
+  code: string;
 }
 
 export const provider = new Provider({
   logger: null,
   appId: '2889ac44-fd99-4867-a33a-282273b4963b',
 });
+
+export const accessCodeState = atom<string | null | undefined>({
+  key: 'accesCodeState',
+  default: null
+});
+
+export const getCode = () => getRecoil(accessCodeState);
 
 export const accountState = atom<string | null | undefined>({
   key: 'accountState',
@@ -30,6 +38,7 @@ export const accountState = atom<string | null | undefined>({
           .then((isLogined) => {
             if (!isLogined) {
               setSelf(null);
+              setRecoil(accessCodeState, null);
             } else {
               provider
                 .request({
@@ -43,10 +52,11 @@ export const accountState = atom<string | null | undefined>({
                 })
                 .then((result) => {
                   const account = result as Account;
-                  const { address } = account;
+                  const { address, code: accessCode } = account;
                   setSelf(address?.[0]);
+                  setRecoil(accessCodeState, accessCode);
                   if (address?.[0]) {
-                    doShare(address[0]);
+                    doShare(address[0], accessCode);
                   }
                 });
             }
@@ -69,10 +79,11 @@ export const connect = async () => {
     })
     .then((result) => {
       const account = result as Account;
-      const { address } = account;
+      const { address, code: accessCode } = account;
       setRecoil(accountState, address?.[0]);
+      setRecoil(accessCodeState, accessCode);
       if (address?.[0]) {
-        doShare(address[0]);
+        doShare(address[0], accessCode);
       }
     })
     .catch((err) => {

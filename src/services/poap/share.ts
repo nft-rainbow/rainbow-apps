@@ -1,7 +1,7 @@
 import { fetchApi } from '@utils/fetch/fetchApi';
 import { showToast } from '@components/showToast';
 
-export const doShare = (receiver: string) => {
+export const doShare = (receiver: string, accessCode?: string) => {
   const url = new URL(location.href);
   const searchParams = new URLSearchParams(url.search);
   const activity_id = searchParams.get('activity_id');
@@ -14,6 +14,7 @@ export const doShare = (receiver: string) => {
         activity_id: activity_id,
         receiver,
         sharer,
+        code: accessCode
       },
     })
       .then((shareRes) => {
