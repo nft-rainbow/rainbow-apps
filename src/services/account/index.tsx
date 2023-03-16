@@ -13,7 +13,7 @@ interface Account {
 
 export const provider = new Provider({
   logger: null,
-  appId: '2889ac44-fd99-4867-a33a-282273b4963b',
+  appId: '0100ec60-fb4d-4956-9827-3fdccebad751',
 });
 
 export const accessCodeState = atom<string | null | undefined>({
