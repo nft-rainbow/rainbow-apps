@@ -20,7 +20,7 @@ export interface ActivityConf {
   rainbow_user_id: number;
   contract_type: number;
   contract_address: string;
-  is_command: boolean;
+  is_command: string;
   contract_id: number;
   max_mint_count: number;
   activity_picture_url: string;

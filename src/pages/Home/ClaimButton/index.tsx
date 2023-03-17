@@ -57,7 +57,7 @@ export const ClaimButton: React.FC<{ commandNeeded: boolean }> = ({ commandNeede
       className={cx(
         'mt-[60px] md:mt-[24px] flex justify-center items-center h-[104px] md:h-[54px] w-[654px] md:w-[300px] bg-[#6953EF] rounded-[8px] md:rounded-[4px] text-[32px] md:text-[16px] font-medium leading-[40px] md:leading-[22px] text-[#ffffff]',
         //TODO:comment 2 lines below to test command button
-        (loading || !(poapConf && poapConf?.count && poapConf.count > 0)) && 'opacity-30 pointer-events-none',
+        (loading || !(poapConf && poapConf?.count && (poapConf.count > 0 || poapConf.count === -1))) && 'opacity-30 pointer-events-none',
         inTranscation && 'pointer-events-none'
       )}
     >
