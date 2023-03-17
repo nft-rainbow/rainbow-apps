@@ -80,7 +80,7 @@ const Home: React.FC = () => {
       </p>
       <div className="flex flex-col items-center">
         <AuthConnectButton type="rectangle">
-          <ClaimButton commandNeeded={!!poapConf?.command_needed} />
+          <ClaimButton commandNeeded={!!poapConf?.is_command} />
         </AuthConnectButton>
         <ShareButton activityId={activityId} />
         <a

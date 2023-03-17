@@ -3,7 +3,7 @@ import { setRecoil, getRecoil } from 'recoil-nexus';
 import { Provider } from '@idealight-labs/anyweb-js-sdk';
 import { persistAtom } from '@utils/recoilUtils';
 import { isProduction } from '@utils/consts';
-import { doShare } from '@services/poap';
+import { doShare, postCode } from '@services/poap';
 import { showToast } from '@components/showToast';
 
 interface Account {
@@ -18,7 +18,7 @@ export const provider = new Provider({
 
 export const accessCodeState = atom<string | null | undefined>({
   key: 'accesCodeState',
-  default: null
+  default: null,
 });
 
 export const getCode = () => getRecoil(accessCodeState);
@@ -56,7 +56,10 @@ export const accountState = atom<string | null | undefined>({
                   setSelf(address?.[0]);
                   setRecoil(accessCodeState, accessCode);
                   if (address?.[0]) {
-                    doShare(address[0], accessCode);
+                    doShare(address[0]);
+                    if (accessCode) {
+                      postCode(address[0], accessCode);
+                    }
                   }
                 });
             }
@@ -83,7 +86,10 @@ export const connect = async () => {
       setRecoil(accountState, address?.[0]);
       setRecoil(accessCodeState, accessCode);
       if (address?.[0]) {
-        doShare(address[0], accessCode);
+        doShare(address[0]);
+        if (accessCode) {
+          postCode(address[0], accessCode);
+        }
       }
     })
     .catch((err) => {
@@ -97,7 +103,7 @@ export const disconnect = async () => {
     .request({
       method: 'anyweb_revoke',
     })
-    .then(() => { });
+    .then(() => {});
 };
 
 export const sendTransaction = (params: any) =>
