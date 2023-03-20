@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+.bg-circle-purple {
+  position: absolute;
+  width: 727px;
+  height: 727px;
+  left: 529px;
+  top: 947px;
+  background: rgba(125, 31, 249, 0.5);
+  opacity: 0.6;
+  filter: blur(100px);
+}
+
+.bg-circle-blue {
+  position: absolute;
+  width: 1106.73px;
+  height: 995.29px;
+  left: -1024px;
+  top: 1399.79px;
+  background: #00a8fe;
+  opacity: 0.6;
+  filter: blur(150px);
+  transform: rotate(-44.22deg);
+}
+
+.desc a{
+  width: fit-content;
+  color:#6953EF;
+  border-bottom: 2px solid #6953EF;
+}
+.desc a::after{
+  content:'>';
+}
