@@ -1,6 +1,8 @@
 import { isEqual } from 'lodash-es';
 import { showToast } from '@components/showToast';
 import { isFunction, isPromise } from '../is';
+import { isProduction } from '@utils/consts';
+
 const isLocalhost = globalThis.location.hostname === 'localhost' || globalThis.location.hostname === '127.0.0.1';
 
 interface FetchParams {
@@ -32,13 +34,14 @@ export function fetchApi() {
       method: method,
     };
     if (method == 'GET') delete requestParams.body;
+    const fetchUrl = isLocalhost ? `/api/${path}` : (isProduction ? `https://console.nftrainbow.cn/apps/${path}` : `http://dev.nftrainbow.cn/apps/${path}`);
     if (method == 'POST')
-      fetcher = fetch(isLocalhost ? `/api/${path}` : `http://dev.nftrainbow.cn/apps/${path}`, {
+      fetcher = fetch(fetchUrl, {
         ...requestParams,
         headers: { 'content-Type': 'application/json' },
       }).then((response) => response.json());
     else {
-      fetcher = fetch(isLocalhost ? `/api/${path}` : `http://dev.nftrainbow.cn/apps/${path}`, requestParams).then((response) => response.json());
+      fetcher = fetch(fetchUrl, requestParams).then((response) => response.json());
     }
   }
 
