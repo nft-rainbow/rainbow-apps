@@ -1,0 +1,51 @@
+.popper {
+  @apply will-change-transform;
+}
+
+.popper--default {
+  @apply max-w-[280px] px-[10px] pt-[7px] pb-[6px] rounded-[6px] text-[14px] leading-[16px] border-gray-300 border-[1px] border-solid text-black bg-white whitespace-normal break-words;
+}
+.popper--custom {
+  @apply w-fit p-0 rounded-none text-inherit;
+}
+
+.popper[data-placement^='top'] {
+  @apply origin-bottom;
+}
+
+.popper[data-placement^='top'] > .popper-arrow {
+  @apply -bottom-[4px];
+}
+
+.popper[data-placement^='bottom'] {
+  @apply origin-top;
+}
+
+.popper[data-placement^='bottom'] > .popper-arrow {
+  @apply -top-[4px];
+}
+
+.popper[data-placement^='left'] {
+  @apply origin-right;
+}
+
+.popper[data-placement^='left'] > .popper-arrow {
+  @apply -right-[4px];
+}
+
+.popper[data-placement^='right'] {
+  @apply origin-left;
+}
+
+.popper[data-placement^='right'] > .popper-arrow {
+  @apply -left-[4px];
+}
+
+.popper-arrow {
+  @apply absolute w-[8px] h-[8px] bg-inherit -z-10 invisible;
+}
+
+.popper-arrow::before {
+  @apply absolute w-[8px] h-[8px] bg-inherit rotate-45 visible border-[1px] border-solid border-transparent border-b-gray-300 border-r-gray-300;
+  content: '';
+}

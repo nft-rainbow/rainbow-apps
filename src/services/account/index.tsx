@@ -1,121 +1,104 @@
-import { atom, useRecoilValue } from 'recoil';
+import { atom, selector, useRecoilValue } from 'recoil';
 import { setRecoil, getRecoil } from 'recoil-nexus';
-import { Provider } from '@idealight-labs/anyweb-js-sdk';
 import { persistAtom } from '@utils/recoilUtils';
-import { isProduction } from '@utils/consts';
-import { doShare, postCode } from '@services/poap';
-import { showToast } from '@components/showToast';
+import {
+  accountState as anywebAccountState,
+  connect as connectAnyweb,
+  disconnect as disconnectAnyweb,
+  switchChain as switchChainAnyweb,
+  sendTransaction as sendTransactionWithAnyweb,
+} from './anyweb';
+import {
+  accountState as cellarAccountState,
+  connect as connectCellar,
+  disconnect as disconnectCellar,
+  switchChain as switchChainCellar,
+  sendTransaction as sendTransactionWithCellar,
+} from './cellar';
+import { type sendTransaction as sendTransactionWithFluent } from '@cfxjs/use-wallet-react/conflux';
 
-interface Account {
-  address: Array<string | null | undefined>;
-  code: string;
-}
+const methodsMap = {
+  anyweb: {
+    accountState: anywebAccountState,
+    connect: connectAnyweb,
+    switchChain: switchChainAnyweb,
+    sendTransaction: sendTransactionWithAnyweb,
+    disconnect: disconnectAnyweb,
+  },
+  cellar: {
+    accountState: cellarAccountState,
+    connect: connectCellar,
+    switchChain: switchChainCellar,
+    sendTransaction: sendTransactionWithCellar,
+    disconnect: disconnectCellar,
+  },
+} as const;
 
-export const provider = new Provider({
-  logger: null,
-  appId: '0100ec60-fb4d-4956-9827-3fdccebad751',
-});
+type Methods = keyof typeof methodsMap;
 
-export const accessCodeState = atom<string | null | undefined>({
-  key: 'accesCodeState',
+export const accountMethodFilter = atom<Methods | null>({
+  key: 'accountMethodFilter',
   default: null,
+  effects: [persistAtom],
 });
 
-export const getCode = () => getRecoil(accessCodeState);
+export const accountState = selector({
+  key: 'account',
+  get: ({ get }) => {
+    const filter = get(accountMethodFilter);
+    if (!filter || !methodsMap[filter]) return null;
 
-export const accountState = atom<string | null | undefined>({
-  key: 'accountState',
-  default: null,
-  effects: [
-    persistAtom,
-    ({ setSelf }) => {
-      provider.on('ready', () => {
-        provider
-          .request({
-            method: 'anyweb_loginstate',
-            params: [],
-          })
-          .then((isLogined) => {
-            if (!isLogined) {
-              setSelf(null);
-              setRecoil(accessCodeState, null);
-            } else {
-              provider
-                .request({
-                  method: 'cfx_accounts',
-                  params: [
-                    {
-                      availableNetwork: [isProduction ? 1029 : 1],
-                      scopes: ['baseInfo', 'identity'],
-                    },
-                  ],
-                })
-                .then((result) => {
-                  const account = result as Account;
-                  const { address, code: accessCode } = account;
-                  setSelf(address?.[0]);
-                  setRecoil(accessCodeState, accessCode);
-                  if (address?.[0]) {
-                    doShare(address[0]);
-                    if (accessCode) {
-                      postCode(address[0], accessCode);
-                    }
-                  }
-                });
-            }
-          });
-      });
-    },
-  ],
+    const { accountState } = methodsMap[filter];
+    return get(accountState);
+  },
 });
 
-export const connect = async () => {
-  provider
-    .request({
-      method: 'cfx_accounts',
-      params: [
-        {
-          availableNetwork: [isProduction ? 1029 : 1],
-          scopes: ['baseInfo', 'identity'],
-        },
-      ],
-    })
-    .then((result) => {
-      const account = result as Account;
-      const { address, code: accessCode } = account;
-      setRecoil(accountState, address?.[0]);
-      setRecoil(accessCodeState, accessCode);
-      if (address?.[0]) {
-        doShare(address[0]);
-        if (accessCode) {
-          postCode(address[0], accessCode);
-        }
-      }
-    })
-    .catch((err) => {
-      showToast({ content: `连接账户失败: ${err}`, type: 'failed' });
-      console.error(err);
-    });
+export const chainIdState = selector({
+  key: 'chainIdState',
+  get: ({ get }) => {
+    const filter = get(accountMethodFilter);
+    if (!filter) return null;
+
+    const account = get(accountState);
+    if (!account) return null;
+    if (account.startsWith('cfxtest')) return '1';
+    return '1029';
+  },
+});
+
+export const getAccountMethod = () => getRecoil(accountMethodFilter);
+export const getAccount = () => getRecoil(accountState);
+
+export const connect = async (method: Methods) => {
+  try {
+    await methodsMap[method].connect();
+    setRecoil(accountMethodFilter, method);
+  } catch (err) {
+    throw err;
+  }
 };
 
-export const disconnect = async () => {
-  provider
-    .request({
-      method: 'anyweb_revoke',
-    })
-    .then(() => {});
+export const disconnect = async (method: Methods) => {
+  try {
+    await methodsMap[method].disconnect();
+    setRecoil(accountMethodFilter, null);
+  } catch (_) {}
 };
 
-export const sendTransaction = (params: any) =>
-  provider.request({
-    method: 'cfx_sendTransaction',
-    params: [
-      {
-        ...params,
-        from: getRecoil(accountState),
-      },
-    ],
-  });
+export const switchChain = () => {
+  const method = getAccountMethod();
+  if (!method) return;
+  methodsMap[method].switchChain();
+};
+
+export const sendTransaction = async (params: Parameters<typeof sendTransactionWithFluent>[0] & { from: string }) => {
+  const accountMethod = getAccountMethod();
+  if (!accountMethod) {
+    throw new Error('No account connected');
+  }
+  return methodsMap[accountMethod].sendTransaction(params) as unknown as string;
+};
 
 export const useAccount = () => useRecoilValue(accountState);
-export const getAccount = () => getRecoil(accountState);
+export const useAccountMethod = () => useRecoilValue(accountMethodFilter);
+export const useChainId = () => useRecoilValue(chainIdState);
