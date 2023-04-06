@@ -5,7 +5,11 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      boxShadow: {
+        modal: '0px 4px 8px rgba(0, 0, 0, 0.03)'
+      }
+    },
   },
   plugins: [],
 }
