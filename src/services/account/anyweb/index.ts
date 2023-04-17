@@ -4,6 +4,7 @@ import { persistAtom } from '@utils/recoilUtils';
 import { Provider } from '@idealight-labs/anyweb-js-sdk';
 import { isProduction } from '@utils/consts';
 import { sendTransaction as send } from '@cfxjs/use-wallet-react/conflux/Fluent';
+import { hideModal } from '@components/showModal';
 
 export const provider = new Provider({
   logger: console,
@@ -64,6 +65,7 @@ export const connect = async () =>
       ],
     })
     .then((result) => {
+      hideModal();
       const account = result as Account;
       const { address } = account;
       setRecoil(accountState, address[0]);

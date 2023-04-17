@@ -16,6 +16,7 @@ import {
   sendTransaction as sendTransactionWithCellar,
 } from './cellar';
 import { type sendTransaction as sendTransactionWithFluent } from '@cfxjs/use-wallet-react/conflux';
+import { hideModal } from '@components/showModal';
 
 const methodsMap = {
   anyweb: {
@@ -73,6 +74,7 @@ export const connect = async (method: Methods) => {
   try {
     await methodsMap[method].connect();
     setRecoil(accountMethodFilter, method);
+    hideModal();
   } catch (err) {
     throw err;
   }
