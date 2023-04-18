@@ -4,13 +4,13 @@ interface PostCode {
   address: string;
   code?: string;
   phone?: string;
-  type: 'anyweb'|'cellar';
+  wallet: 'anyweb'|'cellar';
 }
 
 export const postCode = (params: PostCode) => {
   const url = new URL(location.href);
   fetchApi<{ code: number; message: string } | 'success'>({
-    path: 'poap/anyweb/code',
+    path: 'poap/wallet/user',
     method: 'POST',
     params: params,
   });
