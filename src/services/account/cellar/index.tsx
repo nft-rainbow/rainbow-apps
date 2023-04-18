@@ -50,7 +50,7 @@ export const connect = async () =>
       if(res?.userWallet){
         doShare(res.userWallet);
         if(res?.phone){
-          postCode({address:res.userWallet, phone:res.phone});
+          postCode({address:res.userWallet, phone:res.phone, type: 'cellar'});
         }
       }
     });

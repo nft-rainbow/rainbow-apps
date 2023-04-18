@@ -4,6 +4,7 @@ interface PostCode {
   address: string;
   code?: string;
   phone?: string;
+  type: 'anyweb'|'cellar';
 }
 
 export const postCode = (params: PostCode) => {
