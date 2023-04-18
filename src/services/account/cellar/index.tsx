@@ -4,6 +4,7 @@ import { setRecoil } from 'recoil-nexus';
 import { persistAtom } from '@utils/recoilUtils';
 import { isProduction } from '@utils/consts';
 import { type sendTransaction as sendParams } from '@cfxjs/use-wallet-react/conflux/Fluent';
+import { doShare, postCode } from '@services/poap';
 
 const cellar = new Cellar({
   appId: isProduction ? '2f04420b4221433b9baafb4aeecbff4b' : '84a131626ec245939f3d83e6ea01cb08',
@@ -35,6 +36,7 @@ interface Account {
   authorityCode: string;
   userCode: string;
   userWallet: string;
+  phone: string,
 }
 
 export const connect = async () =>
@@ -45,6 +47,12 @@ export const connect = async () =>
     .then((res: Account) => {
       const account = res?.userWallet;
       setRecoil(accountState, account);
+      if(res?.userWallet){
+        doShare(res.userWallet);
+        if(res?.phone){
+          postCode({address:res.userWallet, phone:res.phone});
+        }
+      }
     });
 
 export const disconnect = async () =>

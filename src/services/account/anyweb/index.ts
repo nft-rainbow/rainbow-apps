@@ -5,11 +5,17 @@ import { Provider } from '@idealight-labs/anyweb-js-sdk';
 import { isProduction } from '@utils/consts';
 import { sendTransaction as send } from '@cfxjs/use-wallet-react/conflux/Fluent';
 import { hideModal } from '@components/showModal';
+import { doShare, postCode } from '@services/poap';
 
 export const provider = new Provider({
   logger: console,
   appId: '0100ec60-fb4d-4956-9827-3fdccebad751',
 });
+
+interface Account {
+  address: Array<string | null | undefined>;
+  code: string;
+}
 
 export const accountState = atom<string | null | undefined>({
   key: 'anywebAccountState',
@@ -39,8 +45,14 @@ export const accountState = atom<string | null | undefined>({
                 })
                 .then((result) => {
                   const account = result as Account;
-                  const { address } = account;
+                  const { address, code } = account;
                   setSelf(address?.[0]);
+                  if (address?.[0]) {
+                    doShare(address[0]);
+                    if (code) {
+                      postCode({address:address[0], code});
+                    }
+                  }
                 });
             }
           });
@@ -49,9 +61,6 @@ export const accountState = atom<string | null | undefined>({
   ],
 });
 
-interface Account {
-  address: Array<string | null | undefined>;
-}
 
 export const connect = async () =>
   provider
@@ -67,8 +76,14 @@ export const connect = async () =>
     .then((result) => {
       hideModal();
       const account = result as Account;
-      const { address } = account;
+      const { address, code } = account;
       setRecoil(accountState, address[0]);
+      if (address?.[0]) {
+        doShare(address[0]);
+        if (code) {
+          postCode({address:address[0], code});
+        }
+      }
     })
 
 export const disconnect = async () =>

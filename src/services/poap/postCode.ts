@@ -1,13 +1,16 @@
 import { fetchApi } from '@utils/fetch/fetchApi';
 
-export const postCode = (address: string, code: string) => {
+interface PostCode {
+  address: string;
+  code?: string;
+  phone?: string;
+}
+
+export const postCode = (params: PostCode) => {
   const url = new URL(location.href);
   fetchApi<{ code: number; message: string } | 'success'>({
     path: 'poap/anyweb/code',
     method: 'POST',
-    params: {
-        address,
-        code,
-    },
+    params: params,
   });
 };
