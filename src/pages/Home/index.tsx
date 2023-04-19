@@ -11,14 +11,13 @@ import Tooltip from '@components/Tooltip';
 import Spin from '@components/Spin';
 import Label from '@components/Label';
 import ShareButton from './ShareButton';
-import { getHash, getHashURL } from '@services/poap/getHash';
 
 const Home: React.FC = () => {
   const activityId = useActivityId()!;
   const { value: poapConf, loading } = usePoapConfig(activityId);
   const [isCopied, copy] = useClipboard(poapConf?.contract_address ?? '', { successDuration: 1000 });
-  const [hashURL,sethashURL] = useState(getHashURL());
-  
+  const [hashURL, setHashURL] = useState('');
+
   return (
     <div className="px-[48px] pt-[42px] md:pt-[42px] flex flex-col items-start md:items-center">
       <div className="relative w-[654px] md:w-[300px] h-[654px] md:h-[300px]">
@@ -77,24 +76,21 @@ const Home: React.FC = () => {
         )}
       </div>
 
-      <div className='flex md:hidden mt-[32px] justify-between w-[100%]'>
-        {poapConf?.count !== -1 &&
+      <div className="flex md:hidden mt-[32px] justify-between w-[100%]">
+        {poapConf?.count !== -1 && (
           <p className=" text-[28px] leading-[32px] text-[#37334C] align-middle">
             可领取{' '}
-            <span className="text-[#6953EF] font-medium mx-[2px]">{loading ? '...' : !!poapConf && poapConf.count && poapConf.count === -1 ? '无限' : poapConf?.count ?? 0}</span> 次
+            <span className="text-[#6953EF] font-medium mx-[2px]">{loading ? '...' : !!poapConf && poapConf.count && poapConf.count === -1 ? '无限' : poapConf?.count ?? 0}</span>{' '}
+            次
           </p>
-        }
-        <a
-          href={hashURL}
-          target="_blank"
-          className="text-[28px] leading-[36px] text-[#6953EF]"
-        >
+        )}
+        <a href={hashURL} target="_blank" className="text-[28px] leading-[36px] text-[#6953EF]">
           最近一次领取结果&gt;
         </a>
       </div>
       <div className="flex flex-col items-center">
         <AuthConnectButton type="rectangle">
-          <ClaimButton commandNeeded={!!poapConf?.is_command} />
+          <ClaimButton commandNeeded={!!poapConf?.is_command} setHashURL={setHashURL} />
         </AuthConnectButton>
         <ShareButton activityId={activityId} />
       </div>

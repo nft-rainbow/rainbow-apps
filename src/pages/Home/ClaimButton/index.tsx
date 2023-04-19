@@ -5,7 +5,7 @@ import useInTranscation from '@hooks/useInTranscation';
 import { usePoapConfig, handleClaim as _handleClaim, getTransaction } from '@services/poap';
 import { showModal, hideModal } from '@components/showModal';
 import { useCallback, useEffect } from 'react';
-import { getHash } from '@services/poap/getHash';
+import { getHash, getHashURL } from '@services/poap/getHash';
 
 interface ModalContentProps {
   activityId: string;
@@ -41,26 +41,30 @@ const ModalContent: React.FC<ModalContentProps> = ({ activityId }) => {
   );
 };
 
-export const ClaimButton: React.FC<{ commandNeeded: boolean }> = ({ commandNeeded }) => {
+export const ClaimButton: React.FC<{ commandNeeded: boolean; setHashURL: (url: string) => void }> = ({ commandNeeded, setHashURL }) => {
   const activityId = useActivityId()!;
   const { value: poapConf, loading } = usePoapConfig(activityId);
   const { inTranscation, execTranscation: handleClaim } = useInTranscation(_handleClaim);
-  useEffect(()=>{
-    const getHashURLInit = setInterval(()=>{
-      getHash({activityId,id:localStorage.getItem('claim_id')})
-      .then((res:any)=>{
-        if(res.hash){
-          localStorage.setItem('hash', res.hash);
-          clearInterval(getHashURLInit);
-          // sethashURL(getHashURL);
-        }
-      })
-      .catch(()=>{
+  useEffect(() => {
+    if (localStorage.getItem('claim_id')) {
+      const getHashURLInit = setInterval(() => {
+        getHash({ activityId, id: localStorage.getItem('claim_id') })
+          .then((res: any) => {
+            if (res.hash) {
+              localStorage.setItem('hash', res.hash);
+              clearInterval(getHashURLInit);
+              setHashURL(getHashURL());
+            }
+          })
+          .catch(() => {
+            clearInterval(getHashURLInit);
+          });
+      }, 3000);
+      return () => {
         clearInterval(getHashURLInit);
-      })
-    },3000);
-    return ()=>{clearInterval(getHashURLInit)};
-  },[])
+      };
+    }
+  }, []);
   const handleOnClaim = useCallback(() => {
     if (commandNeeded) {
       showModal({ content: <ModalContent activityId={activityId} />, className: 'top-[22%] md:top-0 w-[654px] md:w-[480px] max-w-[654px] md:max-w-[480px]' });
@@ -69,18 +73,22 @@ export const ClaimButton: React.FC<{ commandNeeded: boolean }> = ({ commandNeede
     handleClaim({ activityId }).then(() => {
       let id = getTransaction()?.id;
       localStorage.setItem('claim_id', id !== undefined ? id.toString() : '');
-      const getHashURL = setInterval(() => {
+      const getHashURLInit = setInterval(() => {
         getHash({ activityId, id: localStorage.getItem('claim_id') })
           .then((res: any) => {
             if (res.hash) {
               localStorage.setItem('hash', res.hash);
-              clearInterval(getHashURL);
+              clearInterval(getHashURLInit);
+              setHashURL(getHashURL());
             }
-          }).catch(() => {
-            clearInterval(getHashURL);
           })
-      }, 3000)
-      return () => { clearInterval(getHashURL) };
+          .catch(() => {
+            clearInterval(getHashURLInit);
+          });
+      }, 3000);
+      return () => {
+        clearInterval(getHashURLInit);
+      };
     });
   }, [commandNeeded]);
 
