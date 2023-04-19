@@ -2,13 +2,15 @@ import cx from 'clsx';
 import { useForm, FieldValues } from 'react-hook-form';
 import useActivityId from '@hooks/useActivityId';
 import useInTranscation from '@hooks/useInTranscation';
-import { usePoapConfig, handleClaim as _handleClaim } from '@services/poap';
+import { usePoapConfig, handleClaim as _handleClaim, getTransaction } from '@services/poap';
 import { showModal, hideModal } from '@components/showModal';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
+import { getHash, getHashURL } from '@services/poap/getHash';
 
 interface ModalContentProps {
   activityId: string;
 }
+
 const ModalContent: React.FC<ModalContentProps> = ({ activityId }) => {
   const {
     register,
@@ -39,16 +41,57 @@ const ModalContent: React.FC<ModalContentProps> = ({ activityId }) => {
   );
 };
 
+// export const ClaimButton: React.FC<{ commandNeeded: boolean; setHashURL: (url: string) => void }> = ({ commandNeeded, setHashURL }) => {
 export const ClaimButton: React.FC<{ commandNeeded: boolean }> = ({ commandNeeded }) => {
   const activityId = useActivityId()!;
   const { value: poapConf, loading } = usePoapConfig(activityId);
   const { inTranscation, execTranscation: handleClaim } = useInTranscation(_handleClaim);
+  // useEffect(() => {
+  //   if (localStorage.getItem('claim_id')) {
+  //     const getHashURLInit = setInterval(() => {
+  //       getHash({ activityId, id: localStorage.getItem('claim_id') })
+  //         .then((res: any) => {
+  //           if (res.hash) {
+  //             localStorage.setItem('hash', res.hash);
+  //             clearInterval(getHashURLInit);
+  //             setHashURL(getHashURL());
+  //           }
+  //         })
+  //         .catch(() => {
+  //           clearInterval(getHashURLInit);
+  //         });
+  //     }, 3000);
+  //     return () => {
+  //       clearInterval(getHashURLInit);
+  //     };
+  //   }
+  // }, []);
   const handleOnClaim = useCallback(() => {
     if (commandNeeded) {
       showModal({ content: <ModalContent activityId={activityId} />, className: 'top-[22%] md:top-0 w-[654px] md:w-[480px] max-w-[654px] md:max-w-[480px]' });
       return;
     }
     handleClaim({ activityId });
+    //   .then(() => {
+    //   let id = getTransaction()?.id;
+    //   localStorage.setItem('claim_id', id !== undefined ? id.toString() : '');
+    //   const getHashURLInit = setInterval(() => {
+    //     getHash({ activityId, id: localStorage.getItem('claim_id') })
+    //       .then((res: any) => {
+    //         if (res.hash) {
+    //           localStorage.setItem('hash', res.hash);
+    //           clearInterval(getHashURLInit);
+    //           setHashURL(getHashURL());
+    //         }
+    //       })
+    //       .catch(() => {
+    //         clearInterval(getHashURLInit);
+    //       });
+    //   }, 3000);
+    //   return () => {
+    //     clearInterval(getHashURLInit);
+    //   };
+    // });
   }, [commandNeeded]);
 
   return (
