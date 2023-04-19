@@ -84,13 +84,14 @@ const Home: React.FC = () => {
             次
           </p>
         )}
-        <a href={hashURL} target="_blank" className="text-[28px] leading-[36px] text-[#6953EF]">
+        {/* <a href={hashURL} target="_blank" className="text-[28px] leading-[36px] text-[#6953EF]">
           最近一次领取结果&gt;
-        </a>
+        </a> */}
       </div>
       <div className="flex flex-col items-center">
         <AuthConnectButton type="rectangle">
-          <ClaimButton commandNeeded={!!poapConf?.is_command} setHashURL={setHashURL} />
+          {/* <ClaimButton commandNeeded={!!poapConf?.is_command} setHashURL={setHashURL} /> */}
+          <ClaimButton commandNeeded={!!poapConf?.is_command} />
         </AuthConnectButton>
         <ShareButton activityId={activityId} />
       </div>

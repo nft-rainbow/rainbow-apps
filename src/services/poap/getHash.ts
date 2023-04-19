@@ -11,6 +11,6 @@ export const getHash = async ({ activityId, id }: { activityId: string, id: stri
 
 export const getHashURL = () => {
     const hash = localStorage.getItem('hash');
-    const url = isProduction ?  "https://confluxscan.io/":"https://evmtestnet.confluxscan.io/tx/";
+    const url = isProduction ?  "https://confluxscan.io/":"https://testnet.confluxscan.io/tx/";
     return url + hash;
 }
