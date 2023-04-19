@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ClipBoard from '@assets/clipboard.svg';
 import useClipboard from 'react-use-clipboard';
@@ -11,11 +11,29 @@ import Tooltip from '@components/Tooltip';
 import Spin from '@components/Spin';
 import Label from '@components/Label';
 import ShareButton from './ShareButton';
+import { getHash, getHashURL } from '@services/poap/getHash';
 
 const Home: React.FC = () => {
   const activityId = useActivityId()!;
   const { value: poapConf, loading } = usePoapConfig(activityId);
   const [isCopied, copy] = useClipboard(poapConf?.contract_address ?? '', { successDuration: 1000 });
+  const [hashURL,sethashURL] = useState(getHashURL());
+  useEffect(()=>{
+    const getHashURLInit = setInterval(()=>{
+      getHash({activityId,id:localStorage.getItem('claim_id')})
+      .then((res:any)=>{
+        if(res.hash){
+          localStorage.setItem('hash', res.hash);
+          clearInterval(getHashURLInit);
+          sethashURL(getHashURL);
+        }
+      })
+      .catch(()=>{
+        clearInterval(getHashURLInit);
+      })
+    },3000);
+    return ()=>{clearInterval(getHashURLInit)};
+  },[])
 
   return (
     <div className="px-[48px] pt-[42px] md:pt-[42px] flex flex-col items-start md:items-center">
@@ -74,24 +92,27 @@ const Home: React.FC = () => {
           </p>
         )}
       </div>
-      {poapConf?.count !== -1 &&
-        <p className="md:hidden mt-[32px] text-[28px] leading-[32px] text-[#37334C] align-middle">
-          可领取{' '}
-          <span className="text-[#6953EF] font-medium mx-[2px]">{loading ? '...' : !!poapConf && poapConf.count && poapConf.count === -1 ? '无限' : poapConf?.count ?? 0}</span> 次
-        </p>
-      }
+
+      <div className='flex md:hidden mt-[32px] justify-between w-[100%]'>
+        {poapConf?.count !== -1 &&
+          <p className=" text-[28px] leading-[32px] text-[#37334C] align-middle">
+            可领取{' '}
+            <span className="text-[#6953EF] font-medium mx-[2px]">{loading ? '...' : !!poapConf && poapConf.count && poapConf.count === -1 ? '无限' : poapConf?.count ?? 0}</span> 次
+          </p>
+        }
+        <a
+          href={hashURL}
+          target="_blank"
+          className="text-[28px] leading-[36px] text-[#6953EF]"
+        >
+          最近一次领取结果&gt;
+        </a>
+      </div>
       <div className="flex flex-col items-center">
         <AuthConnectButton type="rectangle">
           <ClaimButton commandNeeded={!!poapConf?.is_command} />
         </AuthConnectButton>
         <ShareButton activityId={activityId} />
-        <a
-          href={'https://app.anyweb.cc/#/pages/index/home'}
-          target="_blank"
-          className="mt-[42px] md:mt-[12px] text-[28px] md:text-[16px] leading-[36px] md:leading-[22px] text-[#6953EF] border-b-2 md:border-b-0 border-[#6953EF]"
-        >
-          去 AnyWeb 查看&gt;
-        </a>
       </div>
     </div>
   );
