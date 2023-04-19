@@ -32,10 +32,10 @@ export const hideModal = () => {
 
 export const ModalRender: React.FC = () => {
   const modal = useRecoilValue(modalState);
-  console.log('modal', modal);
-  if (!modal) return <></>;
+  if (!modal) return null;
+  
   return (
-    <div className="fixed top-0 right-0 bottom-0 left-0 flex flex-col items-center md:justify-center bg-[rgba(0,0,0,0.6)] z-40">
+    <div className="fixed top-0 right-0 bottom-0 left-0 flex flex-col items-center justify-center bg-[rgba(0,0,0,0.6)] z-40">
       <div
         className={cx(
           'relative flex flex-col jusity-center w-[90vw] max-w-[560px] p-[28px] md:p-[16px] rounded-[8px] md:rounded-[2px] bg-white overflow-hidden dropdown-shadow z-50',
