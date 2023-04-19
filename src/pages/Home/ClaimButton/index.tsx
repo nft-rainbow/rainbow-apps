@@ -4,7 +4,7 @@ import useActivityId from '@hooks/useActivityId';
 import useInTranscation from '@hooks/useInTranscation';
 import { usePoapConfig, handleClaim as _handleClaim, getTransaction } from '@services/poap';
 import { showModal, hideModal } from '@components/showModal';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { getHash } from '@services/poap/getHash';
 
 interface ModalContentProps {
@@ -45,6 +45,22 @@ export const ClaimButton: React.FC<{ commandNeeded: boolean }> = ({ commandNeede
   const activityId = useActivityId()!;
   const { value: poapConf, loading } = usePoapConfig(activityId);
   const { inTranscation, execTranscation: handleClaim } = useInTranscation(_handleClaim);
+  useEffect(()=>{
+    const getHashURLInit = setInterval(()=>{
+      getHash({activityId,id:localStorage.getItem('claim_id')})
+      .then((res:any)=>{
+        if(res.hash){
+          localStorage.setItem('hash', res.hash);
+          clearInterval(getHashURLInit);
+          // sethashURL(getHashURL);
+        }
+      })
+      .catch(()=>{
+        clearInterval(getHashURLInit);
+      })
+    },3000);
+    return ()=>{clearInterval(getHashURLInit)};
+  },[])
   const handleOnClaim = useCallback(() => {
     if (commandNeeded) {
       showModal({ content: <ModalContent activityId={activityId} />, className: 'top-[22%] md:top-0 w-[654px] md:w-[480px] max-w-[654px] md:max-w-[480px]' });

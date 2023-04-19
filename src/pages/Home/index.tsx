@@ -18,23 +18,7 @@ const Home: React.FC = () => {
   const { value: poapConf, loading } = usePoapConfig(activityId);
   const [isCopied, copy] = useClipboard(poapConf?.contract_address ?? '', { successDuration: 1000 });
   const [hashURL,sethashURL] = useState(getHashURL());
-  useEffect(()=>{
-    const getHashURLInit = setInterval(()=>{
-      getHash({activityId,id:localStorage.getItem('claim_id')})
-      .then((res:any)=>{
-        if(res.hash){
-          localStorage.setItem('hash', res.hash);
-          clearInterval(getHashURLInit);
-          sethashURL(getHashURL);
-        }
-      })
-      .catch(()=>{
-        clearInterval(getHashURLInit);
-      })
-    },3000);
-    return ()=>{clearInterval(getHashURLInit)};
-  },[])
-
+  
   return (
     <div className="px-[48px] pt-[42px] md:pt-[42px] flex flex-col items-start md:items-center">
       <div className="relative w-[654px] md:w-[300px] h-[654px] md:h-[300px]">
