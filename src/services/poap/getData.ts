@@ -18,8 +18,19 @@ export interface ActivityConf {
   end_time: number;
   start_time: number;
   rainbow_user_id: number;
-  contract_type: number;
-  contract_address: string;
+  // contract_type: number;
+  // contract_address: string;
+  contract: {
+    chain_id: number;
+    chain_type: number;
+    contract_address: string;
+    contract_raw_id: number;
+    contract_type: number;
+    create_at: string;
+    delete_at: string;
+    update_at: string;
+    id: number;
+  };
   is_command: string;
   contract_id: number;
   max_mint_count: number;

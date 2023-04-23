@@ -15,7 +15,7 @@ import ShareButton from './ShareButton';
 const Home: React.FC = () => {
   const activityId = useActivityId()!;
   const { value: poapConf, loading } = usePoapConfig(activityId);
-  const [isCopied, copy] = useClipboard(poapConf?.contract_address ?? '', { successDuration: 1000 });
+  const [isCopied, copy] = useClipboard(poapConf?.contract?.contract_address ?? '', { successDuration: 1000 });
   const [hashURL, setHashURL] = useState('');
 
   return (
@@ -51,9 +51,9 @@ const Home: React.FC = () => {
         <p className="mt-[24px] md:mt-[0px] text-[28px] md:text-[14px] leading-[36px] md:leading-[18px] font-medium md:font-normal text-[#37334C] md:text-[#696679]">合约地址</p>
         <span className="hidden md:inline md:text-[14px] md:leading-[18px]">：</span>
         <div className="mt-[12px] md:mt-[0px] flex flex-row items-center text-[#696679] md:text-[14px] md:leading-[18px]">
-          <p className="text-[24px] md:text-[14px] leading-[32px] md:leading-[18px]">{loading ? '...' : `${poapConf?.contract_address}`}</p>
-          {!loading && poapConf?.contract_address && (
-            <Tooltip content="复制成功" visible={isCopied}>
+          <p className="text-[24px] md:text-[14px] leading-[32px] md:leading-[18px]">{loading ? '...' : `${poapConf?.contract?.contract_address}`}</p>
+          {!loading && poapConf?.contract?.contract_address && (
+            <Tooltip className='w-[128px] md:w-[100px] h-[48px] md:h-[34px] text-[24px] md:text-[14px] flex justify-center items-center' content="复制成功" visible={isCopied}>
               <img src={ClipBoard} alt="clipboard logo" className="ml-[8px] w-[32px] md:w-[16px] h-[32px] md:h-[16px] cursor-pointer" onClick={copy} />
             </Tooltip>
           )}
