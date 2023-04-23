@@ -92,6 +92,7 @@ const Home: React.FC = () => {
         <AuthConnectButton type="rectangle">
           <ClaimButton commandNeeded={!!poapConf?.is_command} setHashURL={setHashURL} />
         </AuthConnectButton>
+
         <ShareButton activityId={activityId} />
         <a href={hashURL} target="_blank" className="hidden md:block md:text-[16px] leading-[24px] text-[#6953EF]">
           最近一次领取结果&gt;
