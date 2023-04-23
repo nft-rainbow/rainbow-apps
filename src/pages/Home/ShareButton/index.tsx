@@ -22,7 +22,7 @@ const ShareButton: React.FC<{ activityId: string }> = ({ activityId }) => {
   const handleShare = useCallback(() => {
     showModal({ content: <ModalContent activityId={activityId} />, className: 'w-[320px] md:w-[320px]' });
   }, []);
-  if (!isMobile) {
+  if (isMobile) {
     return (
       <Link
         to={`share/?activity_id=${activityId}`}
