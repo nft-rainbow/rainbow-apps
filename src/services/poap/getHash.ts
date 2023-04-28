@@ -1,16 +1,22 @@
 import { isProduction } from '@utils/consts';
 import { fetchApi } from '@utils/fetch/fetchApi';
 
-export const getHash = async ({ activityId, id }: { activityId: string, id: string | null }) => {
-    const res = await fetchApi<{ activity_id: string, id: string | null }>({
-        path: `poap/activity/result/${activityId}/${id}`,
+export interface ClaimList {
+    activity_id: string,
+    id: number,
+}
+
+export const getHash = async ({ activityId }: { activityId: string }) => {
+    const res = await fetchApi<{ count: number, items: Array<ClaimList> }>({
+        path: `poap/activity/result/${activityId}?page=1&limit=1`,
         method: 'GET',
-    })
-    return res;
+    });
+    return res?.items[0];
+
 }
 
 export const getHashURL = () => {
     const hash = localStorage.getItem('hash');
-    const url = isProduction ?  "https://confluxscan.io/":"https://testnet.confluxscan.io/tx/";
+    const url = isProduction ? "https://confluxscan.io/" : "https://testnet.confluxscan.io/tx/";
     return url + hash;
 }
