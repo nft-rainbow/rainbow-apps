@@ -1,8 +1,6 @@
-import useActivityId from '@hooks/useActivityId';
 import { getAccount } from '@services/account';
 import { isProduction } from '@utils/consts';
 import { fetchApi } from '@utils/fetch/fetchApi';
-import { usePoapConfig } from './getData';
 import { Transaction } from './mint';
 
 export const getTokenId = async (activityId: string) => {
@@ -15,7 +13,6 @@ export const getTokenId = async (activityId: string) => {
 };
 
 export const getHashURL = () => {
-  const hash = localStorage.getItem('hash');
   const token_id = localStorage.getItem('token_id');
   const contract_address = localStorage.getItem('contract_address');
   const url = isProduction ? 'https://confluxscan.net/nft/' : 'https://testnet.confluxscan.net/nft/';

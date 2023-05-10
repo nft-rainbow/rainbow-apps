@@ -69,22 +69,6 @@ export const ClaimButton: React.FC<{ commandNeeded: boolean; setHashURL: (url: s
         };
       }
     });
-    // const getHashURLInit = setInterval(() => {
-    //   getTokenId(activityId)
-    //     .then((res) => {
-    //       if (res.token_id) {
-    //         localStorage.setItem('token_id', res.token_id);
-    //         clearInterval(getHashURLInit);
-    //         setHashURL(getHashURL());
-    //       }
-    //     })
-    //     .catch(() => {
-    //       clearInterval(getHashURLInit);
-    //     });
-    // }, 3000);
-    // return () => {
-    //   clearInterval(getHashURLInit);
-    // };
   }, []);
   const handleOnClaim = useCallback(() => {
     if (commandNeeded) {
