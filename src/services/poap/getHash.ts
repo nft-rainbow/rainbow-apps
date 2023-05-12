@@ -14,6 +14,7 @@ export const getTokenId = async (activityId: string) => {
 
 export const getHashURL = () => {
   const token_id = localStorage.getItem('token_id');
+  if (!token_id) return '';
   const contract_address = localStorage.getItem('contract_address');
   const url = isProduction ? 'https://confluxscan.net/nft/' : 'https://testnet.confluxscan.net/nft/';
   return url + contract_address + '/' + token_id;

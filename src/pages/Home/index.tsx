@@ -18,6 +18,7 @@ const Home: React.FC = () => {
   const { value: poapConf, loading } = usePoapConfig(activityId);
   const [isCopied, copy] = useClipboard(poapConf?.contract?.contract_address ?? '', { successDuration: 1000 });
   const [hashURL, setHashURL] = useState('');
+  const supportWallets = poapConf?.support_wallets || ['anyweb', 'cellar'];
 
   useEffect(() => {
     localStorage.setItem('contract_address', poapConf?.contract?.contract_address ?? '');
@@ -90,19 +91,23 @@ const Home: React.FC = () => {
             次
           </p>
         )}
-        <a href={hashURL} target="_blank" className="text-[28px] leading-[36px] text-[#6953EF]">
-          最近一次领取结果&gt;
-        </a>
+        {hashURL && 
+            <a href={hashURL} target="_blank" className="text-[28px] leading-[36px] text-[#6953EF]">
+                最近一次领取结果&gt;
+            </a>
+        }
       </div>
       <div className="flex flex-col items-center">
-        <AuthConnectButton type="rectangle">
+        <AuthConnectButton type="rectangle" wallets={supportWallets}>
           <ClaimButton commandNeeded={!!poapConf?.is_command} setHashURL={setHashURL} />
         </AuthConnectButton>
 
         <ShareButton activityId={activityId} />
-        <a href={hashURL} target="_blank" className="hidden md:block md:text-[16px] leading-[24px] text-[#6953EF]">
-          最近一次领取结果&gt;
-        </a>
+        {hashURL && 
+            <a href={hashURL} target="_blank" className="hidden md:block md:text-[16px] leading-[24px] text-[#6953EF]">
+                最近一次领取结果&gt;
+            </a>
+        }
       </div>
     </div>
   );
