@@ -7,13 +7,14 @@ import { useCallback } from 'react';
 import { isProduction } from '@utils/consts';
 
 const ModalContent: React.FC<{ activityId: string }> = ({ activityId }) => {
+  const link = isProduction ? `https://apps.nftrainbow.cn/?activity_id=${activityId}` : `http://devapps.nftrainbow.cn/?activity_id=${activityId}`;
   return (
     <div className="flex flex-col justify-center items-center">
       <div className="mb-[8px] flex flex-row justify-center">
         <img src={WeChatIcon} className="w-[28px] md:w-[28px] h-[28px] md:h-[28px] mr-[10px] md:mr-[10px]" />
         <span>微信扫一扫</span>
       </div>
-      <QRCodeSVG value={isProduction ? `https://apps.nftrainbow.cn/?activity_id=${activityId}` : `http://devapps.nftrainbow.cn/?activity_id=${activityId}`} className="w-[192px] md:w-[192px] h-[192px] md:h-[192px] md:mb-[30px]" />
+      <QRCodeSVG value={link} className="w-[192px] md:w-[192px] h-[192px] md:h-[192px] md:mb-[30px]" />
     </div>
   );
 };
@@ -22,6 +23,7 @@ const ShareButton: React.FC<{ activityId: string }> = ({ activityId }) => {
   const handleShare = useCallback(() => {
     showModal({ content: <ModalContent activityId={activityId} />, className: 'w-[320px] md:w-[320px]' });
   }, []);
+  
   if (isMobile) {
     return (
       <Link

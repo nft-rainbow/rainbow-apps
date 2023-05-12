@@ -46,6 +46,7 @@ export interface ActivityConf {
     token_id: string;
     NewYearConfigID: number;
   }>;
+  support_wallets: string[];
 }
 
 export const fetchPoapConf = async (activity_id: string) => {
