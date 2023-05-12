@@ -11,12 +11,19 @@ import Tooltip from '@components/Tooltip';
 import Spin from '@components/Spin';
 import Label from '@components/Label';
 import ShareButton from './ShareButton';
+import { getHashURL } from '@services/poap/getHash';
 
 const Home: React.FC = () => {
   const activityId = useActivityId()!;
   const { value: poapConf, loading } = usePoapConfig(activityId);
   const [isCopied, copy] = useClipboard(poapConf?.contract?.contract_address ?? '', { successDuration: 1000 });
   const [hashURL, setHashURL] = useState('');
+  const supportWallets = poapConf?.support_wallets || ['anyweb', 'cellar'];
+
+  useEffect(() => {
+    localStorage.setItem('contract_address', poapConf?.contract?.contract_address ?? '');
+    setHashURL(getHashURL());
+  }, [poapConf?.contract.contract_address]);
 
   return (
     <div className="px-[48px] pt-[42px] md:pt-[42px] flex flex-col items-start md:items-center">
@@ -53,7 +60,7 @@ const Home: React.FC = () => {
         <div className="mt-[12px] md:mt-[0px] flex flex-row items-center text-[#696679] md:text-[14px] md:leading-[18px]">
           <p className="text-[24px] md:text-[14px] leading-[32px] md:leading-[18px]">{loading ? '...' : `${poapConf?.contract?.contract_address}`}</p>
           {!loading && poapConf?.contract?.contract_address && (
-            <Tooltip className='w-[128px] md:w-[100px] h-[48px] md:h-[34px] text-[24px] md:text-[14px] flex justify-center items-center' content="复制成功" visible={isCopied}>
+            <Tooltip className="w-[128px] md:w-[100px] h-[48px] md:h-[34px] text-[24px] md:text-[14px] flex justify-center items-center" content="复制成功" visible={isCopied}>
               <img src={ClipBoard} alt="clipboard logo" className="ml-[8px] w-[32px] md:w-[16px] h-[32px] md:h-[16px] cursor-pointer" onClick={copy} />
             </Tooltip>
           )}
@@ -84,19 +91,23 @@ const Home: React.FC = () => {
             次
           </p>
         )}
-        <a href={hashURL} target="_blank" className="text-[28px] leading-[36px] text-[#6953EF]">
-          最近一次领取结果&gt;
-        </a>
+        {hashURL && 
+            <a href={hashURL} target="_blank" className="text-[28px] leading-[36px] text-[#6953EF]">
+                最近一次领取结果&gt;
+            </a>
+        }
       </div>
       <div className="flex flex-col items-center">
-        <AuthConnectButton type="rectangle">
+        <AuthConnectButton type="rectangle" wallets={supportWallets}>
           <ClaimButton commandNeeded={!!poapConf?.is_command} setHashURL={setHashURL} />
         </AuthConnectButton>
 
         <ShareButton activityId={activityId} />
-        <a href={hashURL} target="_blank" className="hidden md:block md:text-[16px] leading-[24px] text-[#6953EF]">
-          最近一次领取结果&gt;
-        </a>
+        {hashURL && 
+            <a href={hashURL} target="_blank" className="hidden md:block md:text-[16px] leading-[24px] text-[#6953EF]">
+                最近一次领取结果&gt;
+            </a>
+        }
       </div>
     </div>
   );

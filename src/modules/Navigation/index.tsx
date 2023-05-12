@@ -7,6 +7,8 @@ import { shortenCfxAddress } from '@utils/addressUtils/shortenAddress';
 import { disconnect } from '@services/account';
 import Dropdown from '@components/Dropdown';
 import { getAccountMethod } from '@services/account';
+import useActivityId from '@hooks/useActivityId';
+import { usePoapConfig } from '@services/poap';
 
 const DropdownContent: React.FC = () => {
   return (
@@ -30,11 +32,14 @@ const Account: React.FC<{ account: string }> = ({ account }) => {
 };
 
 const Navigation: React.FC = () => {
-  return (
-    <div className="px-[32px] flex flex-row justify-between items-center h-[88px] md:h-[100px] z-20">
-      <img src={Logo} alt="POA Logo" className="w-[64px] md:w-[51px] h-[61px] md:h-[50px]" />
-      <AuthConnectButton type="circle">{(account) => <Account account={account} />}</AuthConnectButton>
-    </div>
+    const activityId = useActivityId()!;
+    const { value: poapConf } = usePoapConfig(activityId);
+    const supportWallets = poapConf?.support_wallets || ['anyweb', 'cellar'];
+    return (
+        <div className="px-[32px] flex flex-row justify-between items-center h-[88px] md:h-[100px] z-20">
+            <img src={Logo} alt="POA Logo" className="w-[64px] md:w-[51px] h-[61px] md:h-[50px]" />
+            <AuthConnectButton type="circle" wallets={supportWallets}>{(account) => <Account account={account} />}</AuthConnectButton>
+        </div>
   );
 };
 
