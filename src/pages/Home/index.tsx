@@ -18,6 +18,7 @@ const Home: React.FC = () => {
   const { value: poapConf, loading } = usePoapConfig(activityId);
   const [isCopied, copy] = useClipboard(poapConf?.contract?.contract_address ?? '', { successDuration: 1000 });
   const [hashURL, setHashURL] = useState('');
+  const supportWallets = poapConf?.support_wallets || ['anyweb', 'cellar'];
 
   useEffect(() => {
     localStorage.setItem('contract_address', poapConf?.contract?.contract_address ?? '');
@@ -97,7 +98,7 @@ const Home: React.FC = () => {
         }
       </div>
       <div className="flex flex-col items-center">
-        <AuthConnectButton type="rectangle">
+        <AuthConnectButton type="rectangle" wallets={supportWallets}>
           <ClaimButton commandNeeded={!!poapConf?.is_command} setHashURL={setHashURL} />
         </AuthConnectButton>
 

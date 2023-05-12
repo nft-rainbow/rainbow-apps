@@ -35,7 +35,7 @@ const ModalContent: React.FC<{wallets: WalletOptions}> = ({wallets}) => {
 const CircleConnectButton: React.FC<{wallets: WalletOptions}> = ({wallets}) => {
   const handleConnect = useCallback(() => {
     showModal({ content: <ModalContent wallets={wallets} />, className: 'w-[654px] md:w-[480px] h-[432px] md:h-[258px] text-[32px] md:text-[20px] font-medium max-w-[654px]' })
-  }, [])
+  }, [wallets])
   return (
     <button
       onClick={handleConnect}
@@ -50,7 +50,7 @@ const CircleConnectButton: React.FC<{wallets: WalletOptions}> = ({wallets}) => {
 const RectangleConnectButton: React.FC<{wallets: WalletOptions}> = ({wallets}) => {
   const handleConnect = useCallback(() => {
     showModal({ content: <ModalContent wallets={wallets} />, className: 'w-[654px] md:w-[480px] h-[432px] md:h-[258px] text-[32px] md:text-[20px] font-medium max-w-[654px]' })
-  }, [])
+  }, [wallets])
   return (
     <button
       onClick={handleConnect}
@@ -72,7 +72,7 @@ interface AuthConnectButtonProps {
   wallets?: string[]; // control which wallets to show
 }
 
-const AuthConnectButton: React.FC<AuthConnectButtonProps> = ({ type, children, wallets = ['anyweb', 'cellar'] }) => {
+const AuthConnectButton: React.FC<AuthConnectButtonProps> = ({ type, children, wallets = ['anyweb', 'cellar']}) => {
   const account = useAccount();
   const ConnectBtn = ConnectButton[type];
   if (account) {
