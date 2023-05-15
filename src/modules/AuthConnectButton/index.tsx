@@ -5,6 +5,10 @@ import anywebIcon from '@assets/anyweb.svg';
 import shailaIcon from '@assets/shaila.svg';
 import { showModal } from '@components/showModal';
 
+interface WalletOptions {
+    anyweb: boolean;
+    cellar: boolean;
+}
 
 const SelectButton: React.FC<{ walletType: string, walletIcon: string, callback: () => void }> = ({ walletType, walletIcon, callback }) => {
   return (
@@ -18,20 +22,20 @@ const SelectButton: React.FC<{ walletType: string, walletIcon: string, callback:
   )
 }
 
-const ModalContent: React.FC = () => {
+const ModalContent: React.FC<{wallets: WalletOptions}> = ({wallets}) => {
   return (
     <div className="flex flex-col justify-center items-center self-center">
       <div className="md:mt-[10px] md:mb-[24px] mt-[16px] mb-[18px] text=[#05001F]" >连接钱包</div>
-      <SelectButton walletType="AnyWeb" walletIcon={anywebIcon} callback={() => connect('anyweb')} />
-      <SelectButton walletType="Cellar晒啦" walletIcon={shailaIcon} callback={() => connect('cellar')} />
+      {wallets.anyweb && <SelectButton walletType="AnyWeb" walletIcon={anywebIcon} callback={() => connect('anyweb')} />}
+      {wallets.cellar && <SelectButton walletType="Cellar晒啦" walletIcon={shailaIcon} callback={() => connect('cellar')} />}
     </div>
   )
 }
 
-const CircleConnectButton: React.FC = () => {
+const CircleConnectButton: React.FC<{wallets: WalletOptions}> = ({wallets}) => {
   const handleConnect = useCallback(() => {
-    showModal({ content: <ModalContent />, className: 'w-[654px] md:w-[480px] h-[432px] md:h-[258px] text-[32px] md:text-[20px] font-medium max-w-[654px]' })
-  }, [])
+    showModal({ content: <ModalContent wallets={wallets} />, className: 'w-[654px] md:w-[480px] h-[432px] md:h-[258px] text-[32px] md:text-[20px] font-medium max-w-[654px]' })
+  }, [wallets])
   return (
     <button
       onClick={handleConnect}
@@ -43,10 +47,10 @@ const CircleConnectButton: React.FC = () => {
   );
 };
 
-const RectangleConnectButton: React.FC = () => {
+const RectangleConnectButton: React.FC<{wallets: WalletOptions}> = ({wallets}) => {
   const handleConnect = useCallback(() => {
-    showModal({ content: <ModalContent />, className: 'w-[654px] md:w-[480px] h-[432px] md:h-[258px] text-[32px] md:text-[20px] font-medium max-w-[654px]' })
-  }, [])
+    showModal({ content: <ModalContent wallets={wallets} />, className: 'w-[654px] md:w-[480px] h-[432px] md:h-[258px] text-[32px] md:text-[20px] font-medium max-w-[654px]' })
+  }, [wallets])
   return (
     <button
       onClick={handleConnect}
@@ -61,19 +65,29 @@ const ConnectButton = {
   circle: CircleConnectButton,
   rectangle: RectangleConnectButton,
 };
+
 interface AuthConnectButtonProps {
   type: 'circle' | 'rectangle';
   children: JSX.Element | ((account: string) => JSX.Element);
+  wallets?: string[]; // control which wallets to show
 }
 
-const AuthConnectButton: React.FC<AuthConnectButtonProps> = ({ type, children }) => {
+const AuthConnectButton: React.FC<AuthConnectButtonProps> = ({ type, children, wallets = ['anyweb', 'cellar']}) => {
   const account = useAccount();
   const ConnectBtn = ConnectButton[type];
   if (account) {
     if (typeof children === 'function') return <>{children(account)}</>;
     return <>{children}</>;
   } else {
-    return <ConnectBtn />;
+    const supportWallets: WalletOptions = {
+        anyweb: false,
+        cellar: false,
+    };
+    wallets.forEach((wallet) => {
+        // @ts-ignore
+        supportWallets[wallet] = true;
+    });
+    return <ConnectBtn wallets={supportWallets} />;
   }
 };
 
