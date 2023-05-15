@@ -91,11 +91,11 @@ const Home: React.FC = () => {
             次
           </p>
         )}
-        {hashURL && 
-            <a href={hashURL} target="_blank" className="text-[28px] leading-[36px] text-[#6953EF]">
-                最近一次领取结果&gt;
-            </a>
-        }
+        {hashURL && (
+          <a href={hashURL} target="_blank" className="text-[28px] leading-[36px] text-[#6953EF]">
+            最近一次领取结果&gt;
+          </a>
+        )}
       </div>
       <div className="flex flex-col items-center">
         <AuthConnectButton type="rectangle" wallets={supportWallets}>
@@ -103,11 +103,11 @@ const Home: React.FC = () => {
         </AuthConnectButton>
 
         <ShareButton activityId={activityId} />
-        {hashURL && 
-            <a href={hashURL} target="_blank" className="hidden md:block md:text-[16px] leading-[24px] text-[#6953EF]">
-                最近一次领取结果&gt;
-            </a>
-        }
+        {hashURL && (
+          <a href={hashURL} target="_blank" className="hidden md:block md:text-[16px] leading-[24px] text-[#6953EF]">
+            最近一次领取结果&gt;
+          </a>
+        )}
       </div>
     </div>
   );

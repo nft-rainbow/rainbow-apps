@@ -47,14 +47,14 @@ export const ClaimButton: React.FC<{ commandNeeded: boolean; setHashURL: (url: s
   const { inTranscation, execTranscation: handleClaim } = useInTranscation(_handleClaim);
   useEffect(() => {
     getTokenId(activityId).then((res) => {
-      if (res.token_id) {
+      if (res.hash && res.token_id) {
         localStorage.setItem('token_id', res.token_id);
         setHashURL(getHashURL());
       } else {
         const getHashURLInit = setInterval(() => {
           getTokenId(activityId)
             .then((res) => {
-              if (res.token_id) {
+              if (res.hash && res.token_id) {
                 localStorage.setItem('token_id', res.token_id);
                 clearInterval(getHashURLInit);
                 setHashURL(getHashURL());
@@ -71,6 +71,8 @@ export const ClaimButton: React.FC<{ commandNeeded: boolean; setHashURL: (url: s
     });
   }, []);
   const handleOnClaim = useCallback(() => {
+    setHashURL('');
+    localStorage.setItem('token_id', '');
     if (commandNeeded) {
       showModal({ content: <ModalContent activityId={activityId} />, className: 'top-[22%] md:top-0 w-[654px] md:w-[480px] max-w-[654px] md:max-w-[480px]' });
       return;
@@ -79,7 +81,7 @@ export const ClaimButton: React.FC<{ commandNeeded: boolean; setHashURL: (url: s
       const getHashURLInit = setInterval(() => {
         getTokenId(activityId)
           .then((res) => {
-            if (res.token_id) {
+            if (res.hash && res.token_id) {
               localStorage.setItem('token_id', res.token_id);
               clearInterval(getHashURLInit);
               setHashURL(getHashURL());
