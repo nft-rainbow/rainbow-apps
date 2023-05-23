@@ -99,7 +99,7 @@ const Home: React.FC = () => {
       </div>
       <div className="flex flex-col items-center">
         <AuthConnectButton type="rectangle" wallets={supportWallets}>
-          <ClaimButton commandNeeded={!!poapConf?.is_command} setHashURL={setHashURL} />
+          <ClaimButton commandNeeded={!!poapConf?.command} setHashURL={setHashURL} />
         </AuthConnectButton>
 
         <ShareButton activityId={activityId} />

@@ -31,7 +31,7 @@ export interface ActivityConf {
     update_at: string;
     id: number;
   };
-  is_command: string;
+  command: string;
   contract_id: number;
   max_mint_count: number;
   activity_picture_url: string;
