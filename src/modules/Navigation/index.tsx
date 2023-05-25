@@ -12,7 +12,13 @@ import { usePoapConfig } from '@services/poap';
 
 const DropdownContent: React.FC = () => {
   return (
-    <div onClick={() => {disconnect(getAccountMethod()??'anyweb')}} className="bg-white flex md:h-[42px] md:w-[190px] h-[64px] w-[286px] items-center md:rounded-[4px] rounded-[8px] cursor-pointer">
+    <div 
+        onClick={() => {
+            disconnect(getAccountMethod()??'anyweb');
+            localStorage.removeItem('token_id');
+        }} 
+        className="bg-white flex md:h-[42px] md:w-[190px] h-[64px] w-[286px] items-center md:rounded-[4px] rounded-[8px] cursor-pointer"
+    >
       <img src={disconnectIcon} alt="disconnect" className="md:w-[16px] md:h-[16px] h-[24px] w-[24px] md:ml-[16px] md:mr-[8px] ml-[24px] mr-[12px]" draggable={false} />
       <div className="md:text-[16px] text-[#37334C]">断开连接</div>
     </div>
