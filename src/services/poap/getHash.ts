@@ -5,11 +5,12 @@ import { Transaction } from './mint';
 
 export const getTokenId = async (activityId: string) => {
   const account = getAccount()!;
+  if (!account) return {};
   const res = await fetchApi<{ count: number; items: Array<Transaction> }>({
     path: `poap/activity/result/${activityId}?page=1&limit=1&address=${account}`,
     method: 'GET',
   });
-  return res?.items[0];
+  return res?.items[0] || {};
 };
 
 export const getHashURL = () => {
@@ -17,7 +18,6 @@ export const getHashURL = () => {
   if (!token_id) return '';
   const contract_address = localStorage.getItem('contract_address');
   const url = isProduction ? 'https://confluxscan.net/nft/' : 'https://testnet.confluxscan.net/nft/';
-  console.log(token_id);
   if (token_id && contract_address) {
     return url + contract_address + '/' + token_id;
   } else return '';

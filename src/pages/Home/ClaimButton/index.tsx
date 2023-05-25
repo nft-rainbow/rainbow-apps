@@ -51,6 +51,7 @@ export const ClaimButton: React.FC<{ commandNeeded: boolean; setHashURL: (url: s
         localStorage.setItem('token_id', res.token_id);
         setHashURL(getHashURL());
       } else {
+        localStorage.removeItem('token_id');
         const getHashURLInit = setInterval(() => {
           getTokenId(activityId)
             .then((res) => {
@@ -85,6 +86,8 @@ export const ClaimButton: React.FC<{ commandNeeded: boolean; setHashURL: (url: s
               localStorage.setItem('token_id', res.token_id);
               clearInterval(getHashURLInit);
               setHashURL(getHashURL());
+            } else {
+                localStorage.removeItem('token_id');
             }
           })
           .catch(() => {
