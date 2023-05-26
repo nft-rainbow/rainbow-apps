@@ -47,6 +47,7 @@ export const ClaimButton: React.FC<{ commandNeeded: boolean; setHashURL: (url: s
   const { inTranscation, execTranscation: handleClaim } = useInTranscation(_handleClaim);
   useEffect(() => {
     getTokenId(activityId).then((res) => {
+      if (!res) return;
       if (res.hash && res.token_id) {
         localStorage.setItem('token_id', res.token_id);
         setHashURL(getHashURL());
@@ -55,7 +56,7 @@ export const ClaimButton: React.FC<{ commandNeeded: boolean; setHashURL: (url: s
         const getHashURLInit = setInterval(() => {
           getTokenId(activityId)
             .then((res) => {
-              if (res.hash && res.token_id) {
+              if (res && res.hash && res.token_id) {
                 localStorage.setItem('token_id', res.token_id);
                 clearInterval(getHashURLInit);
                 setHashURL(getHashURL());
@@ -82,7 +83,7 @@ export const ClaimButton: React.FC<{ commandNeeded: boolean; setHashURL: (url: s
       const getHashURLInit = setInterval(() => {
         getTokenId(activityId)
           .then((res) => {
-            if (res.hash && res.token_id) {
+            if (res && res.hash && res.token_id) {
               localStorage.setItem('token_id', res.token_id);
               clearInterval(getHashURLInit);
               setHashURL(getHashURL());
