@@ -92,6 +92,7 @@ export const fetchPoapConf = async (activity_id: string) => {
 };
 
 type PoapConf = ((ActivityConf & { count?: number }) & { mintedCount: number }) | null;
+
 const poapConfigState = atomFamily<PoapConf, string>({
   key: 'poapConfigState',
   default: (activity_id) => fetchPoapConf(activity_id),
