@@ -19,6 +19,11 @@ const Home: React.FC = () => {
   const [isCopied, copy] = useClipboard(poapConf?.contract?.contract_address ?? '', { successDuration: 1000 });
   const [hashURL, setHashURL] = useState('');
   const supportWallets = poapConf?.support_wallets || ['anyweb', 'cellar'];
+  /*
+  领取查看逻辑:
+  1. 单钱包: 显示对应钱包的查看地址
+  2. 多个钱包: 显示 scan 查看地址
+  */
 
   useEffect(() => {
     localStorage.setItem('contract_address', poapConf?.contract?.contract_address ?? '');
@@ -91,9 +96,14 @@ const Home: React.FC = () => {
             次
           </p>
         )}
-        {hashURL && (
+        {hashURL && supportWallets.length > 1 && (
           <a href={hashURL} target="_blank" className="text-[28px] leading-[36px] text-[#6953EF]">
             最近一次领取结果&gt;
+          </a>
+        )}
+        {hashURL && supportWallets.length === 1 && (
+          <a href={walletNftViewUrl(supportWallets[0])} target="_blank" className="text-[28px] leading-[36px] text-[#6953EF]">
+            去钱包查看&gt;
           </a>
         )}
       </div>
@@ -103,9 +113,14 @@ const Home: React.FC = () => {
         </AuthConnectButton>
 
         <ShareButton activityId={activityId} />
-        {hashURL && (
+        {hashURL && supportWallets.length > 1 && (
           <a href={hashURL} target="_blank" className="hidden md:block md:text-[16px] leading-[24px] text-[#6953EF]">
             最近一次领取结果&gt;
+          </a>
+        )}
+        {hashURL && supportWallets.length === 1 && (
+          <a href={walletNftViewUrl(supportWallets[0])} target="_blank" className="hidden md:block md:text-[16px] leading-[24px] text-[#6953EF]">
+            去钱包查看&gt;
           </a>
         )}
       </div>
@@ -114,3 +129,15 @@ const Home: React.FC = () => {
 };
 
 export default Home;
+
+
+function walletNftViewUrl(wallet: string) {
+    switch (wallet) {
+        case 'anyweb':
+            return 'https://app.anyweb.cc/#/pages/index/home';
+        case 'cellar':
+            return 'https://wallet.metacellar.art/h5/#/pages/index/index';
+        default:
+            return '';
+    }
+}

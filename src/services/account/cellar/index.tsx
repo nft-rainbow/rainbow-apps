@@ -36,24 +36,27 @@ interface Account {
   authorityCode: string;
   userCode: string;
   userWallet: string;
-  phone: string,
+  phone: string;
+  userToken: string;
 }
 
 export const connect = async () =>
-  cellar
-    .request({
-      method: 'cfx_accounts',
-    })
-    .then((res: Account) => {
-      const account = res?.userWallet;
-      setRecoil(accountState, account);
-      if(res?.userWallet){
-        doShare(res.userWallet);
-        if(res?.phone){
-          postCode({address:res.userWallet, phone:res.phone, wallet: 'cellar'});
-        }
-      }
-    });
+    cellar
+        .request({
+            method: 'cfx_accounts',
+        })
+        .then((res: Account) => {
+            const account = res?.userWallet;
+            setRecoil(accountState, account);
+            if(res?.userWallet){
+                doShare(res.userWallet);
+                postCode({
+                    address: res.userWallet, 
+                    code: res.userToken,
+                    wallet: 'cellar'
+                });
+            }
+        });
 
 export const disconnect = async () =>
   cellar.request({

@@ -5,22 +5,7 @@ import { fetchApi } from '@utils/fetch/fetchApi';
 import { useAccount, getAccount } from '@services/account';
 import useActivityId from '@hooks/useActivityId';
 
-export interface ActivityConf {
-  id: number;
-  created_at: Date;
-  updated_at: Date;
-  deleted_at?: any;
-  amount: number;
-  name: string;
-  description: string;
-  app_id: number;
-  chain_type: number;
-  end_time: number;
-  start_time: number;
-  rainbow_user_id: number;
-  // contract_type: number;
-  // contract_address: string;
-  contract: {
+export interface Contract {
     chain_id: number;
     chain_type: number;
     contract_address: string;
@@ -30,13 +15,9 @@ export interface ActivityConf {
     delete_at: string;
     update_at: string;
     id: number;
-  };
-  command: string;
-  contract_id: number;
-  max_mint_count: number;
-  activity_picture_url: string;
-  sharing_content: string;
-  nft_contract_infos: Array<{
+}
+
+export interface NftMetadataInfo {
     id: number;
     created_at: Date;
     updated_at: Date;
@@ -45,8 +26,29 @@ export interface ActivityConf {
     probability: number;
     token_id: string;
     NewYearConfigID: number;
-  }>;
-  support_wallets: string[];
+}
+
+export interface ActivityConf {
+    id: number;
+    created_at: Date;
+    updated_at: Date;
+    deleted_at?: any;
+    amount: number;
+    name: string;
+    description: string;
+    app_id: number;
+    chain_type: number;
+    end_time: number;
+    start_time: number;
+    rainbow_user_id: number;
+    contract: Contract;
+    command: string;
+    contract_id: number;
+    max_mint_count: number;
+    activity_picture_url: string;
+    sharing_content: string;
+    nft_contract_infos: NftMetadataInfo[];
+    support_wallets: string[];
 }
 
 export const fetchPoapConf = async (activity_id: string) => {
@@ -64,7 +66,7 @@ export const fetchPoapConf = async (activity_id: string) => {
     Promise<{
       count: number;
     }>,
-    undefined | Promise<{ count: number }>
+    undefined | Promise<number>
   ];
 
   const account = getAccount();
@@ -81,14 +83,16 @@ export const fetchPoapConf = async (activity_id: string) => {
   if ((activityConf as any)?.code === 429 || (mintedCount as any)?.code === 429 || (activityCount as any)?.code === 429) throw new Error('超过当日请求次数限制，请明天再来');
 
   if ((activityConf as any)?.code === 50000) throw new Error(`No activity - ${activity_id}`);
+
   return {
     ...activityConf,
     mintedCount: mintedCount.count,
-    count: activityCount ? activityCount : undefined,
+    count: (activityCount && !(activityCount as any).code) ? activityCount : undefined,
   } as PoapConf;
 };
 
 type PoapConf = ((ActivityConf & { count?: number }) & { mintedCount: number }) | null;
+
 const poapConfigState = atomFamily<PoapConf, string>({
   key: 'poapConfigState',
   default: (activity_id) => fetchPoapConf(activity_id),

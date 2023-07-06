@@ -8,7 +8,7 @@ interface PostCode {
 }
 
 export const postCode = (params: PostCode) => {
-  const url = new URL(location.href);
+//   const url = new URL(location.href);
   fetchApi<{ code: number; message: string } | 'success'>({
     path: 'poap/wallet/user',
     method: 'POST',
