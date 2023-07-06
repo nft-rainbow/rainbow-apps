@@ -134,7 +134,7 @@ export default Home;
 function walletNftViewUrl(wallet: string) {
     switch (wallet) {
         case 'anyweb':
-            return 'https://opensea.io/collection/poap-2021';
+            return 'https://app.anyweb.cc/#/pages/index/home';
         case 'cellar':
             return 'https://wallet.metacellar.art/h5/#/pages/index/index';
         default:
