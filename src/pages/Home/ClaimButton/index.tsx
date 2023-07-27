@@ -1,7 +1,7 @@
 import cx from 'clsx';
 import { useForm, FieldValues } from 'react-hook-form';
 import useActivityId from '@hooks/useActivityId';
-import useInTranscation from '@hooks/useInTranscation';
+import useInTransaction from '@hooks/useInTransaction';
 import { usePoapConfig, handleClaim as _handleClaim, getTransaction } from '@services/poap';
 import { showModal, hideModal } from '@components/showModal';
 import { useCallback, useEffect } from 'react';
@@ -17,7 +17,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ activityId }) => {
     handleSubmit: withForm,
     formState: { errors },
   } = useForm();
-  const { inTranscation, execTranscation: handleClaim } = useInTranscation(_handleClaim);
+  const { inTransaction, execTransaction: handleClaim } = useInTransaction(_handleClaim);
 
   const handleSubmit = useCallback(async (data: FieldValues) => {
     const { command } = data;
@@ -35,7 +35,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ activityId }) => {
         )}
       />
       <button className="mt-[48px] md:mt-[32px] mb-[32px] md:mb-[32px] flex justify-center items-center h-[104px] md:h-[54px] w-full bg-[#6953EF] rounded-[8px] md:rounded-[4px] text-[32px] md:text-[16px] font-medium leading-[40px] md:leading-[22px] text-[#ffffff]">
-        {inTranscation ? '领取中...' : '确认'}
+        {inTransaction ? '领取中...' : '确认'}
       </button>
     </form>
   );
@@ -44,9 +44,10 @@ const ModalContent: React.FC<ModalContentProps> = ({ activityId }) => {
 export const ClaimButton: React.FC<{ commandNeeded: boolean; setHashURL: (url: string) => void }> = ({ commandNeeded, setHashURL }) => {
   const activityId = useActivityId()!;
   const { value: poapConf, loading } = usePoapConfig(activityId);
-  const { inTranscation, execTranscation: handleClaim } = useInTranscation(_handleClaim);
+  const { inTransaction, execTransaction: handleClaim } = useInTransaction(_handleClaim);
   useEffect(() => {
     getTokenId(activityId).then((res) => {
+      if (!res) return;
       if (res.hash && res.token_id) {
         localStorage.setItem('token_id', res.token_id);
         setHashURL(getHashURL());
@@ -55,7 +56,7 @@ export const ClaimButton: React.FC<{ commandNeeded: boolean; setHashURL: (url: s
         const getHashURLInit = setInterval(() => {
           getTokenId(activityId)
             .then((res) => {
-              if (res.hash && res.token_id) {
+              if (res && res.hash && res.token_id) {
                 localStorage.setItem('token_id', res.token_id);
                 clearInterval(getHashURLInit);
                 setHashURL(getHashURL());
@@ -82,7 +83,7 @@ export const ClaimButton: React.FC<{ commandNeeded: boolean; setHashURL: (url: s
       const getHashURLInit = setInterval(() => {
         getTokenId(activityId)
           .then((res) => {
-            if (res.hash && res.token_id) {
+            if (res && res.hash && res.token_id) {
               localStorage.setItem('token_id', res.token_id);
               clearInterval(getHashURLInit);
               setHashURL(getHashURL());
@@ -107,10 +108,10 @@ export const ClaimButton: React.FC<{ commandNeeded: boolean; setHashURL: (url: s
         'mt-[60px] md:mt-[24px] flex justify-center items-center h-[104px] md:h-[54px] w-[654px] md:w-[300px] bg-[#6953EF] rounded-[8px] md:rounded-[4px] text-[32px] md:text-[16px] font-medium leading-[40px] md:leading-[22px] text-[#ffffff]',
         //TODO:comment 2 lines below to test command button
         (loading || !(poapConf && poapConf?.count && (poapConf.count > 0 || poapConf.count === -1))) && 'opacity-30 pointer-events-none',
-        inTranscation && 'pointer-events-none'
+        inTransaction && 'pointer-events-none'
       )}
     >
-      {loading ? '获取数据中...' : inTranscation ? '领取中...' : '领取'}
+      {loading ? '获取数据中...' : inTransaction ? '领取中...' : '领取'}
     </button>
   );
 };

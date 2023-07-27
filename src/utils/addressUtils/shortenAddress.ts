@@ -1,5 +1,7 @@
 const isNegative = (x: number) => typeof x === 'number' && x < 0;
+
 const isString = (x: string) => typeof x === 'string';
+
 const getEllipsStr = (str: string, frontNum: number, endNum: number) => {
   if (!isString(str) || isNegative(frontNum) || isNegative(endNum)) {
     throw new Error('Invalid args');

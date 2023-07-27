@@ -7,9 +7,9 @@ export const isNegative = (num: number): num is number => typeof num === 'number
 export const isString = (str: string): str is string => typeof str === 'string';
 
 export const isDOMElement = (obj: HTMLElement): obj is HTMLElement => {
-  try {
-    return obj instanceof HTMLElement;
-  } catch (e) {
-    return typeof obj === 'object' && obj.nodeType === 1 && typeof obj.style === 'object' && typeof obj.ownerDocument === 'object';
-  }
+    try {
+        return obj instanceof HTMLElement;
+    } catch (e) {
+        return typeof obj === 'object' && obj.nodeType === 1 && typeof obj.style === 'object' && typeof obj.ownerDocument === 'object';
+    }
 };

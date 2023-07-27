@@ -3,14 +3,15 @@ import { isProduction } from '@utils/consts';
 import { fetchApi } from '@utils/fetch/fetchApi';
 import { Transaction } from './mint';
 
+// If no account or return list is empty, return undefined
 export const getTokenId = async (activityId: string) => {
   const account = getAccount()!;
-  if (!account) return {};
+  if (!account) return undefined;
   const res = await fetchApi<{ count: number; items: Array<Transaction> }>({
     path: `poap/activity/result/${activityId}?page=1&limit=1&address=${account}`,
     method: 'GET',
   });
-  return res?.items[0] || {};
+  return res?.items[0];
 };
 
 export const getHashURL = () => {
