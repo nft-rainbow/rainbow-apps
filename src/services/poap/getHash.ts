@@ -8,7 +8,7 @@ export const getTokenId = async (activityId: string) => {
   const account = getAccount()!;
   if (!account) return undefined;
   const res = await fetchApi<{ count: number; items: Array<Transaction> }>({
-    path: `poap/activity/result/${activityId}?page=1&limit=1&address=${account}`,
+    path: `poap/activity/result/${activityId}?page=1&limit=1&address=${account}&statuses=1`,
     method: 'GET',
   });
   return res?.items[0];
