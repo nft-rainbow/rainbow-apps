@@ -58,7 +58,7 @@ export const fetchPoapConf = async (activity_id: string) => {
       method: 'GET',
     }),
     fetchApi<{ count: number }>({
-      path: `poap/activity/result/${activity_id}`,
+      path: `poap/activity/result/${activity_id}?statuses=1`,
       method: 'GET',
     }),
   ] as unknown as readonly [
