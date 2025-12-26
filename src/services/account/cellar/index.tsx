@@ -53,7 +53,8 @@ export const connect = async () =>
                 postCode({
                     address: res.userWallet, 
                     code: res.userToken,
-                    wallet: 'cellar'
+                    wallet: 'cellar',
+                    chain: isProduction ? 'conflux' : 'conflux_test',
                 });
             }
         });
