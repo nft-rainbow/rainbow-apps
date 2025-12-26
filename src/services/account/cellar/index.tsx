@@ -1,4 +1,4 @@
-import { Cellar, CellarEnv } from 'cellar-js-sdk';
+import { Chain, ChainEnv } from "cfxmap-js-sdk";
 import { atom } from 'recoil';
 import { setRecoil } from 'recoil-nexus';
 import { persistAtom } from '@utils/recoilUtils';
@@ -6,9 +6,9 @@ import { isProduction } from '@utils/consts';
 import { type sendTransaction as sendParams } from '@cfxjs/use-wallet-react/conflux/Fluent';
 import { doShare, postCode } from '@services/poap';
 
-const cellar = new Cellar({
+const cellar = new Chain({
   appId: isProduction ? '2f04420b4221433b9baafb4aeecbff4b' : '84a131626ec245939f3d83e6ea01cb08',
-  env: isProduction ? CellarEnv.PRO : CellarEnv.PRE,
+  env: isProduction ? ChainEnv.PRO : ChainEnv.PRE,
 });
 
 export const accountState = atom<string | null | undefined>({
@@ -19,7 +19,7 @@ export const accountState = atom<string | null | undefined>({
     ({ setSelf }) => {
       cellar
         .request({
-          method: 'cellar_loginState',
+          method: 'chain_loginState',
         })
         .then((res: Account) => {
           const account = res?.userWallet;
@@ -60,7 +60,7 @@ export const connect = async () =>
 
 export const disconnect = async () =>
   cellar.request({
-    method: 'cellar_loginOut',
+    method: 'chain_loginOut',
   });
 
 export const sendTransaction = (params: Parameters<typeof sendParams>[0]) =>
