@@ -5,6 +5,7 @@ interface PostCode {
   code?: string;
   phone?: string;
   wallet: 'anyweb'|'cellar';
+  chain?: 'conflux'|'conflux_test';
 }
 
 export const postCode = (params: PostCode) => {

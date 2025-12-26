@@ -136,7 +136,7 @@ function walletNftViewUrl(wallet: string) {
         case 'anyweb':
             return 'https://app.anyweb.cc/#/pages/index/home';
         case 'cellar':
-            return 'https://wallet.metacellar.art/h5/#/pages/index/index';
+            return 'https://wallet.cfxmap.com/h5/#/pages/index/index';
         default:
             return '';
     }

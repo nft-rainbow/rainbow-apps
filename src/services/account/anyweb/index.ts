@@ -50,7 +50,12 @@ export const accountState = atom<string | null | undefined>({
                   if (address?.[0]) {
                     doShare(address[0]);
                     if (code) {
-                      postCode({address:address[0], code, wallet: 'anyweb'});
+                      postCode({
+                        address:address[0], 
+                        code, 
+                        wallet: 'anyweb',
+                        chain: isProduction ? 'conflux' : 'conflux_test',
+                      });
                     }
                   }
                 });
@@ -81,7 +86,12 @@ export const connect = async () =>
       if (address?.[0]) {
         doShare(address[0]);
         if (code) {
-          postCode({address:address[0], code, wallet: 'anyweb'});
+          postCode({
+            address:address[0], 
+            code, 
+            wallet: 'anyweb',
+            chain: isProduction ? 'conflux' : 'conflux_test',
+          });
         }
       }
     })
